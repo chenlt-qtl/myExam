@@ -3,8 +3,11 @@
 2. mybatis
 3. springmvc
 4. shiro
+    - shiro-core
+    - spring
+    - springmvc
+    - jwt
 5. logger
-6. shiro_springmvc
 7. spring_batch
 8. ts
 9. css

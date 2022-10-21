@@ -27,7 +27,7 @@ public class UserRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         log.debug("doGetAuthorizationInfo 授权");
 
-        JwtUser user = (JwtUser) SecurityUtils.getSubject().getPrincipal();
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
 
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         simpleAuthorizationInfo.addRoles(user.getRoles());//roles跟着user走，放到token里。
@@ -49,9 +49,7 @@ public class UserRealm extends AuthorizingRealm {
 
         String passwordFromDB = userFromDB.getPassword();
 
-        //在使用jwt访问时，shiro中能拿到的用户信息只能是token中携带的jwtUser，所以此处保持统一。
-        JwtUser jwtUser = new JwtUser(userFromDB.getUsername(), userFromDB.getRoles());
-        SimpleAuthenticationInfo res = new SimpleAuthenticationInfo(jwtUser, passwordFromDB, getName());
+        SimpleAuthenticationInfo res = new SimpleAuthenticationInfo(userFromDB, passwordFromDB, getName());
         return res;
     }
 }

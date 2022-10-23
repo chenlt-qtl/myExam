@@ -13,12 +13,20 @@
         text-align: center;
     }
 
+    main>div{
+        margin-bottom: 20px;
+    }
+
     input {
         margin-bottom: 20px;
     }
 </style>
 <body>
-<main>欢迎你!</main>
+<main>
+    <div>欢迎你!</div>
+    <a href="/logout">logout</a>
+</main>
+
 </body>
 <script type="text/javascript">
 

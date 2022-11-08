@@ -1,6 +1,7 @@
-package com.lucence.dao.impl;
+package com.lucence.dao;
 
 import com.lucence.bean.Note;
+import com.lucence.dao.impl.NoteDaoImpl;
 import org.junit.Test;
 
 import java.util.List;

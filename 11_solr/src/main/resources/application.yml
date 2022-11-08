@@ -1,2 +1,9 @@
 server:
   port: 1011
+spring:
+  thymeleaf:
+    cache: false
+  mvc:
+    view:
+      prefix: /page/
+      suffix: .html

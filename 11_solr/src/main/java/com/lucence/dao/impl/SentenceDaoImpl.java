@@ -31,7 +31,7 @@ public class SentenceDaoImpl implements SentenceDao {
                 sentence.setId(resultSet.getString("id"));
                 sentence.setContent(resultSet.getString("content"));
                 sentence.setIdx(resultSet.getInt("idx"));
-                sentence.setCreateTime(resultSet.getDate("createTime"));
+                sentence.setCreateTime(resultSet.getDate("create_time"));
                 list.add(sentence);
             }
         } catch (Exception e) {

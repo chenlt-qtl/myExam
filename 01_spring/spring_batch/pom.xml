@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.example</groupId>
-    <artifactId>03_springmvc</artifactId>
+    <artifactId>spring_batch</artifactId>
     <version>1.0-SNAPSHOT</version>
 
 

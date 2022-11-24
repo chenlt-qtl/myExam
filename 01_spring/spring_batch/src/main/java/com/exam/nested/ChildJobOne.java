@@ -1,4 +1,4 @@
-package com.exam.job;
+package com.exam.nested;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableBatchProcessing
-public class JobConfiguration {
+public class ChildJobOne {
 
     @Autowired
     private JobBuilderFactory jobBuilderFactory;
@@ -24,16 +24,16 @@ public class JobConfiguration {
     private StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job helloWorldJob(){
-        return jobBuilderFactory.get("helloWorldJob"+System.currentTimeMillis()).start(step1()).build();
+    public Job childJob1(){
+        return jobBuilderFactory.get("childJob1"+System.currentTimeMillis()).start(childJob1Step1()).build();
     }
 
     @Bean
-    public Step step1() {
-        return stepBuilderFactory.get("step1").tasklet(new Tasklet() {
+    public Step childJob1Step1() {
+        return stepBuilderFactory.get("childJob1Step1").tasklet(new Tasklet() {
             @Override
             public RepeatStatus execute(StepContribution stepContribution, ChunkContext chunkContext) throws Exception {
-                System.out.println("Hello, spring batch");
+                System.out.println("childJob1Step1");
                 return RepeatStatus.FINISHED;
             }
         }).build();

@@ -1,4 +1,4 @@
-package com.exam.dbReader;
+package com.exam.itemProcessor;
 
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.Order;

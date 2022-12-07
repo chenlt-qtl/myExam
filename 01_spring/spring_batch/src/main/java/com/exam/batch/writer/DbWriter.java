@@ -1,5 +1,6 @@
-package com.exam.dbReader;
+package com.exam.batch.writer;
 
+import com.exam.batch.entity.Student;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.stereotype.Component;
 

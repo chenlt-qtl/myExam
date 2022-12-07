@@ -1,6 +1,6 @@
-package com.exam.fileWriter;
+package com.exam.batch.writer;
 
-import com.exam.dbReader.Student;
+import com.exam.batch.entity.Student;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.batch.item.file.FlatFileItemWriter;

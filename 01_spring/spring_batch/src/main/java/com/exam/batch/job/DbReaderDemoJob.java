@@ -1,9 +1,9 @@
-package com.exam.dbReader;
+package com.exam.batch.job;
 
 
+import com.exam.batch.entity.Student;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemReader;
@@ -15,25 +15,12 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-@EnableBatchProcessing
-public class DbReaderDemo {
-    @Autowired
-    private JobBuilderFactory jobBuilderFactory;
+public class DbReaderDemoJob extends BaseJob{
 
-    @Autowired
-    private StepBuilderFactory stepBuilderFactory;
-
-    @Autowired
-    @Qualifier("dbWriter")
-    private ItemWriter<Student> dbWriter;
-
-    @Autowired
-    @Qualifier("dbRederReader")
-    private ItemReader<Student> dbRederReader;
 
     @Bean
     public Job dbReaderJob() {
-        return jobBuilderFactory.get("dbReaderJob" + System.currentTimeMillis())
+        return jobBuilderFactory.get("dbReaderJob")
                 .start(dbReaderStep())
                 .build();
     }

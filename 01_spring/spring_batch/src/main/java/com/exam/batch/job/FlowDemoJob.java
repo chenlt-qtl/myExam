@@ -1,4 +1,4 @@
-package com.exam.flow;
+package com.exam.batch.job;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -19,8 +19,7 @@ import org.springframework.context.annotation.Configuration;
  * flow例子
  */
 @Configuration
-@EnableBatchProcessing
-public class FlowDemo {
+public class FlowDemoJob {
 
     @Autowired
     private JobBuilderFactory jobBuilderFactory;
@@ -70,8 +69,8 @@ public class FlowDemo {
     }
 
     @Bean
-    public Job flowDemoJob(){
-        return jobBuilderFactory.get("flowDemoJob"+System.currentTimeMillis())
+    public Job flowJob(){
+        return jobBuilderFactory.get("flowJob")
                 .start(flowDemoFlow())
                 .next(flowDemoStep3())
                 .end()

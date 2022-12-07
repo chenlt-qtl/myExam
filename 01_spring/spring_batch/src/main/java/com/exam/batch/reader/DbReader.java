@@ -1,6 +1,6 @@
-package com.exam.utils;
+package com.exam.batch.reader;
 
-import com.exam.dbReader.Student;
+import com.exam.batch.entity.Student;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.Order;
 import org.springframework.batch.item.database.support.MySqlPagingQueryProvider;

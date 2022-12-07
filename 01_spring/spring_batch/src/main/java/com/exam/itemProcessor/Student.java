@@ -1,4 +1,4 @@
-package com.exam.dbReader;
+package com.exam.itemProcessor;
 
 import lombok.Data;
 

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href= "style.css?666"/>
+    <title>Spring Batch Demo</title>
+</head>
+<body>
+<main class="container">
+<!--    <input id="msg">-->
+<!--    <button onclick="runJob()">Run Job</button>-->
+    <a href="#" onclick="runJob('onToJob')">6.Job根据条件执行step</a>
+    <a href="#" onclick="runJob('flowJob')">7.FLOW例子</a>
+    <a href="#" onclick="runJob('splitJob')">8.SPLIT例子</a>
+    <a href="#" onclick="runJob('deciderJob')">9.决策器使用</a>
+    <a href="#" onclick="runJob('nestedJob')">10.Job嵌套</a>
+    <a href="#" onclick="runJob('listenerJob')">11.监听器</a>
+    <div><input id="msg"><a href="#" onclick="runJob('parameterJob')">12.Job参数</a></div>
+    <a href="#" onclick="runJob('itemReaderJob')">13.ItemRead例子</a>
+    <a href="#" onclick="runJob('dbReader')">14.从数据库读取数据</a>
+    <a href="#" onclick="runJob('dbReader')">18.ItemReader异常与重启(未做)</a>
+    <a href="#" onclick="runJob('fileWriter')">21.输出到文件</a>
+    <a href="#" onclick="runJob('itemProcessJob')">24.ItemProcessor</a>
+    <a href="#" onclick="runJob('errorDemoJob')">25.错误处理</a>
+    <a href="#" onclick="runJob('retryJob')">26.错误重试</a>
+    <a href="#" onclick="runJob('skipJob')">27.错误跳过</a>
+    <a href="#" onclick="runJob('skipListenerJob')">28.错误跳过监听器</a>
+</main>
+<span class="container" id="result"></span>
+
+<script>
+    let xhttp = new XMLHttpRequest();
+
+    function runJob(link) {
+        let msg = "";
+        if(link=="parameterJob"){
+            msg = document.getElementById("msg").value;
+        }
+        document.getElementById("result").innerText = "running ... ";
+        let url = "job/" + link+"/"+msg;
+        xhttp.open("GET", url, true)
+        xhttp.send();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log("job status: " + this.responseText);
+                document.getElementById("result").innerText = this.responseText;
+            }
+
+        }
+
+    }
+
+</script>
+</body>
+</html>

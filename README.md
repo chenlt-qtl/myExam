@@ -17,6 +17,8 @@
     - react
 7. solr
 8. activemq
-9. python
+9. python  
+10. frontend 前端
+11. 设计模式
 
 

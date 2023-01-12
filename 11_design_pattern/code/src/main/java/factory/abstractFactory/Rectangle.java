@@ -1,4 +1,4 @@
-package factory.shape;
+package factory.abstractFactory;
 
 public class Rectangle implements IShape {
     public void draw() {

@@ -1,4 +1,4 @@
-package abstractFactory;
+package factory.abstractFactory;
 
 public class Red implements IColor {
     public void fill() {

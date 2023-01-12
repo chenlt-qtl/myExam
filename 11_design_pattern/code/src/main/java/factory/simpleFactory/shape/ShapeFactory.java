@@ -1,4 +1,4 @@
-package factory.shape;
+package factory.simpleFactory.shape;
 
 public class ShapeFactory {
     public static IShape getShape(String type){

@@ -1,4 +1,4 @@
-package abstractFactory;
+package factory.abstractFactory;
 
 public abstract class AbstractFactory {
     public abstract IColor getColor(String color);

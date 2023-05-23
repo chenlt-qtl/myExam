@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://127.0.0.1:3306/batch?characterEncoding=UTF-8&useUnicode=true&useSSL=false&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  batch:
+    job:
+      enabled: false
+#      names: nestedJob
+server:
+  port: 8011

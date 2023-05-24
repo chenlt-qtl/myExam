@@ -1,0 +1,56 @@
+<!DOCTYPE html><!-- 声明为HTML文档 -->
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面结构</title>
+</head>
+<style>
+    body{
+        width: 100vw;
+        background-color: #eff;
+    }
+    main{
+        margin: 50px auto;
+        width: 500px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+    }
+    article {
+        padding-top: 50px;
+    }
+</style>
+
+<body>
+    <main>
+        <section id="exam">
+            <h1>一个网页最好只有一个h1， h1-h6不要嵌套使用</h1>
+            <header>页眉</header>
+            <nav>导航</nav>
+            <main>
+                主要区域，最好只出现一次
+                <article>内容区域，表示一个独立的内容容器</article>
+                <section>定义一个区块，一般是一组相似内容的排列组合</section>
+                <p>表示内容</p>
+                <em>强调内容</em>
+            </main>
+            <aside>与主区域无关的内容</aside>
+            <footer>页脚</footer>
+        </section>
+        <article>
+            <h2>源代码：</h2>
+            <p id="source"></p>
+        </article>
+    </main>
+</body>
+<script>
+    window.onload = function () {
+        const codes = document.getElementById("exam").innerHTML;
+        document.getElementById("source").innerText = codes;
+    }
+</script>
+
+</html>

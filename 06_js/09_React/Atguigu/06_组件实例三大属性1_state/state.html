@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State</title>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <script type="text/babel">
+        class Weather extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = { isHot: true }
+            }
+            render(){
+                return <h5 onClick={this.changeWeather}>今天天气很{this.state.isHot?"炎热":"凉爽"}</h5>
+            }
+            changeWeather(){
+                //changeWeather放在哪里? - Weather的原型对象上，供实例使用
+                //通过Weather实例调用changeWeather时，changeWeather中的this就是Weather实例
+                console.log(this);
+            }
+        }
+        ReactDOM.render(<Weather/>, document.getElementById("test"))
+        /**
+         执行了ReactDOM.render(<MyComponent/>)
+         * */
+    </script>
+</body>
+
+</html>

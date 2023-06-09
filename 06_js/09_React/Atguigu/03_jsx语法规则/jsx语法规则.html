@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSX语法规则</title>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <style>
+        .title {
+            background-color: cadetblue;
+        }
+    </style>
+    <script type="text/babel">
+
+        const myId = "myId";
+        const myData = "myData"
+
+        //1.创建虚拟DOM
+        const VDOM = (
+            <div>
+                <h4 id={myId.toUpperCase()} className="title" >
+                    <span style={{ color: "white", fontSize: "20px" }}>{myData.toLowerCase()}</span>
+                </h4>
+                <h4 id={myId.toUpperCase()} className="title" >
+                    <span style={{ color: "white", fontSize: "20px" }}>{myData.toUpperCase()}</span>
+                </h4>
+            </div>
+        )
+
+        //2.渲染组件到页面
+        ReactDOM.render(VDOM, document.getElementById("test"))
+
+        /*
+            JSX语法规则：
+                1.定义虚拟DOM时，标签不要用引号包裹
+                2.标签中混入JS表达式时要用{}
+                3.样式的类名指定不要用class,要用className
+                4.内联样式要用style={{key:value}}的形式写
+                5.虚拟DOM必须只有一个根标签
+
+        */
+
+    </script>
+</body>
+
+</html>

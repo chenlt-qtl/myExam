@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>回调形式的ref执行次数的问题</title>
+</head>
+
+<body>
+    <div id="test"></div>
+    <script type="text/javascript" src="../js/16.8.0/react.development.js"></script>
+    <script type="text/javascript" src="../js/16.8.0/react-dom.development.js"></script>
+    <script type="text/javascript" src="../js/babel.js"></script>
+    <script type="text/babel">
+        class Demo extends React.Component {
+            state = { isHot: false }
+            showInfo = () => {
+                alert(this.input1.value)
+            }
+            changeWeather=()=>{
+                const { isHot } = this.state
+                this.setState({isHot:!isHot})
+            }
+            saveInput = c=>{
+                this.input1 = c;
+                console.log("@",c);
+            }
+            render() {
+                const { isHot } = this.state
+                return <>
+                    <div>今天天气很{isHot ? "炎热" : "凉爽"}</div>
+                    <input ref={this.saveInput} placeholder="点击按钮提示数据" />&nbsp;<br/>
+                    <button onClick={this.showInfo}>提交</button>&nbsp;
+                    <button onClick={this.changeWeather}>切换天气</button>&nbsp;
+                </>
+            }
+
+        }
+        ReactDOM.render(<Demo />, document.getElementById("test"))
+    </script>
+</body>
+
+</html>

@@ -73,12 +73,14 @@
             }
             //类中可以直接写赋值语句,如下代码的含义是给Car的实例对象添加一个属性 wheel 值为4
             wheel=4
+            static demo = 100
         }
 
         const c1 = new Car("a5",199)
         const c2 = new Car("c6",299)
         console.log(c1);
         console.log(c2);
+        console.log(Car.demo);
 
     </script>
 </body>

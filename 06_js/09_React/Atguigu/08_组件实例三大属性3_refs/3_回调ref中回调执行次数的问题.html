@@ -19,19 +19,20 @@
             showInfo = () => {
                 alert(this.input1.value)
             }
-            changeWeather=()=>{
+            changeWeather = () => {
                 const { isHot } = this.state
-                this.setState({isHot:!isHot})
+                this.setState({ isHot: !isHot })
             }
-            saveInput = c=>{
-                this.input1 = c;
-                console.log("@",c);
-            }
+
             render() {
                 const { isHot } = this.state
+                //内联匿名函数的ref,当重新渲染时，会先执行一个清空的步骤
                 return <>
                     <div>今天天气很{isHot ? "炎热" : "凉爽"}</div>
-                    <input ref={this.saveInput} placeholder="点击按钮提示数据" />&nbsp;<br/>
+                    <input ref={c => {
+                        this.input1 = c;
+                        console.log("@", c);
+                    }} placeholder="点击按钮提示数据" />&nbsp;<br />
                     <button onClick={this.showInfo}>提交</button>&nbsp;
                     <button onClick={this.changeWeather}>切换天气</button>&nbsp;
                 </>

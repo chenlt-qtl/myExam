@@ -3,6 +3,8 @@ const app = express()
 
 app.use((req, res, next) => {
     console.log("请求服务器1");
+    console.log("请求来自于",req.get("Host"));
+    console.log("请求的地址",req.url);
     next()
 })
 

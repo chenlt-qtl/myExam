@@ -1,0 +1,30 @@
+.todo-main li {
+    height: 30px;
+    line-height: 30px;
+
+    label {
+        float : left;
+        cursor: pointer;
+
+        li input {
+            vertical-align: middle;
+            margin-right  : 6px;
+            position      : relative;
+            top           : -1px;
+        }
+    }
+
+    button {
+        float     : right;
+        display   : none;
+        margin-top: 3px;
+    }
+
+    &::before {
+        content: initial;
+    }
+
+    &:last-child {
+        border-bottom: none;
+    }
+}

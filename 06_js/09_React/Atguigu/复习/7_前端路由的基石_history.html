@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.bootcss.com/history/4.7.2/history.js"></script>
+    <title>路由</title>
+</head>
+<body>
+    <a href="http://www.baidu.com" onclick="return push('/test1')">push test1</a><br/><br/>
+    <button onclick="push('test2')">push test2</button><br/><br/>
+    <button onclick="replace('test3')">replace test3</button><br/><br/>
+    <button onclick="back()">回退</button>&nbsp;
+    <button onclick="forward()">前进</button>
+
+    <script>
+
+        // let history = History.createBrowserHistory();//方法一，直接使用H5推出的history身上的API
+
+        let history = History.createHashHistory();//方法二，hash值（锚点）
+
+
+        function push(path){
+            history.push(path)
+            return false
+        }
+
+        function replace(path){
+            history.replace(path)
+        }
+
+        function back(){
+            history.goBack()
+        }
+
+        function forward(){
+            history.goForward()
+        }
+
+        history.listen(location=>{
+            console.log("请求路由路径变化了",location);
+        })
+
+    </script>
+    
+</body>
+</html>

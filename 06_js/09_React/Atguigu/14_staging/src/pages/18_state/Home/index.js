@@ -12,16 +12,16 @@ export default class Home extends Component {
         <div>
           <ul className='nav nav-tabs'>
             <li>
-              <MyNavLink to="/17/home/news" title="News"/>
+              <MyNavLink to="/18/home/news" title="News"/>
             </li>
             <li>
-              <MyNavLink to="/17/home/message" title="Message"/>
+              <MyNavLink to="/18/home/message" title="Message"/>
             </li>
           </ul>
           <Switch>
-            <Route path="/17/home/news" component={News}></Route>
-            <Route path="/17/home/message" component={Message}></Route>
-            <Redirect to="/17/home/news" />
+            <Route path="/18/home/news" component={News}></Route>
+            <Route path="/18/home/message" component={Message}></Route>
+            <Redirect to="/18/home/news" />
           </Switch>
         </div>
       </>

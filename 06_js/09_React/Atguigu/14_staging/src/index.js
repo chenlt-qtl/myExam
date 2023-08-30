@@ -16,6 +16,7 @@ import App14 from './pages/14_redirect';
 import App15 from './pages/15_nest';
 import App16 from './pages/16_params';
 import App17 from './pages/17_search';
+import App18 from './pages/18_state';
 import { Route, Link } from 'react-router-dom'
 
 
@@ -35,6 +36,7 @@ root.render(
                 <Link to="/15">15_嵌套路由</Link>
                 <Link to="/16">16_Params</Link>
                 <Link to="/17">17_Search参数</Link>
+                <Link to="/18">18_State参数</Link>
             </div>
             <div style={{ flex: 1, overflow: "auto" }}>
                 <Route path="/07" component={App07}></Route>
@@ -47,6 +49,7 @@ root.render(
                 <Route path="/15" component={App15}></Route>
                 <Route path="/16" component={App16}></Route>
                 <Route path="/17" component={App17}></Route>
+                <Route path="/18" component={App18}></Route>
             </div>
         </div>
     </BrowserRouter>

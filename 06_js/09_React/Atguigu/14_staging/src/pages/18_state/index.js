@@ -20,8 +20,8 @@ export default class App06 extends Component {
           <div className='col-xs-2 col-xs-offset-2'>
             <div className='list-group'>
               {/* 在React中靠路由链接实现切换组件--编写路由链接 */}
-              <MyNavLink to="/17/about" title="About" ></MyNavLink>
-              <MyNavLink to="/17/home" title="Home" ></MyNavLink>
+              <MyNavLink to="/18/about" title="About" ></MyNavLink>
+              <MyNavLink to="/18/home" title="Home" ></MyNavLink>
             </div>
           </div>
           <div className='col-xs-6'>
@@ -30,8 +30,8 @@ export default class App06 extends Component {
                 {/* 注册路由 */}
                 {/* 加上switch后,匹配到路由后就不会再接着匹配，不然会把所有匹配到的都展示出来 */}
                 <Switch>
-                  <Route path='/17/about' component={About} />
-                  <Route path='/17/home' component={Home} />
+                  <Route path='/18/about' component={About} />
+                  <Route path='/18/home' component={Home} />
                 </Switch>
               </div>
             </div>

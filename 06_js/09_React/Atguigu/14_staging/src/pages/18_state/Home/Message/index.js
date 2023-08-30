@@ -16,11 +16,12 @@ export default class Message extends Component {
       <div>
         <ul>
           {messageArr.map(({ id, title }) => (<li key={id}>
-            <Link to={`/17/home/message/detail?id=${id}&title=${title}`}>{title}</Link>
+            <Link to={{ pathname: `/18/home/message/detail`, state: { id, title } }}>{title}</Link>
           </li>))}
         </ul>
         <hr />
-        <Route path="/17/home/message/detail" component={Detail}></Route>
+        {/* 无需声明接收 */}
+        <Route path="/18/home/message/detail" component={Detail}></Route>
       </div>
     )
   }

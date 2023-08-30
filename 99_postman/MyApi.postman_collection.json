@@ -41,19 +41,13 @@
 											}
 										],
 										"url": {
-											"raw": "{{url}}/sys/data?code=card-data",
+											"raw": "{{url}}/sys/data",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
 												"sys",
 												"data"
-											],
-											"query": [
-												{
-													"key": "code",
-													"value": "card-data"
-												}
 											]
 										}
 									},
@@ -72,7 +66,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"cardData\",\r\n    \"code\": \"card-data\"\r\n}",
+											"raw": "{\r\n    \"name\": \"自然拼读的单元信息\",\r\n    \"code\": \"read-master\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -93,86 +87,9 @@
 									"response": []
 								},
 								{
-									"name": "setParentIds",
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "X-Access-Token",
-												"value": "{{token}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"cardData\",\r\n    \"code\": \"card-data\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{url}}/note/setParentIds",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"note",
-												"setParentIds"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "updateParent",
-									"request": {
-										"method": "POST",
-										"header": [
-											{
-												"key": "X-Access-Token",
-												"value": "{{token}}",
-												"type": "text"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n    \"name\": \"cardData\",\r\n    \"code\": \"card-data\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{url}}/note/updateParent/606",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"note",
-												"updateParent",
-												"606"
-											],
-											"query": [
-												{
-													"key": "parent",
-													"value": null,
-													"disabled": true
-												}
-											]
-										}
-									},
-									"response": []
-								},
-								{
 									"name": "edit",
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
 									"request": {
-										"method": "GET",
+										"method": "PUT",
 										"header": [
 											{
 												"key": "X-Access-Token",
@@ -182,7 +99,7 @@
 										],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"code\": \"card-data\",\r\n    \"name\": \"cardData\",\r\n    \"id\": \"8dd08460e61c0833a695e738f3fae079\",\r\n    \"value\": \"{\\\"tabs\\\":[\\\"习惯\\\",\\\"学习\\\",\\\"作息\\\"],\\\"value\\\":[\\\"认真吃饭,1, -1\\\\n挑食,1, -1\\\\n洗澡,1, -1\\\\n刷牙,1, -1\\\\n帮忙做家务,3\\\\n收拾玩具,3, -3\\\\n收拾书,2\\\",\\\"抄作业,2, -2\\\\n7点前完成作业,10\\\\n8点前完成作业, 5 \\\\n9点前完成作业,2 \\\\n10点后完成作业,-10\\\\n没完成作业前画画, -2\\\",\\\"10点前睡觉,5, -5\\\\n睡前不说话,5\\\"]}\"\r\n}",
+											"raw": "{\r\n    \"id\": \"2\",\r\n    \"value\": \"[{\\\"ids\\\":[32,33,34,35],\\\"subTitle\\\":\\\"at,an,ap,ad\\\"},{\\\"ids\\\":[36,37,38,39],\\\"subTitle\\\":\\\"am,ag,ash,amp\\\"},{\\\"ids\\\":[40,41,42,43],\\\"subTitle\\\":\\\"and,ack,ant,ed\\\"},{\\\"ids\\\":[44,45,46,47],\\\"subTitle\\\":\\\"en,et,eck,ell\\\"},{\\\"ids\\\":[48,49,50,51],\\\"subTitle\\\":\\\"end,est,ip,it\\\"},{\\\"ids\\\":[52,53,54,55],\\\"subTitle\\\":\\\"ig,in,ing,ick\\\"},{\\\"ids\\\":[57,58,59,60],\\\"subTitle\\\":\\\"ill,ish,ink,og\\\"},{\\\"ids\\\":[61,63,64,65],\\\"subTitle\\\":\\\"op,ot,ock,un\\\"},{\\\"ids\\\":[66,67,68,69],\\\"subTitle\\\":\\\"ug,ush,uck,unk\\\"},{\\\"ids\\\":[70,71,72,73],\\\"subTitle\\\":\\\"ump,ung,bl,cl\\\"},{\\\"ids\\\":[74,75,76,77],\\\"subTitle\\\":\\\"fl,gl,pl,sw\\\"},{\\\"ids\\\":[78,79,80,81],\\\"subTitle\\\":\\\"st,sp,sn,sm\\\"},{\\\"ids\\\":[82,83,84,85],\\\"subTitle\\\":\\\"sk,sc,sn,cr\\\"},{\\\"ids\\\":[86,87,88,89],\\\"subTitle\\\":\\\"dr,fr,gr,pr\\\"},{\\\"ids\\\":[90,91,92,93],\\\"subTitle\\\":\\\"tr,br,ae,ie\\\"}]\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -227,7 +144,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"articleId\": \"32\",\r\n    \"position\":\"107,591\"\r\n}",
+											"raw": "{\r\n    \"articleId\": \"94\",\r\n    \"position\":\"17%,55%|73%,24%\"\r\n}\r\n//三行 17%,55%|73%,24%\r\n//两行 17%,36%|55%,42%",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -241,6 +158,70 @@
 											],
 											"path": [
 												"read"
+											],
+											"query": [
+												{
+													"key": "三行",
+													"value": "17%,55%|73%,24%",
+													"disabled": true
+												},
+												{
+													"key": "两行",
+													"value": "17%,36%|57%,34%",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delRead",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var token = pm.response.json().result.token;\r",
+													"console.log(token);\r",
+													"pm.environment.set(\"token\",token);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"articleId\": \"69\",\r\n    \"position\":\"17%,55%|73%,24%\"\r\n}\r\n//三行 17%,55%|73%,24%\r\n//两行 17%,36%|55%,42%",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/read/55",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"read",
+												"55"
+											],
+											"query": [
+												{
+													"key": "三行",
+													"value": "17%,55%|73%,24%",
+													"disabled": true
+												},
+												{
+													"key": "两行",
+													"value": "17%,36%|57%,34%",
+													"disabled": true
+												}
 											]
 										}
 									},
@@ -266,7 +247,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n        \"id\": 1,\r\n        \"articleId\": 32,\r\n        \"nextArticleId\": 33,\r\n        \"position\": \"14%,30%|55%,40%\"\r\n    }",
+											"raw": "{\r\n    \"id\":10,\r\n    \"position\": \"17%,55%|73%,24%\"\r\n    }",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -274,20 +255,76 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/read/1",
+											"raw": "{{url}}/read",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
-												"read",
-												"1"
+												"read"
 											]
 										}
 									},
 									"response": []
 								},
 								{
-									"name": "getRead",
+									"name": "根据article修改",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var token = pm.response.json().result.token;\r",
+													"console.log(token);\r",
+													"pm.environment.set(\"token\",token);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"articleId\":64,\r\n    \"position\": \"17%,55%|73%,24%\"\r\n    }",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/read/article",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"read",
+												"article"
+											],
+											"query": [
+												{
+													"key": "两行",
+													"value": "17%,36%|57%,34%",
+													"disabled": true
+												},
+												{
+													"key": "三行",
+													"value": "17%,55%|73%,24%",
+													"disabled": true
+												},
+												{
+													"key": "四行",
+													"value": null,
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "pageSearchRead",
 									"event": [
 										{
 											"listen": "test",
@@ -317,12 +354,18 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/read",
+											"raw": "{{url}}/read?articleId=87",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
 												"read"
+											],
+											"query": [
+												{
+													"key": "articleId",
+													"value": "87"
+												}
 											]
 										}
 									},
@@ -1062,13 +1105,6 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"var CryptoJS = require('crypto-js');\r",
-											"var timestamp=new Date();\r",
-											"pm.environment.set(\"nowtime\", (new Date(timestamp)).toUTCString());\r",
-											"\r",
-											"var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),\"dcR/zwb/riaamJkG_h4BHoCZ+95au2\");\r",
-											"\r",
-											"pm.environment.set(\"pwd2\", CryptoJS.enc.Base64.stringify(pwd));\r",
 											""
 										],
 										"type": "text/javascript"
@@ -1076,21 +1112,6 @@
 								}
 							],
 							"request": {
-								"auth": {
-									"type": "basic",
-									"basic": [
-										{
-											"key": "username",
-											"value": "testforhdt",
-											"type": "string"
-										},
-										{
-											"key": "password",
-											"value": "{{pwd2}}",
-											"type": "string"
-										}
-									]
-								},
 								"method": "GET",
 								"header": [
 									{
@@ -1127,7 +1148,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{NGAPI-URL}}/ngadmin/contacts",
+									"raw": "{{NGAPI-URL}}/ngadmin/contacts?search=jul_test",
 									"host": [
 										"{{NGAPI-URL}}"
 									],
@@ -1170,8 +1191,7 @@
 										},
 										{
 											"key": "search",
-											"value": "yanzhu.hong",
-											"disabled": true
+											"value": "jul_test"
 										}
 									]
 								}
@@ -1346,118 +1366,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"product\": \"hdt\",\r\n    \"email\": \"chenlt@wangsu.com\"\r\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{NGAPI-URL}}/ngrole/contactsinvite",
-									"host": [
-										"{{NGAPI-URL}}"
-									],
-									"path": [
-										"ngrole",
-										"contactsinvite"
-									],
-									"query": [
-										{
-											"key": "transportType",
-											"value": "ipport",
-											"description": "1542->21160",
-											"disabled": true
-										},
-										{
-											"key": "start",
-											"value": "7",
-											"description": "110->110",
-											"disabled": true
-										},
-										{
-											"key": "limit",
-											"value": "4",
-											"disabled": true
-										},
-										{
-											"key": "1542",
-											"value": "",
-											"disabled": true
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
-							"name": "qtl-邀请contact",
-							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"exec": [
-											"var CryptoJS = require('crypto-js');\r",
-											"var timestamp=new Date();\r",
-											"pm.environment.set(\"nowtime\", (new Date(timestamp)).toUTCString());\r",
-											"\r",
-											"var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),\"dcR/zwb/riaamJkG_h4BHoCZ+95au2\");\r",
-											"\r",
-											"pm.environment.set(\"pwd2\", CryptoJS.enc.Base64.stringify(pwd));\r",
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"auth": {
-									"type": "basic",
-									"basic": [
-										{
-											"key": "username",
-											"value": "{{userName}}",
-											"type": "string"
-										},
-										{
-											"key": "password",
-											"value": "{{pwd2}}",
-											"type": "string"
-										}
-									]
-								},
-								"method": "POST",
-								"header": [
-									{
-										"key": "Date",
-										"value": "{{nowtime}}",
-										"type": "text"
-									},
-									{
-										"key": "Accept",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Accept-Encoding",
-										"value": "application/json",
-										"type": "text"
-									},
-									{
-										"key": "Authorization",
-										"value": "Basic aGR0dGVhbWFjY291bnQtYXBpOnVTZzFQeHF0THo5YTluTWNqV0NKclo2RVlnRT0=",
-										"type": "text",
-										"disabled": true
-									},
-									{
-										"key": "referer",
-										"value": "https://console-qa.quantil.com/hdt",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "{\r\n    \"product\": \"hdt\",\r\n    \"email\": \"chenlt@wangsu.com\"\r\n}",
+									"raw": "{\r\n    \"product\": \"hdt\",\r\n    \"email\": \"chenlt@wangsu.com\",\r\n    \"adminFullName\":\"Jason WithLastName\",\r\n    \"roleIds\":[7586]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1637,64 +1546,19 @@
 							"response": []
 						},
 						{
-							"name": "[ngadmin]删portal User",
+							"name": "删除portal User",
 							"event": [
 								{
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"var CryptoJS = require('crypto-js');\r",
-											"var timestamp=new Date();\r",
-											"pm.environment.set(\"nowtime\", (new Date(timestamp)).toUTCString());\r",
-											"// var apikey=\"xseYkkezv48hRjd7h4a5LzoyfgYeyX\";\r",
-											"// var apikey=\"5%Uus6nh/oyCwYVf3*vhXnB7gkgv+M\";\r",
-											"var apikey=pm.environment.get(\"apikey-HDTTeamAccountcustomer2api\");\r",
-											"// apikey=pm.environment.get(\"apikey\");\r",
-											"// var DEFAULT_KEY = new byte[] { -97, 88, -94, 9, 70,\r",
-											"// \t\t\t-76, 126, 25, 0, 3, -20, 113, 108, 28, 69, 125 };\r",
-											"// var str=HEX.hexToString(apikey);\r",
-											"// console.log(str)\r",
-											"// var key=[-97, 88, -94, 9, 70,-76, 126, 25, 0, 3, -20, 113, 108, 28, 69,125];\r",
-											"// var str2=CryptoJS.AES.decrypt(apikey,key,{mode:CryptoJS.mode.ECB,padding:CryptoJS.pad.Pkcs7});\r",
-											"// pm.collectionVariables.set(\"variable_key\", \"variable_value\");\r",
-											"// var pwd=`echo -en \"$nowtime\" | openssl dgst -sha1 -hmac $apikey -binary | openssl enc -base64`;\r",
-											"// var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),apikey);\r",
-											"// // console.info(pwd);\r",
-											"// console.log(pwd);\r",
-											"console.log((new Date(timestamp)).toUTCString());\r",
-											"// var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),\"Vn4HXh0C0P\");\r",
-											"var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),apikey);\r",
-											"//xseYkkezv48hRjd7h4a5LzoyfgYeyX\r",
-											"// pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),\"dcR/zwb/riaamJkG_h4BHoCZ+95au2\")\r",
-											"console.info(CryptoJS.enc.Base64.stringify(pwd));\r",
-											"pm.environment.set(\"pwd2\", CryptoJS.enc.Base64.stringify(pwd));\r",
-											"\r",
-											"\r",
-											"\r",
-											"//integration\r",
-											"//user:nixqa\r",
-											"//apikey:5%Uus6nh/oyCwYVf3*vhXnB7gkgv+M"
+											""
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
 							"request": {
-								"auth": {
-									"type": "basic",
-									"basic": [
-										{
-											"key": "username",
-											"value": "testforhdt",
-											"type": "string"
-										},
-										{
-											"key": "password",
-											"value": "{{pwd2}}",
-											"type": "string"
-										}
-									]
-								},
 								"method": "DELETE",
 								"header": [
 									{
@@ -1729,14 +1593,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{NGAPI-URL}}/ngadmin/contacts/51348",
+									"raw": "{{NGAPI-URL}}/ngadmin/contacts/55684",
 									"host": [
 										"{{NGAPI-URL}}"
 									],
 									"path": [
 										"ngadmin",
 										"contacts",
-										"51348"
+										"55684"
 									],
 									"query": [
 										{
@@ -1773,57 +1637,13 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"var CryptoJS = require('crypto-js');\r",
-											"var timestamp=new Date();\r",
-											"pm.environment.set(\"nowtime\", (new Date(timestamp)).toUTCString());\r",
-											"// var apikey=\"xseYkkezv48hRjd7h4a5LzoyfgYeyX\";\r",
-											"// var apikey=\"5%Uus6nh/oyCwYVf3*vhXnB7gkgv+M\";\r",
-											"var apikey=pm.environment.get(\"apikey-HDTTeamAccountcustomer2api\");\r",
-											"\r",
-											"// var DEFAULT_KEY = new byte[] { -97, 88, -94, 9, 70,\r",
-											"// \t\t\t-76, 126, 25, 0, 3, -20, 113, 108, 28, 69, 125 };\r",
-											"// var str=HEX.hexToString(apikey);\r",
-											"// console.log(str)\r",
-											"// var key=[-97, 88, -94, 9, 70,-76, 126, 25, 0, 3, -20, 113, 108, 28, 69,125];\r",
-											"// var str2=CryptoJS.AES.decrypt(apikey,key,{mode:CryptoJS.mode.ECB,padding:CryptoJS.pad.Pkcs7});\r",
-											"// pm.collectionVariables.set(\"variable_key\", \"variable_value\");\r",
-											"// var pwd=`echo -en \"$nowtime\" | openssl dgst -sha1 -hmac $apikey -binary | openssl enc -base64`;\r",
-											"// var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),apikey);\r",
-											"// // console.info(pwd);\r",
-											"// console.log(pwd);\r",
-											"console.log((new Date(timestamp)).toUTCString());\r",
-											"// var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),\"Vn4HXh0C0P\");\r",
-											"var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),\"dcR/zwb/riaamJkG_h4BHoCZ+95au2\");\r",
-											"\r",
-											"console.info(CryptoJS.enc.Base64.stringify(pwd));\r",
-											"pm.environment.set(\"pwd2\", CryptoJS.enc.Base64.stringify(pwd));\r",
-											"\r",
-											"\r",
-											"\r",
-											"//integration\r",
-											"//user:nixqa\r",
-											"//apikey:5%Uus6nh/oyCwYVf3*vhXnB7gkgv+M"
+											""
 										],
 										"type": "text/javascript"
 									}
 								}
 							],
 							"request": {
-								"auth": {
-									"type": "basic",
-									"basic": [
-										{
-											"key": "username",
-											"value": "testforhdt",
-											"type": "string"
-										},
-										{
-											"key": "password",
-											"value": "{{pwd2}}",
-											"type": "string"
-										}
-									]
-								},
 								"method": "GET",
 								"header": [
 									{
@@ -1849,14 +1669,14 @@
 									}
 								],
 								"url": {
-									"raw": "{{NGAPI-URL}}/ngadmin/contacts/2",
+									"raw": "{{NGAPI-URL}}/ngadmin/contacts/26474",
 									"host": [
 										"{{NGAPI-URL}}"
 									],
 									"path": [
 										"ngadmin",
 										"contacts",
-										"2"
+										"26474"
 									],
 									"query": [
 										{
@@ -2162,7 +1982,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{NGAPI-URL}}/ngrole/features?product=hdt",
+											"raw": "{{NGAPI-URL}}/ngrole/features?product=cdn",
 											"host": [
 												"{{NGAPI-URL}}"
 											],
@@ -2173,7 +1993,7 @@
 											"query": [
 												{
 													"key": "product",
-													"value": "hdt"
+													"value": "cdn"
 												}
 											]
 										}
@@ -2250,13 +2070,13 @@
 									}
 								],
 								"url": {
-									"raw": "{{NGAPI-URL}}/ngrole/cdn/roles",
+									"raw": "{{NGAPI-URL}}/ngrole/hdt/roles",
 									"host": [
 										"{{NGAPI-URL}}"
 									],
 									"path": [
 										"ngrole",
-										"cdn",
+										"hdt",
 										"roles"
 									]
 								}
@@ -2359,15 +2179,22 @@
 									}
 								],
 								"url": {
-									"raw": "{{NGAPI-URL}}/ngrole/contacts/2/roles",
+									"raw": "{{NGAPI-URL}}/ngrole/contacts/10980/roles",
 									"host": [
 										"{{NGAPI-URL}}"
 									],
 									"path": [
 										"ngrole",
 										"contacts",
-										"2",
+										"10980",
 										"roles"
+									],
+									"query": [
+										{
+											"key": "product",
+											"value": "hdt",
+											"disabled": true
+										}
 									]
 								}
 							},
@@ -2489,7 +2316,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{NGAPI-URL}}/ngrole/hdt/roles/5972",
+									"raw": "{{NGAPI-URL}}/ngrole/hdt/roles/5971",
 									"host": [
 										"{{NGAPI-URL}}"
 									],
@@ -2497,7 +2324,7 @@
 										"ngrole",
 										"hdt",
 										"roles",
-										"5972"
+										"5971"
 									]
 								}
 							},
@@ -2527,7 +2354,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"roles\":[1]\r\n}",
+									"raw": "{\r\n    \"roles\":[6887]\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2535,14 +2362,14 @@
 									}
 								},
 								"url": {
-									"raw": "{{NGAPI-URL}}/ngrole/contacts/52815/roles",
+									"raw": "{{NGAPI-URL}}/ngrole/contacts/10980/roles",
 									"host": [
 										"{{NGAPI-URL}}"
 									],
 									"path": [
 										"ngrole",
 										"contacts",
-										"52815",
+										"10980",
 										"roles"
 									]
 								}
@@ -2550,6 +2377,55 @@
 							"response": []
 						}
 					]
+				}
+			],
+			"auth": {
+				"type": "basic",
+				"basic": [
+					{
+						"key": "password",
+						"value": "{{pwd2}}",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "{{userName}}",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var CryptoJS = require('crypto-js');",
+							"var timestamp=new Date();",
+							"pm.environment.set(\"nowtime\", (new Date(timestamp)).toUTCString());",
+							"",
+							"var apikey=pm.environment.get(\"key\");",
+							"",
+							"console.log(\"apikey\",apikey)",
+							"",
+							"console.log((new Date(timestamp)).toUTCString());",
+							"var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),apikey);",
+							"",
+							"console.info(CryptoJS.enc.Base64.stringify(pwd));",
+							"pm.environment.set(\"pwd2\", CryptoJS.enc.Base64.stringify(pwd));",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			]
 		},
@@ -2904,6 +2780,30 @@
 										{
 											"key": "paramCode",
 											"value": "CLOUD_DNS_DOMAIN"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getSuffixs",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/stat/restApi.action?apiId=getSuffixs",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"stat",
+										"restApi.action"
+									],
+									"query": [
+										{
+											"key": "apiId",
+											"value": "getSuffixs"
 										}
 									]
 								}
@@ -7637,7 +7537,7 @@
 											}
 										],
 										"url": {
-											"raw": "{{inner-url}}/hdt/inner/sysparams/detail?paramCode=CLOUD_DNS_DOMAIN",
+											"raw": "{{inner-url}}/hdt/inner/sysparams/detail?paramCode=SYSTEM_PORTS",
 											"host": [
 												"{{inner-url}}"
 											],
@@ -7675,7 +7575,7 @@
 												},
 												{
 													"key": "paramCode",
-													"value": "CLOUD_DNS_DOMAIN"
+													"value": "SYSTEM_PORTS"
 												}
 											]
 										}
@@ -7758,9 +7658,9 @@
 									}
 								],
 								"url": {
-									"raw": "{{inner-url}}/hdt/inner/transport/suffixs",
+									"raw": "{{url}}/hdt/inner/transport/suffixs",
 									"host": [
-										"{{inner-url}}"
+										"{{url}}"
 									],
 									"path": [
 										"hdt",
@@ -9267,15 +9167,151 @@
 											}
 										],
 										"url": {
-											"raw": "{{Console-URL}}/hdt/rest/user/current",
+											"raw": "{{url}}/hdt/rest/user/current",
 											"host": [
-												"{{Console-URL}}"
+												"{{url}}"
 											],
 											"path": [
 												"hdt",
 												"rest",
 												"user",
 												"current"
+											],
+											"query": [
+												{
+													"key": "transportType",
+													"value": "ipport",
+													"disabled": true
+												},
+												{
+													"key": "start",
+													"value": "7",
+													"disabled": true
+												},
+												{
+													"key": "limit",
+													"value": "4",
+													"disabled": true
+												},
+												{
+													"key": "accessDomain",
+													"value": "www.ad.com",
+													"disabled": true
+												},
+												{
+													"key": "targetPort",
+													"value": "80",
+													"disabled": true
+												},
+												{
+													"key": "targetDomain",
+													"value": "www.test.com",
+													"disabled": true
+												},
+												{
+													"key": "accessPort",
+													"value": "443",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "查询邀请信息",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"var CryptoJS = require('crypto-js');\r",
+													"var timestamp=new Date();\r",
+													"pm.environment.set(\"nowtime\", (new Date(timestamp)).toUTCString());\r",
+													"// var apikey=\"xseYkkezv48hRjd7h4a5LzoyfgYeyX\";\r",
+													"// var apikey=\"5%Uus6nh/oyCwYVf3*vhXnB7gkgv+M\";\r",
+													"var apikey=pm.environment.get(\"apikey\");\r",
+													"\r",
+													"// var DEFAULT_KEY = new byte[] { -97, 88, -94, 9, 70,\r",
+													"// \t\t\t-76, 126, 25, 0, 3, -20, 113, 108, 28, 69, 125 };\r",
+													"// var str=HEX.hexToString(apikey);\r",
+													"// console.log(str)\r",
+													"// var key=[-97, 88, -94, 9, 70,-76, 126, 25, 0, 3, -20, 113, 108, 28, 69,125];\r",
+													"// var str2=CryptoJS.AES.decrypt(apikey,key,{mode:CryptoJS.mode.ECB,padding:CryptoJS.pad.Pkcs7});\r",
+													"// pm.collectionVariables.set(\"variable_key\", \"variable_value\");\r",
+													"// var pwd=`echo -en \"$nowtime\" | openssl dgst -sha1 -hmac $apikey -binary | openssl enc -base64`;\r",
+													"// var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),apikey);\r",
+													"// // console.info(pwd);\r",
+													"// console.log(pwd);\r",
+													"console.log((new Date(timestamp)).toUTCString());\r",
+													"console.log(apikey)\r",
+													"// var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),\"Vn4HXh0C0P\");\r",
+													"var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),apikey);\r",
+													"\r",
+													"console.info(CryptoJS.enc.Base64.stringify(pwd));\r",
+													"pm.environment.set(\"pwd2\", CryptoJS.enc.Base64.stringify(pwd));\r",
+													"\r",
+													"\r",
+													"\r",
+													"//integration\r",
+													"//user:nixqa\r",
+													"//apikey:5%Uus6nh/oyCwYVf3*vhXnB7gkgv+M"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "{{userName}}",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "{{pwd2}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Date",
+												"value": "{{nowtime}}",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Accept-Encoding",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic aGR0dGVhbWFjY291bnQtYXBpOnVTZzFQeHF0THo5YTluTWNqV0NKclo2RVlnRT0=",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "{{url}}/hdt/rest/portalUser/invataion/4SXj4w6Pbd",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"hdt",
+												"rest",
+												"portalUser",
+												"invataion",
+												"4SXj4w6Pbd"
 											],
 											"query": [
 												{
@@ -12897,6 +12933,178 @@
 									"response": []
 								}
 							]
+						},
+						{
+							"name": "role",
+							"item": [
+								{
+									"name": "获取角色列表",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"var CryptoJS = require('crypto-js');\r",
+													"var timestamp=new Date();\r",
+													"pm.environment.set(\"nowtime\", (new Date(timestamp)).toUTCString());\r",
+													"// var apikey=\"xseYkkezv48hRjd7h4a5LzoyfgYeyX\";\r",
+													"// var apikey=\"5%Uus6nh/oyCwYVf3*vhXnB7gkgv+M\";\r",
+													"var apikey=pm.environment.get(\"apikey\");\r",
+													"\r",
+													"// var DEFAULT_KEY = new byte[] { -97, 88, -94, 9, 70,\r",
+													"// \t\t\t-76, 126, 25, 0, 3, -20, 113, 108, 28, 69, 125 };\r",
+													"// var str=HEX.hexToString(apikey);\r",
+													"// console.log(str)\r",
+													"// var key=[-97, 88, -94, 9, 70,-76, 126, 25, 0, 3, -20, 113, 108, 28, 69,125];\r",
+													"// var str2=CryptoJS.AES.decrypt(apikey,key,{mode:CryptoJS.mode.ECB,padding:CryptoJS.pad.Pkcs7});\r",
+													"// pm.collectionVariables.set(\"variable_key\", \"variable_value\");\r",
+													"// var pwd=`echo -en \"$nowtime\" | openssl dgst -sha1 -hmac $apikey -binary | openssl enc -base64`;\r",
+													"// var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),apikey);\r",
+													"// // console.info(pwd);\r",
+													"// console.log(pwd);\r",
+													"console.log((new Date(timestamp)).toUTCString());\r",
+													"// var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),\"Vn4HXh0C0P\");\r",
+													"var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),apikey);\r",
+													"\r",
+													"console.info(CryptoJS.enc.Base64.stringify(pwd));\r",
+													"pm.environment.set(\"pwd2\", CryptoJS.enc.Base64.stringify(pwd));\r",
+													"\r",
+													"\r",
+													"\r",
+													"//integration\r",
+													"//user:nixqa\r",
+													"//apikey:5%Uus6nh/oyCwYVf3*vhXnB7gkgv+M"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Date",
+												"value": "{{nowtime}}",
+												"type": "text"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Accept-Encoding",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "Authorization",
+												"value": "Basic aGR0dGVhbWFjY291bnQtYXBpOnVTZzFQeHF0THo5YTluTWNqV0NKclo2RVlnRT0=",
+												"type": "text",
+												"disabled": true
+											}
+										],
+										"url": {
+											"raw": "{{url}}/hdt/rest/role",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"hdt",
+												"rest",
+												"role"
+											],
+											"query": [
+												{
+													"key": "transportType",
+													"value": "ipport",
+													"disabled": true
+												},
+												{
+													"key": "start",
+													"value": "7",
+													"disabled": true
+												},
+												{
+													"key": "limit",
+													"value": "4",
+													"disabled": true
+												},
+												{
+													"key": "accessDomain",
+													"value": "www.ad.com",
+													"disabled": true
+												},
+												{
+													"key": "targetPort",
+													"value": "80",
+													"disabled": true
+												},
+												{
+													"key": "targetDomain",
+													"value": "www.test.com",
+													"disabled": true
+												},
+												{
+													"key": "accessPort",
+													"value": "443",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"auth": {
+						"type": "basic",
+						"basic": [
+							{
+								"key": "password",
+								"value": "{{pwd2}}",
+								"type": "string"
+							},
+							{
+								"key": "username",
+								"value": "{{userName}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var CryptoJS = require('crypto-js');",
+									"var timestamp=new Date();",
+									"pm.environment.set(\"nowtime\", (new Date(timestamp)).toUTCString());",
+									"// var apikey=\"xseYkkezv48hRjd7h4a5LzoyfgYeyX\";",
+									"// var apikey=\"5%Uus6nh/oyCwYVf3*vhXnB7gkgv+M\";",
+									"var apikey=pm.environment.get(\"apikey\");",
+									"",
+									"console.log((new Date(timestamp)).toUTCString());",
+									"console.log(apikey)",
+									"// var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),\"Vn4HXh0C0P\");",
+									"var pwd=CryptoJS.HmacSHA1((new Date(timestamp)).toUTCString(),apikey);",
+									"",
+									"console.info(CryptoJS.enc.Base64.stringify(pwd));",
+									"pm.environment.set(\"pwd2\", CryptoJS.enc.Base64.stringify(pwd));",
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
 						}
 					]
 				},

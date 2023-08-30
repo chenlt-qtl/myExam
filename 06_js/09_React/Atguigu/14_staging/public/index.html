@@ -4,7 +4,11 @@
 <head>
   <meta charset="utf-8" />
   <title>React App</title>
-  <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
+  <!-- 样式刷新会丢失 -->
+  <!-- <link href="./css/bootstrap.css" rel="stylesheet"> -->
+  <!-- 正确 -->
+  <!-- <link href="/css/bootstrap.css" rel="stylesheet">  -->
+  <link href="%PUBLIC_URL%/css/bootstrap.css" rel="stylesheet">
 </head>
 
 <body>

@@ -17,6 +17,9 @@ import App15 from './pages/15_nest';
 import App16 from './pages/16_params';
 import App17 from './pages/17_search';
 import App18 from './pages/18_state';
+import App19 from './pages/19_pushReplace';
+import App20 from './pages/20';
+import App21 from './pages/21_withRouter';
 import { Route, Link } from 'react-router-dom'
 
 
@@ -37,6 +40,9 @@ root.render(
                 <Link to="/16">16_Params</Link>
                 <Link to="/17">17_Search参数</Link>
                 <Link to="/18">18_State参数</Link>
+                <Link to="/19">19_push_replace模式</Link>
+                <Link to="/20">20_编程式路由导航</Link>
+                <Link to="/21">21_withRouter的使用</Link>
             </div>
             <div style={{ flex: 1, overflow: "auto" }}>
                 <Route path="/07" component={App07}></Route>
@@ -50,6 +56,9 @@ root.render(
                 <Route path="/16" component={App16}></Route>
                 <Route path="/17" component={App17}></Route>
                 <Route path="/18" component={App18}></Route>
+                <Route path="/19" component={App19}></Route>
+                <Route path="/20" component={App20}></Route>
+                <Route path="/21" component={App21}></Route>
             </div>
         </div>
     </BrowserRouter>

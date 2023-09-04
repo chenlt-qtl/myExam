@@ -6,6 +6,13 @@ export default class Search extends Component {
   search = async () => {
     //通过ref获取用户的输入
     const { keyWordElement: { value: keyWord } } = this;
+
+    if (!keyWord) {
+      PubSub.publish("abc", { isFirst: false, isLoading: false, err: "请输入关键字" })
+      return;
+    } else {
+      PubSub.publish("abc", { err: "" })
+    }
     //发送请求前通知List更新状态
     PubSub.publish("abc", { isFirst: false, isLoading: true })
 
@@ -46,7 +53,7 @@ export default class Search extends Component {
 
     //优化2
     try {
-      const res = await fetch(`https://api.github.com/search1/users?q=${keyWord}`)
+      const res = await fetch(`https://api.github.com/search/users?q=${keyWord}`)
 
       if (res.ok) {
         const data = await res.json()

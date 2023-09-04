@@ -166,3 +166,29 @@
 ## 十四、withRouter
     1. withRouter可以加工一般组件，让一般组件具备路由组件所特有的API
     2. withRouter的返回值是一个新组件
+## 十五、antd按需引入
+    1. 安装依赖: npm i --save react-app-rewired customize-cra babel-plugin-import less less-loader
+    2. 修改package.json
+        "scripts":{
+            "start": "set PORT=3008 && react-app-rewired start",
+            "build": "react-app-rewired build",
+            "test": "react-app-rewired test",
+        }
+    3. 根目录下创建config-overrides.js
+        //配置具体的修改规则
+        const { override, fixBabelImports, addLessLoader } = require('customize-cra');
+        module.exports = override(
+            fixBabelImports('import', {
+                libraryName: 'antd',
+                libraryDirectory: 'es',
+                style: true,
+            }),
+            //修改主题
+            addLessLoader({
+                lessOptions: {
+                    javascriptEnabled: true,
+                    modifyVars: { '@primary-color': '#1DA57A' },
+                }
+            }),
+        );
+    4. 备注：不用在组件里亲自引入样式了，即: import 'antd/dist/antd.css'应该删除掉

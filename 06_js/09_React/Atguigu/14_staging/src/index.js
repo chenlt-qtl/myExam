@@ -21,6 +21,10 @@ import App19 from './pages/19_pushReplace';
 import App20 from './pages/20';
 import App21 from './pages/21_withRouter';
 import App22 from './pages/22_antd';
+import App23 from './pages/23_no_redux_count';
+import App24 from './pages/24_redux_count';
+import App25 from './pages/25_redux_full';
+import App26 from './pages/26_async_redux';
 import { Route, Link } from 'react-router-dom'
 //5之前的版本要引入样式
 import 'antd/dist/antd.css'
@@ -30,7 +34,7 @@ root.render(
 
     <BrowserRouter>
         <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
-            <div style={{ width: "200px", padding: "20px", borderRight: "1px solid #eee", display: "flex", flexDirection: "column", gap: "10px" }}>
+            <div style={{ width: "230px", padding: "20px", borderRight: "1px solid #eee", display: "flex", flexDirection: "column", gap: "10px",overflowY:"auto" }}>
                 <Link to="/02">02_hello,React</Link>
                 <Link to="/03">03_Todo List 案例</Link>
                 <Link to="/04">04_配置代理</Link>
@@ -51,6 +55,13 @@ root.render(
                 <Link to="/20">20_编程式路由导航</Link>
                 <Link to="/21">21_withRouter的使用</Link>
                 <Link to="/22">22_antd组件库的使用</Link>
+                <Link to="/23">23_求和案例纯react版</Link>
+                <Link to="/24">24_redux精简版</Link>
+                <Link to="/25">25_redux完整版</Link>
+                <Link to="/26">26_异步action版</Link>
+                {/* <Link to="/24">27_react-redux的基本使用</Link>
+                <Link to="/24">28_react-redux优化</Link>
+                <Link to="/24">29_react-redux数据共享版</Link> */}
             </div>
             <div style={{ flex: 1, overflow: "auto" }}>
                 <Route path="/02" component={App02}></Route>
@@ -73,6 +84,10 @@ root.render(
                 <Route path="/20" component={App20}></Route>
                 <Route path="/21" component={App21}></Route>
                 <Route path="/22" component={App22}></Route>
+                <Route path="/23" component={App23}></Route>
+                <Route path="/24" component={App24}></Route>
+                <Route path="/25" component={App25}></Route>
+                <Route path="/26" component={App26}></Route>
             </div>
         </div>
     </BrowserRouter>

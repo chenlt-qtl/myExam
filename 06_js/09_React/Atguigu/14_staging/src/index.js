@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { Tabs } from 'antd'
 import App02 from './pages/02_hello_react';
 import App03 from './pages/03_todoList';
 import App04 from './pages/04_proxy';
@@ -25,6 +26,8 @@ import App23 from './pages/23_no_redux_count';
 import App24 from './pages/24_redux_count';
 import App25 from './pages/25_redux_full';
 import App26 from './pages/26_async_redux';
+import App27 from './pages/27_react_redux';
+import App28 from './pages/28_react_redux_optimize';
 import { Route, Link } from 'react-router-dom'
 //5之前的版本要引入样式
 import 'antd/dist/antd.css'
@@ -34,34 +37,57 @@ root.render(
 
     <BrowserRouter>
         <div style={{ display: "flex", height: "100vh", overflow: "hidden" }}>
-            <div style={{ width: "230px", padding: "20px", borderRight: "1px solid #eee", display: "flex", flexDirection: "column", gap: "10px",overflowY:"auto" }}>
-                <Link to="/02">02_hello,React</Link>
-                <Link to="/03">03_Todo List 案例</Link>
-                <Link to="/04">04_配置代理</Link>
-                <Link to="/05">05_git搜索案例axios</Link>
-                <Link to="/06">06_git搜索案例pubsub</Link>
-                <Link to="/07">07_git搜索案例fetch</Link>
-                <Link to="/08">08_路由的基本使用</Link>
-                <Link to="/09">09_NavLink</Link>
-                <Link to="/10">10_封装NavLink</Link>
-                <Link to="/11">11_Switch</Link>
-                <Link to="/13">13_精准匹配与模糊匹配</Link>
-                <Link to="/14">14_Redirect</Link>
-                <Link to="/15">15_嵌套路由</Link>
-                <Link to="/16">16_Params</Link>
-                <Link to="/17">17_Search参数</Link>
-                <Link to="/18">18_State参数</Link>
-                <Link to="/19">19_push_replace模式</Link>
-                <Link to="/20">20_编程式路由导航</Link>
-                <Link to="/21">21_withRouter的使用</Link>
-                <Link to="/22">22_antd组件库的使用</Link>
-                <Link to="/23">23_求和案例纯react版</Link>
-                <Link to="/24">24_redux精简版</Link>
-                <Link to="/25">25_redux完整版</Link>
-                <Link to="/26">26_异步action版</Link>
-                {/* <Link to="/24">27_react-redux的基本使用</Link>
-                <Link to="/24">28_react-redux优化</Link>
-                <Link to="/24">29_react-redux数据共享版</Link> */}
+            <div style={{ width: "230px", padding: "20px", borderRight: "1px solid #eee", }}>
+                <Tabs
+                    defaultActiveKey="1"
+                    items={[
+                        {
+                            label: `基础`,
+                            key: '1',
+                            children: <div style={{ display: "flex", flexDirection: "column", gap: "10px", overflowY: "auto" }}>
+                                <Link to="/02">02_hello,React</Link>
+                                <Link to="/03">03_Todo List 案例</Link>
+                                <Link to="/04">04_配置代理</Link>
+                                <Link to="/05">05_git搜索案例axios</Link>
+                                <Link to="/06">06_git搜索案例pubsub</Link>
+                                <Link to="/07">07_git搜索案例fetch</Link>
+                                <Link to="/22">22_antd组件库的使用</Link>
+                            </div>,
+                        },
+                        {
+                            label: `路由`,
+                            key: '2',
+                            children: <div style={{ display: "flex", flexDirection: "column", gap: "10px", overflowY: "auto" }}>
+                                <Link to="/08">08_路由的基本使用</Link>
+                                <Link to="/09">09_NavLink</Link>
+                                <Link to="/10">10_封装NavLink</Link>
+                                <Link to="/11">11_Switch</Link>
+                                <Link to="/13">13_精准匹配与模糊匹配</Link>
+                                <Link to="/14">14_Redirect</Link>
+                                <Link to="/15">15_嵌套路由</Link>
+                                <Link to="/16">16_Params</Link>
+                                <Link to="/17">17_Search参数</Link>
+                                <Link to="/18">18_State参数</Link>
+                                <Link to="/19">19_push_replace模式</Link>
+                                <Link to="/20">20_编程式路由导航</Link>
+                                <Link to="/21">21_withRouter的使用</Link>
+                            </div>,
+                        },
+                        {
+                            label: `Redux`,
+                            key: '3',
+                            children: <div style={{ display: "flex", flexDirection: "column", gap: "10px", overflowY: "auto" }}>
+                                <Link to="/23">23_求和案例纯react版</Link>
+                                <Link to="/24">24_redux精简版</Link>
+                                <Link to="/25">25_redux完整版</Link>
+                                <Link to="/26">26_异步action版</Link>
+                                <Link to="/27">27_react-redux的基本使用</Link>
+                                <Link to="/28">28_react-redux优化</Link>
+                                {/* <Link to="/24">29_react-redux数据共享版</Link> */}
+                            </div>,
+                        },
+                    ]}
+                />
             </div>
             <div style={{ flex: 1, overflow: "auto" }}>
                 <Route path="/02" component={App02}></Route>
@@ -88,6 +114,8 @@ root.render(
                 <Route path="/24" component={App24}></Route>
                 <Route path="/25" component={App25}></Route>
                 <Route path="/26" component={App26}></Route>
+                <Route path="/27" component={App27}></Route>
+                <Route path="/28" component={App28}></Route>
             </div>
         </div>
     </BrowserRouter>

@@ -28,6 +28,10 @@ import App25 from './pages/25_redux_full';
 import App26 from './pages/26_async_redux';
 import App27 from './pages/27_react_redux';
 import App28 from './pages/28_react_redux_optimize';
+import App29 from './pages/29_react_redux_data_share';
+import App30 from './pages/30_react_redux_tool';
+import App31 from './pages/31_react_redux_final';
+
 import { Route, Link } from 'react-router-dom'
 //5之前的版本要引入样式
 import 'antd/dist/antd.css'
@@ -83,13 +87,15 @@ root.render(
                                 <Link to="/26">26_异步action版</Link>
                                 <Link to="/27">27_react-redux的基本使用</Link>
                                 <Link to="/28">28_react-redux优化</Link>
-                                {/* <Link to="/24">29_react-redux数据共享版</Link> */}
+                                <Link to="/29">29_react-redux数据共享版</Link>
+                                <Link to="/30">30_react-redux开发工具</Link>
+                                <Link to="/31">31_react-redux最终版</Link>
                             </div>,
                         },
                     ]}
                 />
             </div>
-            <div style={{ flex: 1, overflow: "auto" }}>
+            <div style={{ flex: 1, overflow: "auto", padding: "20px" }}>
                 <Route path="/02" component={App02}></Route>
                 <Route path="/03" component={App03}></Route>
                 <Route path="/04" component={App04}></Route>
@@ -116,6 +122,9 @@ root.render(
                 <Route path="/26" component={App26}></Route>
                 <Route path="/27" component={App27}></Route>
                 <Route path="/28" component={App28}></Route>
+                <Route path="/29" component={App29}></Route>
+                <Route path="/30" component={App30}></Route>
+                <Route path="/31" component={App31}></Route>
             </div>
         </div>
     </BrowserRouter>

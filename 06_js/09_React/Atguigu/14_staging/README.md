@@ -276,3 +276,28 @@
         2. 引入connect生成一个容器组件，并暴露，写法如下：
             connect(state = >({key:value}),{key:****Action})(UI组件)
         3. 在UI组件中通过this.props.****读取和操作状态
+
+
+## 30.求和案例react-redux数据共享版
+    1. 定义一个Person组件，和Count组件通过redux共享数据
+    2. 为Person组件编写: reducer,action,配置constant常量
+    3. 重点：Person的reducer和Count的Reducer要使用combineReducers进行合并，合并后的总状态是一个对象
+    4. 交给store的是总reducer,最后注意在组件中取出状态的时候，使用键值对
+
+## 31.求和案例react-redux开发者工具的使用
+    1. yarn add redux-devtools-extension
+    2. store中进行配置
+        import {composeWithDevTools} from 'redux-devtools-extension'
+        const store = createStore(allReducer,composeWithDevTools(applyMiddleware(thunk)))
+
+## 32.纯函数
+    1. 一类特别的函数，只要同样的输入，必定得到同样的输出
+    2. 必须遵守以下约束：
+        1. 不得改写参数数据
+        2. 不会产生副作用，例如网络请求，输入和输出设备
+        3. 不能调用Date.now()或者Math.random()等不纯的方法
+    3. redux的reducer函数必须是一个纯函数
+
+## 33.求和案例_react-redux最终版
+    1. 所有变量名字要规范，尽量触发对象的简写形式
+    2. reducers文件夹中，编写index.js专门用于汇总所有的reducer

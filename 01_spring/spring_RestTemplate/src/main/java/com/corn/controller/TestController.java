@@ -8,6 +8,7 @@ import com.corn.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -24,19 +25,22 @@ public class TestController {
     PostService postService;
 
     @GetMapping("/exchange")
-    public String exchange() {
-//        Map map = exchangeService.exchangeGet();
-//        Map map = exchangeService.exchangePostRequestBody();
-//        Map map = exchangeService.exchangePostEntity("/entity");
-        Map map = exchangeService.exchangePostEntity("/basic");
-        return map.toString();
+    public ResponseBean exchange() {
+        //参数
+        Map<String, Object> param = new HashMap<>();
+        param.put("key", "你");
+        ResponseBean response = exchangeService.exchangeGet(ResponseBean.class, param);
+//        ResponseBean response = exchangeService.exchangePostRequestBody(ResponseBean.class);
+//        ResponseBean response = exchangeService.exchangePostEntity("/entity",ResponseBean.class);
+//        ResponseBean response = exchangeService.exchangePostEntity("/basic", ResponseBean.class);
+        return response;
     }
 
     @GetMapping("/get")
     public ResponseBean get() {
 
-        ResponseBean map = getService.getForEntity();
-//        ResponseBean map = getService.getForObject();
+        ResponseBean map = getService.getForEntity(ResponseBean.class);
+        map = getService.getForObject(ResponseBean.class);
         return map;
     }
 
@@ -45,7 +49,7 @@ public class TestController {
 
 //        ResponseBean map = postService.postForEntity("/basic");
 //        ResponseBean map = postService.postForEntity("/entity");
-        ResponseBean map = postService.postForObject();
+        ResponseBean map = postService.postForObject(ResponseBean.class);
         return map;
     }
 }

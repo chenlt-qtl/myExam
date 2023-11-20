@@ -1,6 +1,5 @@
 package com.corn.service;
 
-import com.corn.entity.ResponseBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +21,17 @@ public class GetService {
      * 2. 返回值的类型
      * 3. ？？
      */
-    public ResponseBean getForEntity() {
+    public<T> T getForEntity(Class<T> clazz) {
         System.out.println("**********getForEntity*************");
-        ResponseEntity<ResponseBean> forEntity = restTemplate.getForEntity(url + "?key=abc", ResponseBean.class);
+        ResponseEntity<T> forEntity = restTemplate.getForEntity(url + "?key=abc", clazz);
         return forEntity.getBody();
     }
 
     /**
      * 发送HTTP GET请求，返回映射的对象。
      */
-    public ResponseBean getForObject() {
+    public<T> T getForObject(Class<T> clazz) {
         System.out.println("**********getForObject*************");
-        return restTemplate.getForObject(url + "?key=abc", ResponseBean.class);
+        return restTemplate.getForObject(url + "?key=abc", clazz);
     }
 }

@@ -5,7 +5,9 @@ export default class Parent extends Component {
         return (
             <div className='box'>
                 <h3>Parent</h3>
-                <A render={data=><B data={data}/>}><C/></A>
+                <A render={data => <B data={data} />}>
+                    <C />
+                </A>
             </div>
         )
     }
@@ -13,12 +15,14 @@ export default class Parent extends Component {
 
 
 class A extends Component {
-    state = {name:"tom"}
+    state = { name: "tom" }
     render() {
         return (
             <div className='box'>
                 A
+                {/* renderProps形式 */}
                 {this.props.render(this.state.name)}
+                {/* children形式 */}
                 {this.props.children}
             </div>
         )

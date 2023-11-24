@@ -58,7 +58,12 @@
     3. 注意
         在应用开发中一般不用context, 一般都用它封装react插件, 用来传递公共参数，如主题
 
-5. render props
+5. PureComponent
+    1. 只有当组件的state或props数据发生改变时才重新render
+    2. 原理：重写了shouldComponentUpdate, 只有state或props数据有变化才返回true
+    3. 注意：只进行state和props数据㳀比较，如果是对象内部数据变了，则视为没有变化，不要直接修改state，而是要返回新的数据
+
+6. render props
     1. 如果向组件内部动态传入带内容的结构？
         1. 使用children props:通过组件标签体传入结构
             <A>
@@ -68,16 +73,19 @@
         2. 使用render props:通过组件标签属性传入结构，而且可以携带参数，一般用render函数属性
             <A render={data=><B data={data/}>}/>
 
-6. 错误边界
+7. 组件通信方式总结
+    1. 通信方式：
+        - props:
+            1. children props
+            2. render props
+        - 消息订阅-发布
+            pubs-sub、event等等
+        - 集中式管理
+            redux、dva等
+        - conText
+            生产者-消费者模式
+    2. 比较好的搭配方式
+        1. 父子：props
+        2. 兄弟:消息订阅-发布，集中式管理
+        3. 祖孙组件：消息订阅、集中式管理，context(开发用的少，封装插件用的多)
     
-
-4. React Router 6               
-    1. 包：
-        - react-router 路由的核心库，提供了很多的组件、钩子
-        - react-router-dom 包含react-router所有内容，并添加一些专门用于DOM的组件，例如<BrowserRouter>等
-        - react-router-native 包括react-router所有内容，并添加一些专门用于ReactNative的API，如<NativeRouter>等
-    2. 与5.x相比，改变了什么？
-        1. 移除<Switch>,新增<Routes>
-        2. 语法的变化：component={About}变为element={<About/>}等
-        3. 新增多个hook: useParams, useNavigate, useMatch等
-        4. 官方明确推荐函数式组件了

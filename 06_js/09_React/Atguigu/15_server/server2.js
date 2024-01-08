@@ -18,6 +18,7 @@ app.get("/cars", (req, res) => {
     res.send(cars)
 })
 
+// 启动命令 node .\server2.js
 app.listen(5001,err=>{
     if(!err){
         console.log("服务器2启动成功，端口号为5001");

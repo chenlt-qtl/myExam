@@ -26,6 +26,7 @@ export default function Index() {
           <NavLink className="list-group-item" to="/05">5_params参数</NavLink>
           <NavLink className="list-group-item" to="/06">6_search参数</NavLink>
           <NavLink className="list-group-item" to="/07">7_state参数</NavLink>
+          <NavLink className="list-group-item" to="/08">8_编程式路由</NavLink>
         </div>
         <div className='body'>
           {/* <Routes>

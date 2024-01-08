@@ -30,6 +30,12 @@ import App072 from '../pages/7_state/About'
 import App073 from '../pages/7_state/News'
 import App074 from '../pages/7_state/Message'
 import App075 from '../pages/7_state/Detail'
+import App08 from '../pages/8_useNavigate'
+import App081 from '../pages/8_useNavigate/Home'
+import App082 from '../pages/8_useNavigate/About'
+import App083 from '../pages/8_useNavigate/News'
+import App084 from '../pages/8_useNavigate/Message'
+import App085 from '../pages/8_useNavigate/Detail'
 import { Navigate } from 'react-router-dom'
 
 export default [
@@ -108,6 +114,21 @@ export default [
                 ]
             },
             { path: "about", element: <App072 /> },
+        ]
+    }, {
+        path: "/08", element: <App08 />,
+        children: [
+            {
+                path: "home", element: <App081 />,
+                children: [
+                    { path: "news", element: <App083 /> },
+                    {
+                        path: "message", element: <App084 />,
+                        children: [{ path: "detail", element: <App085 /> }]
+                    },
+                ]
+            },
+            { path: "about", element: <App082 /> },
         ]
     }, {
         path: '/',

@@ -1,0 +1,22 @@
+server:
+  port: 81
+likes: [game,music,sleep]
+users:
+  - name: tom
+    age: 18
+  - name: mike
+    age: 20
+users2: [{name:tom,age:18},{name:mike,age:20}]
+country: china
+
+baseDir: c:\win
+tempDir: ${baseDir}\abc
+
+#使用引号包裹的字符串 转义字符可以生效
+tempDir1: "${baseDir}\temp"
+
+datasource:
+    driver: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost/springboot_db
+    username: root
+    password: root

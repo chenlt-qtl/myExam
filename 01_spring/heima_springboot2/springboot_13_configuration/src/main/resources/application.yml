@@ -1,0 +1,11 @@
+myDatasource:
+  driver: com.mysql.jdbc.Driver
+  url: jdbc:mysql://localhost/springboot_db
+  username: root
+  password: root
+  port: 999
+  timeout: 3
+  dataSize: 10MB
+
+myDruid:
+    driverClassName: ddd

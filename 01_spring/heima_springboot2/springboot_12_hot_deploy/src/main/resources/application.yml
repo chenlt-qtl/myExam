@@ -1,0 +1,23 @@
+server:
+  port: 80
+
+spring:
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/corn
+      username: corn
+      password: Corn2020!@#
+  devtools:
+    restart:
+      exclude: public/**,static/**
+      enabled: false
+
+mybatis-plus:
+  global-config:
+    db-config:
+      table-prefix: eng_
+      id-type: auto
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+

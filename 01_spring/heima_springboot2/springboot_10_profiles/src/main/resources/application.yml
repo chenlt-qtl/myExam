@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: @my.id@
+    group:
+      pro: proMvc,proRedis
+      dev: proMvc,proRedis
+server:
+  port: 666

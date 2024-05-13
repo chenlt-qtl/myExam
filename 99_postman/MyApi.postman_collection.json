@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "8e696caa-f158-410a-9c86-636529b6df4f",
+		"_postman_id": "4be227ba-7a5a-4207-89e1-40379a06969a",
 		"name": "MyApi",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23362539"
+		"_exporter_id": "17208710"
 	},
 	"item": [
 		{
@@ -412,6 +412,254 @@
 								}
 							},
 							"response": []
+						}
+					]
+				},
+				{
+					"name": "01_spring",
+					"item": [
+						{
+							"name": "heima_springboot2",
+							"item": [
+								{
+									"name": "Article",
+									"item": [
+										{
+											"name": "getAll",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/articles",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"articles"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "getOne",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/articles/10",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"articles",
+														"10"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "add",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"title\":\"test11\",\r\n    \"comment\":\"comment11\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/articles",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"articles"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "update",
+											"request": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"id\":12,\r\n    \"title\":\"test12\",\r\n    \"comment\":\"comment12\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{url}}/articles",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"articles"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "delete",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/articles/12",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"articles",
+														"12"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "getPage",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/articles/10/3",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"articles",
+														"10",
+														"3"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "ES",
+									"item": [
+										{
+											"name": "创建索引",
+											"request": {
+												"method": "PUT",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"mappings\": {\r\n        \"properties\": {\r\n            \"id\": {\r\n                \"type\": \"keyword\"\r\n            },\r\n            \"title\": {\r\n                \"type\": \"text\",\r\n                \"analyzer\": \"ik_max_word\",\r\n                \"copy_to\": \"all\"\r\n            },\r\n            \"comment\": {\r\n                \"type\": \"text\",\r\n                \"analyzer\": \"ik_max_word\",\r\n                \"copy_to\": \"all\"\r\n            },\r\n            \"all\": {\r\n                \"type\": \"text\",\r\n                \"analyzer\": \"ik_max_word\"\r\n            }\r\n        }\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://127.0.0.1:9200/article",
+													"protocol": "http",
+													"host": [
+														"127",
+														"0",
+														"0",
+														"1"
+													],
+													"port": "9200",
+													"path": [
+														"article"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "获取索引",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "http://127.0.0.1:9200/article",
+													"protocol": "http",
+													"host": [
+														"127",
+														"0",
+														"0",
+														"1"
+													],
+													"port": "9200",
+													"path": [
+														"article"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "添加文档",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"title\":\"title\",\r\n    \"comment\":\"comment\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:9200/article/_doc/1",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "9200",
+													"path": [
+														"article",
+														"_doc",
+														"1"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "查找索引",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "http://localhost:9200/article/_doc/1",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "9200",
+													"path": [
+														"article",
+														"_doc",
+														"1"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
 						}
 					]
 				}
@@ -2458,7 +2706,6 @@
 												"{{url}}"
 											],
 											"path": [
-												"",
 												"stat",
 												"json",
 												"restApi"
@@ -2488,7 +2735,6 @@
 												"{{url}}"
 											],
 											"path": [
-												"",
 												"stat",
 												"restApi"
 											],

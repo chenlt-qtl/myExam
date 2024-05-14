@@ -7,8 +7,25 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: corn
     password: Corn2020!@#
+
   cache:
-    type: ehcache
+    type: redis
+    redis:
+      key-prefix: sms_
+#      time-to-live: 10s
+      use-key-prefix: true
+#      cache-null-values: false
+  redis:
+    host: localhost
+    port: 6379
+    password: 'qwe!@#'
+
+#  ehcache配置
+#  cache:
+#    type: ehcache
+#    ehcache:
+#      config: ehcache.xml
+
 
 mybatis-plus:
   global-config:

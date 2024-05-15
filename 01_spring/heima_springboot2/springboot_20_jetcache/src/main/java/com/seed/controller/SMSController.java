@@ -1,7 +1,6 @@
 package com.seed.controller;
 
 import com.seed.controller.utils.ResultBean;
-import com.seed.domain.Article;
 import com.seed.domain.SMSCode;
 import com.seed.service.ISMSCodeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class SMSController {
 
 
     @GetMapping("/{tel}")
-    public ResultBean<Article> get(@PathVariable String tel) {
+    public ResultBean<String> get(@PathVariable String tel) {
         String code = smsCodeService.sendCodeToSMS(tel);
         return ResultBean.success(code);
     }

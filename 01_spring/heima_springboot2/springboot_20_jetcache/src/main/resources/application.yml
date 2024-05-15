@@ -18,6 +18,8 @@ mybatis-plus:
 
 
 jetcache:
+  #显示报表统计
+  statIntervalMinutes: 1
   local:
     default:
       type: linkedhashmap
@@ -28,6 +30,9 @@ jetcache:
       host: localhost
       port: 6379
       password: 'qwe!@#'
+      keyConvertor: fastjson
+      valueEncode: java
+      valueDecode: java
       poolConfig:
         maxTotal: 60
     sms:

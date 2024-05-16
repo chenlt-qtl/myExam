@@ -1,0 +1,20 @@
+server:
+  port: 82
+
+spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:81
+management:
+  endpoint:
+    health:
+      show-details: always
+    info:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#        include: health,info
+    enabled-by-default: true

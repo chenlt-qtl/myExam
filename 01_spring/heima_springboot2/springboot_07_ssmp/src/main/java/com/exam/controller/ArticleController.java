@@ -25,7 +25,7 @@ public class ArticleController {
 
     @PostMapping
     public ResultBean save(@RequestBody Article article) {
-        return new ResultBean(articleService.save(article));
+        return new ResultBean(articleService.addArticle(article));
     }
 
     @PutMapping

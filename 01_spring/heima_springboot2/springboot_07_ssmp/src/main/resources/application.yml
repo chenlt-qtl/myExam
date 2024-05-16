@@ -8,6 +8,10 @@ spring:
       url: jdbc:mysql://127.0.0.1:3306/corn
       username: corn
       password: Corn2020!@#
+  boot:
+    admin:
+      client:
+        url: http://localhost:81
 
 mybatis-plus:
   global-config:
@@ -16,3 +20,15 @@ mybatis-plus:
       id-type: auto
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+
+management:
+  endpoint:
+    health:
+      show-details: always
+
+  endpoints:
+    web:
+      exposure:
+        include: "*"

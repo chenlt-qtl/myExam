@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.dao.ArticleDao;
 import com.exam.domain.Article;
 import com.exam.service.ArticleService;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,6 @@ import java.util.List;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
-
 
     @Autowired
     ArticleDao articleDao;

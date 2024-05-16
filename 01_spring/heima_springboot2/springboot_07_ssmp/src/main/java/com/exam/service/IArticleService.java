@@ -7,4 +7,6 @@ import com.exam.domain.Article;
 public interface IArticleService extends IService<Article> {
 
     IPage<Article> pageSearch(int cur,int pageSize, Article article);
+
+    Boolean addArticle(Article article);
 }

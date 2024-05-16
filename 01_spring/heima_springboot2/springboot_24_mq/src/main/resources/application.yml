@@ -1,0 +1,13 @@
+server:
+  port: 80
+spring:
+  activemq:
+    broker-url: tcp://localhost:61616
+  jms:
+    template:
+      default-destination: seed
+    pub-sub-domain: true
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: order

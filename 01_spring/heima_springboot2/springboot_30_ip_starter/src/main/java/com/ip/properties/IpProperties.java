@@ -19,6 +19,10 @@ public class IpProperties {
      */
     private Boolean cycleReset = false;
 
+    /**
+     * 日志输出格式 detail：详细模式  simple：极简模式
+     */
+
     private String modal = LogModal.DETAIL.name;
 
     public enum LogModal{

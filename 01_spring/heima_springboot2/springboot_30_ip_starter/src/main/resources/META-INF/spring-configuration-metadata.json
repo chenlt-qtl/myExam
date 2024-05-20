@@ -1,0 +1,44 @@
+{
+  "groups": [
+    {
+      "name": "tools.ip",
+      "type": "com.ip.properties.IpProperties",
+      "sourceType": "com.ip.properties.IpProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "tools.ip.cycle",
+      "type": "java.lang.Long",
+      "description": "日志显示周期",
+      "sourceType": "com.ip.properties.IpProperties"
+    },
+    {
+      "name": "tools.ip.cycle-reset",
+      "type": "java.lang.Boolean",
+      "description": "是否周期内重置数据",
+      "sourceType": "com.ip.properties.IpProperties"
+    },
+    {
+      "name": "tools.ip.modal",
+      "type": "java.lang.String",
+      "description": "日志输出格式 detail：详细模式  simple：极简模式",
+      "sourceType": "com.ip.properties.IpProperties"
+    }
+  ],
+  "hints": [
+    {
+      "name": "tools.ip.modal",
+      "values": [
+        {
+          "value": "simple",
+          "description": "极简模式."
+        },
+        {
+          "value": "detail",
+          "description": "详细模式."
+        }
+      ]
+    }
+  ]
+}

@@ -1,11 +1,9 @@
 package com.exam.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.exam.controller.utils.ResultBean;
 import com.exam.domain.Article;
 import com.exam.service.IArticleService;
-import com.ip.IpCountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

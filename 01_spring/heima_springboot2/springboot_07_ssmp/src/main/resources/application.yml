@@ -33,8 +33,9 @@ management:
       exposure:
         include: "*"
 
-tools:
-  ip:
-    cycle: 5
-    cycle-reset: false
-    modal: detail
+#tools:
+#  ip:
+#    cycle: 5
+#    cycle-reset: false
+#    modal: detail
+

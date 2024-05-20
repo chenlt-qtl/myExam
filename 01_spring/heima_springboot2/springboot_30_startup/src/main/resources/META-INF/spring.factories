@@ -1,0 +1,4 @@
+
+# Application Listeners
+org.springframework.context.ApplicationListener=\
+com.seed.listener.MyListener

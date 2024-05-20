@@ -1,0 +1,12 @@
+cartoon:
+  cat:
+    name: Robot
+    age: 12
+  mouse:
+    name: Mike
+    age: 13
+
+spring:
+  autoconfigure:
+    exclude:
+    - org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration

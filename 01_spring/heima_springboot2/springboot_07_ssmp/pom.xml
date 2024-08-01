@@ -56,11 +56,11 @@
         </dependency>
 
         <!--自定义starter-->
-        <dependency>
-            <groupId>com.ip</groupId>
-            <artifactId>springboot_30_ip_starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ip</groupId>-->
+<!--            <artifactId>springboot_30_ip_starter</artifactId>-->
+<!--            <version>0.0.1-SNAPSHOT</version>-->
+<!--        </dependency>-->
 
 
         <dependency>

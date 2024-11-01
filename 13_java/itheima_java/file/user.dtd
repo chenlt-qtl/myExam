@@ -1,0 +1,6 @@
+<!ELEMENT users (user+)>
+<!ELEMENT user (name,age,地址)>
+<!ATTLIST user id>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT age (#PCDATA)>
+<!ELEMENT 地址 (#PCDATA)>

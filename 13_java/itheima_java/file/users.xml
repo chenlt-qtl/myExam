@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 以上抬头声明必须放在第一行，必须有-->
+<!--<!DOCTYPE users SYSTEM "user.dtd">-->
+<!-- 根标签只能有一个-->
+<users xmlns="http://www.baidu.com"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.baidu.com user.xsd">
+    <user id="1">
+        <name>tom</name>
+        <age>7</age>
+    </user>
+    <user id="2">
+        <name>amy</name>
+        <age>23</age>
+        <地址>美国</地址>
+    </user>
+</users>

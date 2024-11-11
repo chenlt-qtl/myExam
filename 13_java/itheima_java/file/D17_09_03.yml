@@ -1,0 +1,7 @@
+children:
+  - name: Tom
+    age: 7
+    hobby: play pad
+  - name: Yaya
+    age: 10
+    hobby: reading

@@ -5,6 +5,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.Properties;
 
+/**
+ * springBoot启动流程
+ */
+
 @SpringBootApplication
 public class Springboot30StartupApplication {
 

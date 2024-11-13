@@ -1,18 +1,19 @@
 package com.seed;
 
 import com.seed.bean.CartoonCatAndMouse;
-import com.seed.bean.Cat;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Import;
 
+/**
+ * 自动配置例子
+ */
 @SpringBootApplication(excludeName = {"org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration"})
 //@Import(CartoonCatAndMouse.class)
-public class Main {
+public class D16_03 {
     public static void main(String[] args) {
 
-        ConfigurableApplicationContext ctx = SpringApplication.run(Main.class);
+        ConfigurableApplicationContext ctx = SpringApplication.run(D16_03.class);
         for (String name : ctx.getBeanDefinitionNames()) {
             System.out.println(name);
         }

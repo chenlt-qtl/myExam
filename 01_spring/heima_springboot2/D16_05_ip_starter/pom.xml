@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ip</groupId>
-    <artifactId>D16_15_ip_starter</artifactId>
+    <artifactId>D16_05_ip_starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <properties>

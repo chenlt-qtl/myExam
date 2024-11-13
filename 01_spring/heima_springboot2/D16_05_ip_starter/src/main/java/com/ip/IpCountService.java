@@ -34,7 +34,8 @@ public class IpCountService {
     @Autowired
     private IpProperties ipProperties;
 
-//    @Scheduled(cron = "0/${tools.ip.cycle:5} * * * * ?")
+    //设置默认值为5
+    //@Scheduled(cron = "0/${tools.ip.cycle:5} * * * * ?")
     @Scheduled(cron = "0/#{ipProperties.cycle} * * * * ?")
     public void print() {
 

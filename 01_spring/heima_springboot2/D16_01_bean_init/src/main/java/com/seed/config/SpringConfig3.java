@@ -8,6 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class SpringConfig3 {
 
     @Bean
+    //工厂方式创建Bean
     public DogFactoryBean dog(){
         return new DogFactoryBean();
     }

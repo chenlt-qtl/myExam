@@ -6,9 +6,9 @@
 
     <bean id="cat" class="com.seed.bean.Cat"></bean>
     <bean class="com.seed.bean.Dog"></bean>
-    <bean class="com.seed.bean.Dog"></bean>
 
     <!--    xml方式声明第三方开发的BEAN-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"/>
+    <bean class="com.alibaba.druid.pool.DruidDataSource"/>
     <bean class="com.alibaba.druid.pool.DruidDataSource"/>
 </beans>

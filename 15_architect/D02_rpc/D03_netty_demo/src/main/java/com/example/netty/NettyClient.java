@@ -2,6 +2,7 @@ package com.example.netty;
 
 import com.example.netty.handler.client.ProtoStuffInboundHandler;
 import com.example.netty.codec.ProtoStuffEncoder;
+import com.example.netty.handler.client.WriteIdleHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -29,8 +30,8 @@ public class NettyClient {
                         protected void initChannel(Channel channel) throws Exception {
                             ChannelPipeline pipeline = channel.pipeline();
                             pipeline.addLast(new LengthFieldPrepender(4));
-
                             pipeline.addLast(new ProtoStuffEncoder());
+                            pipeline.addLast(new WriteIdleHandler());
                             pipeline.addLast(new ProtoStuffInboundHandler());
                             //pipeline.addLast(new StringEncoder());
                             //pipeline.addLast(new ClientInboundHandler1());

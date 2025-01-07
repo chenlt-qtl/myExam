@@ -3,18 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.example</groupId>
+        <artifactId>D01_code</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-    <groupId>org.example</groupId>
-    <artifactId>D02_rpc</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <modules>
-        <module>D01_Reactor</module>
-        <module>D02_netty_demo</module>
-        <module>D03_netty_demo</module>
-        <module>D04_MY_RPC/rpc-demo</module>
-        <module>D04_MY_RPC/hrpc</module>
-    </modules>
+    <artifactId>D01_prepare</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>

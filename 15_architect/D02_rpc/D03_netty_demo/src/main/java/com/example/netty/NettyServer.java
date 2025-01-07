@@ -2,6 +2,7 @@ package com.example.netty;
 
 import com.example.netty.codec.ProtoStuffDecoder;
 import com.example.netty.handler.server.ProtoStruffInboundHandler;
+import com.example.netty.handler.server.ReadIdleHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -9,6 +10,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import io.netty.util.NettyRuntime;
+import io.netty.util.concurrent.DefaultThreadFactory;
+import io.netty.util.concurrent.EventExecutorGroup;
+import io.netty.util.concurrent.UnorderedThreadPoolEventExecutor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -29,8 +34,12 @@ public class NettyServer {
 
     private void start(int port) {
 
-        EventLoopGroup boss = new NioEventLoopGroup(1);
-        EventLoopGroup worker = new NioEventLoopGroup();
+        EventLoopGroup boss = new NioEventLoopGroup(1,new DefaultThreadFactory("boss"));
+        EventLoopGroup worker = new NioEventLoopGroup(0,new DefaultThreadFactory("worker"));
+
+        //完善线程模型
+        EventExecutorGroup business = new UnorderedThreadPoolEventExecutor(NettyRuntime.availableProcessors()*2,
+                new DefaultThreadFactory("business"));
 
         // 基于netty引导整个服务端程序的启动
         ServerBootstrap serverBootstrap = new ServerBootstrap();
@@ -46,10 +55,12 @@ public class NettyServer {
                         @Override
                         protected void initChannel(Channel channel) throws Exception {
                             ChannelPipeline pipeline = channel.pipeline();
+                            //服务端添加read idle check，10s接收不到channel数据就断掉连接，保护自己，瘦身
+                            pipeline.addLast("read idle",new ReadIdleHandler());
                             pipeline.addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 0, 4,0,4));
                             //pipeline.addLast(new StringDecoder());
                             pipeline.addLast(new ProtoStuffDecoder());
-                            pipeline.addLast(new ProtoStruffInboundHandler());
+                            pipeline.addLast(business,new ProtoStruffInboundHandler());
                             //pipeline.addLast(new StringReaderHandler());
                         }
                     });

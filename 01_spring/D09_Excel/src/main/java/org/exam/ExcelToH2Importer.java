@@ -23,30 +23,31 @@ public class ExcelToH2Importer {
     private static final String H2_USER = "sa";
     private static final String H2_PASSWORD = "";
     private static final int BATCH_SIZE = 1000;
-    private static final int SAMPLE_ROWS = 100; // 用于推断列类型的样本行数
-    // 日期格式支持列表（可根据实际需求扩展）
+    private static final int SAMPLE_ROWS = 100;
+    // 日期格式支持列表
     private static final List<SimpleDateFormat> DATE_FORMATS = Arrays.asList(
             new SimpleDateFormat("yyyy-MM-dd"),
             new SimpleDateFormat("yyyy/MM/dd"),
             new SimpleDateFormat("MM-dd-yyyy"),
-            new SimpleDateFormat("MM/dd/yyyy")
+            new SimpleDateFormat("MM/dd/yyyy"),
+            new SimpleDateFormat("yyyy年MM月dd日")
     );
 
     private String tableName;
     private List<String> columnNames = new ArrayList<>();
     private List<String> columnTypes = new ArrayList<>();
-    // 记录每列小数位数（仅对DECIMAL类型有效）
     private List<Integer> decimalScales = new ArrayList<>();
     private Connection connection;
     private PreparedStatement preparedStatement;
     private int rowCount = 0;
+    private int columnCount = 0;
+    // 新增：记录已修改为VARCHAR的列索引，避免重复修改
+    private Set<Integer> alteredColumns = new HashSet<>();
 
     public static void main(String[] args) {
-
-
         try {
             ExcelToH2Importer importer = new ExcelToH2Importer();
-            importer.importExcel("C:\\Users\\Administrator\\Desktop\\滴滴对账单202508.xlsx", "test_01");
+            importer.importExcel("C:\\Users\\Administrator\\Desktop\\车档信息-TEST.xlsx", "test_01");
             System.out.println("导入完成! 共导入 " + importer.rowCount + " 行数据");
         } catch (Exception e) {
             e.printStackTrace();
@@ -87,37 +88,41 @@ public class ExcelToH2Importer {
             sheetInputStream.close();
 
             this.columnNames = handler.getColumnNames();
+            this.columnCount = columnNames.size();
+            if (this.columnCount == 0) {
+                this.columnCount = handler.getMaxCellCount();
+                for (int i = 0; i < this.columnCount; i++) {
+                    columnNames.add("COL_" + (i + 1));
+                }
+            }
             determineColumnTypesAndScales(handler.getSampleData());
         }
     }
 
-    /**
-     * 改进的列类型推断：
-     * 1. 区分整数（BIGINT）和小数（DECIMAL）
-     * 2. 计算小数列的最大精度和小数位数
-     * 3. 日期类型使用DATE而非TIMESTAMP
-     */
     private void determineColumnTypesAndScales(List<List<String>> sampleData) {
         columnTypes.clear();
         decimalScales.clear();
-        if (sampleData.isEmpty() || sampleData.get(0).isEmpty()) {
+        if (sampleData.isEmpty() || columnCount == 0) {
             return;
         }
 
-        int columnCount = sampleData.get(0).size();
         for (int i = 0; i < columnCount; i++) {
             boolean isInteger = true;
             boolean isDecimal = true;
             boolean isDate = true;
-            int maxScale = 0;  // 最大小数位数
-            int maxPrecision = 0; // 最大总位数
+            int maxScale = 0;
+            int maxPrecision = 0;
 
             for (List<String> row : sampleData) {
-                if (i >= row.size()) continue;
+                if (i >= row.size()) {
+                    continue;
+                }
                 String value = row.get(i);
-                if (value == null || value.trim().isEmpty()) continue;
+                if (value == null || value.trim().isEmpty()) {
+                    continue;
+                }
 
-                // 检查是否为数字（整数或小数）
+                // 检查数字类型
                 try {
                     BigDecimal bd = new BigDecimal(value);
                     int precision = bd.precision();
@@ -127,37 +132,35 @@ public class ExcelToH2Importer {
                     maxScale = Math.max(maxScale, scale);
 
                     if (scale != 0) {
-                        isInteger = false; // 有小数位，不是整数
+                        isInteger = false;
                     }
                 } catch (NumberFormatException e) {
                     isInteger = false;
                     isDecimal = false;
                 }
 
-                // 检查是否为日期
+                // 检查日期类型
                 if (!isDate(value)) {
                     isDate = false;
                 }
 
-                // 提前退出判断
                 if (!isInteger && !isDecimal && !isDate) {
                     break;
                 }
             }
 
-            // 确定最终类型
+            // 确定列类型
             if (isInteger) {
                 columnTypes.add("BIGINT");
-                decimalScales.add(0); // 整数无小数位
+                decimalScales.add(0);
             } else if (isDecimal) {
-                // 确保精度和小数位合理（至少1位整数位）
                 int precision = Math.max(maxPrecision, maxScale + 1);
                 int scale = maxScale;
-                columnTypes.add(String.format("DECIMAL(%d, %d)", precision, scale));
+                columnTypes.add(String.format("DECIMAL(%d, %d)", precision + scale, scale));
                 decimalScales.add(scale);
             } else if (isDate) {
                 columnTypes.add("DATE");
-                decimalScales.add(0); // 日期无需小数位
+                decimalScales.add(0);
             } else {
                 columnTypes.add("VARCHAR(255)");
                 decimalScales.add(0);
@@ -165,12 +168,9 @@ public class ExcelToH2Importer {
         }
     }
 
-    /**
-     * 检查字符串是否符合任何支持的日期格式
-     */
     private boolean isDate(String value) {
         for (SimpleDateFormat sdf : DATE_FORMATS) {
-            sdf.setLenient(false); // 严格模式，避免错误解析
+            sdf.setLenient(false);
             try {
                 sdf.parse(value);
                 return true;
@@ -182,43 +182,30 @@ public class ExcelToH2Importer {
     }
 
     private void createTable() throws SQLException {
-        // 删除已有表
         try (Statement stmt = connection.createStatement()) {
             stmt.execute("DROP TABLE IF EXISTS " + tableName);
         }
 
-        // 创建新表（使用推断的类型和小数位）
         StringBuilder createSql = new StringBuilder("CREATE TABLE " + tableName + " ( ");
-        for (int i = 0; i < columnNames.size(); i++) {
-            String columnName = "COL_" + (i + 1);
-            if (columnNames.get(i) != null && !columnNames.get(i).trim().isEmpty()) {
-                columnName = columnNames.get(i);
-            }
-            createSql.append(columnName).append(" ").append(columnTypes.get(i));
-            if (i < columnNames.size() - 1) {
+        for (int i = 0; i < columnCount; i++) {
+            String columnName = columnNames.get(i);
+            columnName = columnName.replaceAll("[^a-zA-Z0-9_\\u4e00-\\u9fa5]", "_");
+            createSql.append("`").append(columnName).append("` ").append(columnTypes.get(i));
+            if (i < columnCount - 1) {
                 createSql.append(", ");
             }
         }
         createSql.append(" )");
 
+        System.out.println("create sql:" + createSql);
         try (Statement stmt = connection.createStatement()) {
             stmt.execute(createSql.toString());
         }
     }
 
     private void importData(String excelFilePath) throws Exception {
-        // 构建插入SQL
-        StringBuilder insertSql = new StringBuilder("INSERT INTO " + tableName + " VALUES (");
-        for (int i = 0; i < columnNames.size(); i++) {
-            insertSql.append("?");
-            if (i < columnNames.size() - 1) {
-                insertSql.append(", ");
-            }
-        }
-        insertSql.append(")");
-        preparedStatement = connection.prepareStatement(insertSql.toString());
+        recreatePreparedStatement();
 
-        // 流式读取并插入数据
         try (OPCPackage opcPackage = OPCPackage.open(new File(excelFilePath))) {
             XSSFReader xssfReader = new XSSFReader(opcPackage);
             SharedStrings sharedStrings = xssfReader.getSharedStringsTable();
@@ -232,14 +219,52 @@ public class ExcelToH2Importer {
             parser.parse(inputSource);
             sheetInputStream.close();
 
-            // 处理剩余的批次数据
             if (rowCount % BATCH_SIZE != 0) {
                 preparedStatement.executeBatch();
             }
         }
     }
 
-    // 工具方法：从SharedStrings获取字符串
+    // 新增：重新创建PreparedStatement（表结构变更时使用）
+    private void recreatePreparedStatement() throws SQLException {
+        if (preparedStatement != null) {
+            preparedStatement.close();
+        }
+
+        StringBuilder insertSql = new StringBuilder("INSERT INTO " + tableName + " VALUES (");
+        for (int i = 0; i < columnCount; i++) {
+            insertSql.append("?");
+            if (i < columnCount - 1) {
+                insertSql.append(", ");
+            }
+        }
+        insertSql.append(")");
+        preparedStatement = connection.prepareStatement(insertSql.toString());
+    }
+
+    // 新增：处理类型不匹配，将列转为VARCHAR
+    private void handleTypeMismatch(int columnIndex) throws SQLException {
+        if (alteredColumns.contains(columnIndex)) {
+            return;
+        }
+
+        // 修改列类型为VARCHAR
+        String columnName = columnNames.get(columnIndex);
+        columnName = columnName.replaceAll("[^a-zA-Z0-9_\\u4e00-\\u9fa5]", "_");
+        String alterSql = String.format("ALTER TABLE %s ALTER COLUMN `%s` SET DATA TYPE VARCHAR(255)",
+                tableName, columnName);
+        try (Statement stmt = connection.createStatement()) {
+            stmt.execute(alterSql);
+        }
+
+        // 更新列类型记录
+        columnTypes.set(columnIndex, "VARCHAR(255)");
+        alteredColumns.add(columnIndex);
+
+        // 重新创建PreparedStatement
+        recreatePreparedStatement();
+    }
+
     private String getSharedString(SharedStrings sharedStrings, String indexStr) {
         if (indexStr == null || indexStr.trim().isEmpty()) {
             return "";
@@ -255,7 +280,6 @@ public class ExcelToH2Importer {
         }
     }
 
-    // 分析Excel结构的处理器
     private class StructureAnalysisHandler extends DefaultHandler {
         private SharedStrings sharedStrings;
         private String lastContents;
@@ -264,6 +288,7 @@ public class ExcelToH2Importer {
         private List<String> currentRow = new ArrayList<>();
         private boolean isHeaderRow = true;
         private List<String> columnNames = new ArrayList<>();
+        private int maxCellCount = 0;
 
         public StructureAnalysisHandler(SharedStrings sharedStrings) {
             this.sharedStrings = sharedStrings;
@@ -283,14 +308,20 @@ public class ExcelToH2Importer {
                 nextIsString = false;
             }
 
-            if (name.equals("v")) {
+            if (name.equals("v") || name.equals("t")) {
                 currentRow.add(lastContents);
             } else if (name.equals("row")) {
+                maxCellCount = Math.max(maxCellCount, currentRow.size());
+
                 if (isHeaderRow) {
                     columnNames.addAll(currentRow);
                     isHeaderRow = false;
                 } else if (sampleData.size() < SAMPLE_ROWS) {
-                    sampleData.add(new ArrayList<>(currentRow));
+                    List<String> fixedRow = new ArrayList<>(currentRow);
+                    while (fixedRow.size() < columnCount) {
+                        fixedRow.add("");
+                    }
+                    sampleData.add(fixedRow);
                 }
                 currentRow.clear();
             }
@@ -307,9 +338,12 @@ public class ExcelToH2Importer {
         public List<List<String>> getSampleData() {
             return sampleData;
         }
+
+        public int getMaxCellCount() {
+            return maxCellCount;
+        }
     }
 
-    // 导入数据的处理器
     private class DataImportHandler extends DefaultHandler {
         private SharedStrings sharedStrings;
         private String lastContents;
@@ -335,16 +369,23 @@ public class ExcelToH2Importer {
                 nextIsString = false;
             }
 
-            if (name.equals("v")) {
+            if (name.equals("v") || name.equals("t")) {
                 currentRow.add(lastContents);
             } else if (name.equals("row")) {
                 if (isHeaderRow) {
                     isHeaderRow = false;
                 } else {
                     try {
-                        addRowToBatch(currentRow);
+                        List<String> fixedRow = new ArrayList<>(currentRow);
+                        while (fixedRow.size() < columnCount) {
+                            fixedRow.add("");
+                        }
+                        if (fixedRow.size() > columnCount) {
+                            fixedRow = fixedRow.subList(0, columnCount);
+                        }
+                        addRowToBatch(fixedRow);
                     } catch (SQLException e) {
-                        throw new SAXException(e);
+                        throw new SAXException("第" + (rowCount + 1) + "行数据导入失败: " + e.getMessage(), e);
                     }
                 }
                 currentRow.clear();
@@ -358,7 +399,7 @@ public class ExcelToH2Importer {
         private void addRowToBatch(List<String> row) throws SQLException {
             rowCount++;
 
-            for (int i = 0; i < row.size() && i < columnTypes.size(); i++) {
+            for (int i = 0; i < columnCount; i++) {
                 String value = row.get(i);
                 String type = columnTypes.get(i);
 
@@ -367,30 +408,23 @@ public class ExcelToH2Importer {
                     continue;
                 }
 
-                // 根据列类型设置参数（重点改进数字和日期处理）
-                if (type.startsWith("DECIMAL")) {
-                    try {
+                // 类型转换逻辑，增加类型不匹配处理
+                try {
+                    if (type.startsWith("DECIMAL")) {
                         BigDecimal bd = new BigDecimal(value);
-                        // 保留指定的小数位数（四舍五入）
                         bd = bd.setScale(decimalScales.get(i), BigDecimal.ROUND_HALF_UP);
                         preparedStatement.setBigDecimal(i + 1, bd);
-                    } catch (NumberFormatException e) {
-                        preparedStatement.setString(i + 1, value);
-                    }
-                } else if (type.equals("BIGINT")) {
-                    try {
+                    } else if (type.equals("BIGINT")) {
                         preparedStatement.setLong(i + 1, Long.parseLong(value));
-                    } catch (NumberFormatException e) {
-                        preparedStatement.setString(i + 1, value);
-                    }
-                } else if (type.equals("DATE")) {
-                    try {
+                    } else if (type.equals("DATE")) {
                         Date date = parseDate(value);
                         preparedStatement.setDate(i + 1, new java.sql.Date(date.getTime()));
-                    } catch (ParseException e) {
+                    } else {
                         preparedStatement.setString(i + 1, value);
                     }
-                } else {
+                } catch (Exception e) {
+                    // 转换失败，将列转为VARCHAR后重试
+                    handleTypeMismatch(i);
                     preparedStatement.setString(i + 1, value);
                 }
             }
@@ -404,9 +438,6 @@ public class ExcelToH2Importer {
             }
         }
 
-        /**
-         * 解析日期字符串为Date对象（使用支持的格式列表）
-         */
         private Date parseDate(String value) throws ParseException {
             for (SimpleDateFormat sdf : DATE_FORMATS) {
                 sdf.setLenient(false);

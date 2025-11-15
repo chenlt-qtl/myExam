@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
 
-public class ExcelToH2Importer {
+public class ExcelToH2Importer2 {
     private static final String H2_URL = "jdbc:h2:./excelDB;AUTO_SERVER=TRUE";
     private static final String H2_USER = "sa";
     private static final String H2_PASSWORD = "";
@@ -46,7 +46,7 @@ public class ExcelToH2Importer {
 
     public static void main(String[] args) {
         try {
-            ExcelToH2Importer importer = new ExcelToH2Importer();
+            ExcelToH2Importer2 importer = new ExcelToH2Importer2();
             importer.importExcel("C:\\Users\\Administrator\\Desktop\\车档信息-TEST.xlsx", "test_01");
             System.out.println("导入完成! 共导入 " + importer.rowCount + " 行数据");
         } catch (Exception e) {

@@ -239,6 +239,7 @@ public class ExcelToH2Importer {
             }
         }
         insertSql.append(")");
+        System.out.println("insert sql:" + insertSql);
         preparedStatement = connection.prepareStatement(insertSql.toString());
     }
 
@@ -262,7 +263,7 @@ public class ExcelToH2Importer {
         alteredColumns.add(columnIndex);
 
         // 重新创建PreparedStatement
-        recreatePreparedStatement();
+        //recreatePreparedStatement();
     }
 
     private String getSharedString(SharedStrings sharedStrings, String indexStr) {
@@ -383,8 +384,10 @@ public class ExcelToH2Importer {
                         if (fixedRow.size() > columnCount) {
                             fixedRow = fixedRow.subList(0, columnCount);
                         }
+                        System.out.println("插入数据" + fixedRow);
+
                         addRowToBatch(fixedRow);
-                    } catch (SQLException e) {
+                    } catch (Exception e) {
                         throw new SAXException("第" + (rowCount + 1) + "行数据导入失败: " + e.getMessage(), e);
                     }
                 }
@@ -402,9 +405,20 @@ public class ExcelToH2Importer {
             for (int i = 0; i < columnCount; i++) {
                 String value = row.get(i);
                 String type = columnTypes.get(i);
+                int paramIndex = i + 1; // 参数索引从1开始
+                System.out.println("第" + rowCount + "行，参数" + paramIndex + "，值：" + value + "，类型：" + type);
 
-                if (value == null || value.trim().isEmpty()) {
-                    preparedStatement.setNull(i + 1, Types.NULL);
+                if (value == null || value.trim().isEmpty() || "#".equals(value)) {
+                    System.out.println("有空值 " + row);
+                    int sqlType;
+                    if (type.startsWith("DECIMAL") || type.equals("BIGINT")) {
+                        sqlType = Types.NUMERIC; // 数字类型空值
+                    } else if (type.equals("DATE")) {
+                        sqlType = Types.DATE; // 日期类型空值
+                    } else {
+                        sqlType = Types.VARCHAR; // 字符串类型空值
+                    }
+                    preparedStatement.setNull(paramIndex, sqlType);
                     continue;
                 }
 
@@ -423,13 +437,16 @@ public class ExcelToH2Importer {
                         preparedStatement.setString(i + 1, value);
                     }
                 } catch (Exception e) {
+                    System.out.println("第" + rowCount + "行导入失败，参数" + paramIndex + "，值：" + value + "，类型：" + type);
                     // 转换失败，将列转为VARCHAR后重试
                     handleTypeMismatch(i);
                     preparedStatement.setString(i + 1, value);
                 }
             }
 
+
             preparedStatement.addBatch();
+
 
             if (rowCount % BATCH_SIZE == 0) {
                 preparedStatement.executeBatch();

@@ -11,22 +11,27 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, String>> {
-    // 存储结果：key=Sheet名，value=该Sheet的所有行数据（每行是表头-值的Map）
-    private final Map<String, List<Map<Integer, String>>> sheetDataMap = new HashMap<>();
-    private List<Map<Integer, String>> currentSheetData;
-    private String currentSheetName;
     private TableInfo tableInfo;
     private List<String> headers; // 处理后的表头（去重）
     // 常量定义
-    private static final String H2_URL = "jdbc:h2:mem:excelimport;DB_CLOSE_DELAY=-1";
-    private static final String H2_USER = "sa";
-    private static final String H2_PASSWORD = "";
     private static final int MAX_VARCHAR_LENGTH = 500;
     private static final Pattern YEAR_MONTH_PATTERN = Pattern.compile("^\\d{6}$");
+    private static final Pattern DATE_TIME_PATTERN = Pattern.compile("^(?:\\d{4}/([1-9]|1[0-2])/([1-9]|[12]\\d|3[01])" +
+            "|([1-9]|1[0-2])-([1-9]|[12]\\d|3[01])-\\d{4}" +
+            "|([1-9]|[12]\\d|3[01])/([1-9]|1[0-2])/\\d{4}" +
+            "|\\d{4}年([1-9]|1[0-2])月([1-9]|[12]\\d|3[01])日" +
+            "|\\d{4}-([1-9]|1[0-2])-([1-9]|[12]\\d|3[01])" +
+            "|\\d{4}([1-9]|1[0-2])([1-9]|[12]\\d|3[01])" +
+            ")(?:[ T]([0-9]|1\\d|2[0-3]):([0-5]\\d)(:[0-5]\\d(\\.\\d{1,3})?)?)?$");
+
     private static final int BATCH_SIZE = 5000; // 批量插入大小，可根据内存调整
 
     // 列类型字符串常量（替代枚举）
@@ -36,18 +41,28 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
     public static final String TYPE_DATETIME = "TIMESTAMP";
 
     private final Map<String, TableInfo> tableInfoMap = new HashMap<>(); // 记录已处理的表名
+    // 多线程相关变量
+    private final ExecutorService executorService; // 线程池
+    private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors()/2; // 线程池大小
 
     private final Map<String,String> finalDdls = new HashMap<>();//记录最终DDL
 
 
     // 批量插入相关
-    private List<List<String>> batchData = new ArrayList<>(BATCH_SIZE);
-    private PreparedStatement batchStmt;
-    private Connection connection;
+    private final List<List<String>> currentBatch = new ArrayList<>(BATCH_SIZE); // 当前批次数据
     private final JdbcDataSource dataSource;
+    private String insertSql = "";
 
     public CarInfoSheetListener(JdbcDataSource dataSource) {
         this.dataSource = dataSource;
+        // 初始化线程池
+        this.executorService = new ThreadPoolExecutor(
+                THREAD_POOL_SIZE,
+                THREAD_POOL_SIZE,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>(),
+                new ThreadPoolExecutor.CallerRunsPolicy() // 任务满时让提交者线程执行，避免丢失
+        );
     }
 
     // 处理表头（第一行）
@@ -67,7 +82,7 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
         createTable(tableInfo);
 
         // 初始化批量插入语句
-        initBatchStatement();
+        initInsertSql();
 
         System.out.printf("=====表 %s 创建完成，共%d个字段%n", tableInfo.getTableName(), headers.size());
 
@@ -78,42 +93,45 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
 
         if (tableInfo == null) return;
 
-        String sheetName = context.readSheetHolder().getSheetName();
-
         // 处理数据（截取、空值、格式转换）
         List<String> processedRow = processDataRow(rowData);
-        batchData.add(processedRow);
-        tableInfo.incrementDataCount();
 
-        if(currentSheetName == null) {
-            currentSheetName = sheetName;
-            currentSheetData = new ArrayList<>();
-        }
+        // 线程安全地添加数据到当前批次
+        synchronized (currentBatch) {
+            currentBatch.add(processedRow);
+            tableInfo.incrementDataCount();
 
-        // 达到批量大小则执行插入
-        if (batchData.size() >= BATCH_SIZE) {
-            executeBatchInsert();
-        }
-
-        // 切换Sheet时保存上一个Sheet数据
-        if (currentSheetName == null || !currentSheetName.equals(sheetName)) {
-            if (currentSheetName != null) {
-                sheetDataMap.put(currentSheetName, currentSheetData);
+            // 达到批次大小则提交任务
+            if (currentBatch.size() >= BATCH_SIZE) {
+                List<List<String>> batchToInsert = new ArrayList<>(currentBatch);
+                executorService.submit(new InsertTask(batchToInsert,dataSource,insertSql));
+                currentBatch.clear();
             }
-            currentSheetName = sheetName;
         }
 
-        // 保存当前行数据（表头-值的映射）
-        currentSheetData.add(new HashMap<>(rowData));
     }
 
     // 所有数据处理完成后执行
     @Override
     public void doAfterAllAnalysed(AnalysisContext context) {
+
         // 处理剩余数据
-        if (!batchData.isEmpty()) {
-            executeBatchInsert();
-            System.out.printf("插入结束：共%d行数据%n", tableInfo.getDataCount());
+        synchronized (currentBatch) {
+            if (!currentBatch.isEmpty()) {
+                executorService.submit(new InsertTask(new ArrayList<>(currentBatch),dataSource,insertSql));
+                currentBatch.clear();
+                System.out.printf("插入结束：共%d行数据%n", tableInfo.getDataCount());
+            }
+        }
+
+        // 关闭线程池并等待所有任务完成
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(10, TimeUnit.MINUTES)) {
+                executorService.shutdownNow(); // 超时强制关闭
+            }
+        } catch (InterruptedException e) {
+            executorService.shutdownNow();
         }
 
         // 根据数据修改表结构
@@ -123,17 +141,6 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
 
         String finalDdl = generateFinalDdl(tableInfo);
         finalDdls.put(tableInfo.getTableName(), finalDdl);
-
-        if (currentSheetName != null) {
-            sheetDataMap.put(currentSheetName, currentSheetData);
-        }
-
-        // 关闭资源
-        closeResources();
-    }
-
-    public Map<String, List<Map<Integer, String>>> getSheetDataMap() {
-        return sheetDataMap;
     }
 
     public Map<String, String> getFinalDdls() {
@@ -217,11 +224,7 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
     }
 
     // 初始化批量插入语句
-    private void initBatchStatement() {
-        try {
-            connection = dataSource.getConnection();
-            connection.setAutoCommit(false); // 关闭自动提交，提升批量插入效率
-
+    private void initInsertSql() {
             // 构建INSERT SQL
             StringBuilder sql = new StringBuilder("INSERT INTO ");
             sql.append(escapeName(tableInfo.getTableName())).append(" (");
@@ -236,10 +239,7 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
             }
             sql.append(")");
 
-            batchStmt = connection.prepareStatement(sql.toString());
-        } catch (SQLException e) {
-            throw new RuntimeException("初始化批量插入语句失败", e);
-        }
+            insertSql = sql.toString();
     }
 
     // 处理单行数据
@@ -258,15 +258,24 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
 
             value = value.trim();
 
+            // 新增：移除数字中的逗号（处理千分位格式）
+            // 判断是否可能为数字（包含数字和逗号）
+            if (value.contains(",") && value.matches("^[0-9,]+(\\.[0-9]+)?$")) {
+                value = value.replaceAll(",", "");
+            }
+
             // 截取超长字符（超过500）
             if (value.length() > MAX_VARCHAR_LENGTH) {
                 value = value.substring(0, MAX_VARCHAR_LENGTH);
             }
 
             // 日期格式标准化
-            String standardizedValue = standardizeDate(value);
-            rowValues.add(standardizedValue);
-            tableInfo.addDataSample(i, standardizedValue);
+            boolean matches = DATE_TIME_PATTERN.matcher(value).matches();
+            if(matches) {
+                value = standardizeDate(value);
+            }
+            rowValues.add(value);
+            tableInfo.addDataSample(i, value);
         }
         return rowValues;
     }
@@ -303,44 +312,6 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
             }
         }
         return value; // 非日期格式，原样返回
-    }
-
-    // 执行批量插入
-    private void executeBatchInsert() {
-        try {
-            for (List<String> row : batchData) {
-                for (int i = 0; i < row.size(); i++) {
-                    String value = row.get(i);
-                    if (value == null) {
-                        batchStmt.setNull(i + 1, Types.VARCHAR);
-                    } else {
-                        batchStmt.setString(i + 1, value);
-                    }
-                }
-                batchStmt.addBatch();
-            }
-            batchStmt.executeBatch();
-            connection.commit();
-            batchData.clear();
-            System.out.printf("已插入 %d 行数据...%n", tableInfo.getDataCount());
-        } catch (SQLException e) {
-            try {
-                connection.rollback(); // 失败回滚
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-            throw new RuntimeException("批量插入失败", e);
-        }
-    }
-
-    // 关闭数据库资源
-    private void closeResources() {
-        try {
-            if (batchStmt != null) batchStmt.close();
-            if (connection != null) connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     // 根据数据类型修改表结构

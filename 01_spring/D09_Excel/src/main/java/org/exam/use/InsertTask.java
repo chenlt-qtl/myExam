@@ -1,7 +1,8 @@
 package org.exam.use;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
+import org.springframework.jdbc.core.BatchPreparedStatementSetter;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -10,61 +11,49 @@ import java.util.List;
 // 批量插入任务（多线程执行的核心）
 public class InsertTask implements Runnable {
     private final List<List<String>> batchData;
-    private final DataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
     private final String insertSql;
 
-    public InsertTask(List<List<String>> batchData, DataSource dataSource, String insertSql) {
+    public InsertTask(List<List<String>> batchData, JdbcTemplate jdbcTemplate, String insertSql) {
         this.batchData = batchData;
-        this.dataSource = dataSource;
+        this.jdbcTemplate = jdbcTemplate;
         this.insertSql = insertSql;
     }
 
     @Override
     public void run() {
 
-        Connection conn = null;
-        PreparedStatement stmt = null;
         try {
-            // 每个任务独立获取连接
-            conn = dataSource.getConnection();
-            conn.setAutoCommit(false);
-            stmt = conn.prepareStatement(insertSql);
 
-            // 设置参数并添加到批次
-            for (List<String> row : batchData) {
-                for (int i = 0; i < row.size(); i++) {
-                    String value = row.get(i);
-                    if (value == null) {
-                        stmt.setNull(i + 1, Types.VARCHAR);
-                    } else {
-                        stmt.setString(i + 1, value);
+            // 使用JdbcTemplate执行批量操作
+            jdbcTemplate.batchUpdate(insertSql, new BatchPreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement ps, int i) throws SQLException {
+                    // 设置第i行数据的参数
+                    List<String> row = batchData.get(i);
+                    for (int j = 0; j < row.size(); j++) {
+                        String value = row.get(j);
+                        if (value == null) {
+                            ps.setNull(j + 1, Types.VARCHAR);
+                        } else {
+                            ps.setString(j + 1, value);
+                        }
                     }
                 }
-                stmt.addBatch();
-            }
 
-            // 执行批量插入
-            stmt.executeBatch();
-            conn.commit();
+                @Override
+                public int getBatchSize() {
+                    // 返回当前批次的数据量
+                    return batchData.size();
+                }
+            });
+
             System.out.printf("线程[%s]插入完成，批次大小：%d%n",
                     Thread.currentThread().getName(), batchData.size());
 
-        } catch (SQLException e) {
-            try {
-                if (conn != null) conn.rollback();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+        } catch (Exception e) {
             System.err.printf("线程[%s]插入失败：%s%n",
                     Thread.currentThread().getName(), e.getMessage());
-        } finally {
-            // 关闭资源
-            try {
-                if (stmt != null) stmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
     }
 }

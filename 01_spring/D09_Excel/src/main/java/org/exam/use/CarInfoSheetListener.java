@@ -5,6 +5,7 @@ import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.util.StringUtils;
 import org.exam.ExcelToH2Importer;
 import org.h2.jdbcx.JdbcDataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.*;
 import java.text.ParseException;
@@ -50,11 +51,11 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
 
     // 批量插入相关
     private final List<List<String>> currentBatch = new ArrayList<>(BATCH_SIZE); // 当前批次数据
-    private final JdbcDataSource dataSource;
+    private final JdbcTemplate jdbcTemplate;
     private String insertSql = "";
 
-    public CarInfoSheetListener(JdbcDataSource dataSource) {
-        this.dataSource = dataSource;
+    public CarInfoSheetListener(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate  = jdbcTemplate;
         // 初始化线程池
         this.executorService = new ThreadPoolExecutor(
                 THREAD_POOL_SIZE,
@@ -104,7 +105,7 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
             // 达到批次大小则提交任务
             if (currentBatch.size() >= BATCH_SIZE) {
                 List<List<String>> batchToInsert = new ArrayList<>(currentBatch);
-                executorService.submit(new InsertTask(batchToInsert,dataSource,insertSql));
+                executorService.submit(new InsertTask(batchToInsert,jdbcTemplate,insertSql));
                 currentBatch.clear();
             }
         }
@@ -118,7 +119,7 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
         // 处理剩余数据
         synchronized (currentBatch) {
             if (!currentBatch.isEmpty()) {
-                executorService.submit(new InsertTask(new ArrayList<>(currentBatch),dataSource,insertSql));
+                executorService.submit(new InsertTask(new ArrayList<>(currentBatch),jdbcTemplate,insertSql));
                 currentBatch.clear();
                 System.out.printf("插入结束：共%d行数据%n", tableInfo.getDataCount());
             }
@@ -189,9 +190,11 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
 
     // 检查表是否已在数据库中存在
     private boolean tableExists(String tableName) {
-        try (Connection conn = dataSource.getConnection();
-             ResultSet rs = conn.getMetaData().getTables(null, null, tableName, new String[]{"TABLE"})) {
-            return rs.next();
+        try {
+            // 从JdbcTemplate获取连接元数据
+            return jdbcTemplate.getDataSource().getConnection().getMetaData()
+                    .getTables(null, null, tableName, new String[]{"TABLE"})
+                    .next();
         } catch (SQLException e) {
             return false;
         }
@@ -209,11 +212,10 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
         }
         ddl.append(")");
 
-        try (Connection conn = dataSource.getConnection();
-             Statement stmt = conn.createStatement()) {
-            stmt.execute(ddl.toString());
+        try {
+            jdbcTemplate.execute(ddl.toString());
             tableInfo.setCreateDdl(ddl.toString());
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException("创建表失败: " + ddl, e);
         }
     }
@@ -331,13 +333,12 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
                         escapeName(columnName),
                         targetType);
 
-                try (Connection conn = dataSource.getConnection();
-                     Statement stmt = conn.createStatement()) {
+                try {
                     System.out.printf("字段 %s 类型修改为: %s%n", columnName, targetType);
-                    stmt.execute(alterSql);
+                    jdbcTemplate.execute(alterSql); // JdbcTemplate执行ALTER
                     tableInfo.setColumnType(i, targetType);
                     System.out.printf("修改成功%n");
-                } catch (SQLException e) {
+                } catch (Exception e) {
                     // 修改失败则保持VARCHAR
                     tableInfo.setColumnType(i, TYPE_VARCHAR);
                     System.out.printf("字段 %s 类型修改失败，保持VARCHAR%n", columnName);

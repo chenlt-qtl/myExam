@@ -2,6 +2,7 @@ package org.exam.use;
 
 import com.alibaba.excel.EasyExcel;
 import org.h2.jdbcx.JdbcDataSource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 import java.util.Map;
@@ -13,10 +14,11 @@ import java.util.Map;
 public class CarInfoExcelReader {
 
     // 目标文件路径（固定为指定路径）
-    //private static final String EXCEL_FILE_PATH = "C:\\Users\\Administrator\\Desktop\\滴滴对账单202508.xlsx";
-    //private static final String EXCEL_FILE_PATH = "C:\\Users\\Administrator\\Desktop\\车档信息-TEST.xlsx";
+//    private static final String EXCEL_FILE_PATH = "C:\\Users\\Administrator\\Desktop\\滴滴对账单202508.xlsx";
+    private static final String EXCEL_FILE_PATH = "C:\\Users\\Administrator\\Desktop\\车档信息-TEST.xlsx";
     //private static final String EXCEL_FILE_PATH = "C:\\Users\\Administrator\\Desktop\\IB-TEST.xlsx";
-    private static final String EXCEL_FILE_PATH = "C:\\Users\\Administrator\\Desktop\\晶硅切片指标数据.xlsx";
+    //private static final String EXCEL_FILE_PATH = "C:\\Users\\Administrator\\Desktop\\晶硅切片指标数据.xlsx";
+//    private static final String EXCEL_FILE_PATH = "C:\\Users\\Administrator\\Desktop\\销售数据测试-1.xlsx";
 
     private static final String H2_URL = "jdbc:h2:mem:excelimport;DB_CLOSE_DELAY=-1";
     private static final String H2_USER = "sa";
@@ -34,9 +36,9 @@ public class CarInfoExcelReader {
         dataSource.setURL(H2_URL);
         dataSource.setUser(H2_USER);
         dataSource.setPassword(H2_PASSWORD);
-
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
         // 创建监听器
-        CarInfoSheetListener listener = new CarInfoSheetListener(dataSource);
+        CarInfoSheetListener listener = new CarInfoSheetListener(jdbcTemplate);
 
         // 流式读取Excel（自动处理大文件，避免内存溢出）
         EasyExcel.read(EXCEL_FILE_PATH)

@@ -12,10 +12,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,7 +30,7 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
             "|\\d{4}([1-9]|1[0-2])([1-9]|[12]\\d|3[01])" +
             ")(?:[ T]([0-9]|1\\d|2[0-3]):([0-5]\\d)(:[0-5]\\d(\\.\\d{1,3})?)?)?$");
 
-    private static final int BATCH_SIZE = 5000; // 批量插入大小，可根据内存调整
+    private static final int BATCH_SIZE = 10000; // 批量插入大小，可根据内存调整
 
     // 列类型字符串常量（替代枚举）
     public static final String TYPE_VARCHAR = "VARCHAR(" + MAX_VARCHAR_LENGTH + ")";
@@ -44,7 +41,6 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
     private final Map<String, TableInfo> tableInfoMap = new HashMap<>(); // 记录已处理的表名
     // 多线程相关变量
     private final ExecutorService executorService; // 线程池
-    private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors()/2; // 线程池大小
 
     private final Map<String,String> finalDdls = new HashMap<>();//记录最终DDL
 
@@ -54,16 +50,12 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
     private final JdbcTemplate jdbcTemplate;
     private String insertSql = "";
 
-    public CarInfoSheetListener(JdbcTemplate jdbcTemplate) {
+    private List<CompletableFuture> futures = new ArrayList<>();
+
+    public CarInfoSheetListener(JdbcTemplate jdbcTemplate,ThreadPoolExecutor threadPoolExecutor) {
         this.jdbcTemplate  = jdbcTemplate;
         // 初始化线程池
-        this.executorService = new ThreadPoolExecutor(
-                THREAD_POOL_SIZE,
-                THREAD_POOL_SIZE,
-                0L, TimeUnit.MILLISECONDS,
-                new LinkedBlockingQueue<>(),
-                new ThreadPoolExecutor.CallerRunsPolicy() // 任务满时让提交者线程执行，避免丢失
-        );
+        this.executorService = threadPoolExecutor;
     }
 
     // 处理表头（第一行）
@@ -105,7 +97,8 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
             // 达到批次大小则提交任务
             if (currentBatch.size() >= BATCH_SIZE) {
                 List<List<String>> batchToInsert = new ArrayList<>(currentBatch);
-                executorService.submit(new InsertTask(batchToInsert,jdbcTemplate,insertSql));
+                CompletableFuture future = CompletableFuture.runAsync(new InsertTask(batchToInsert,jdbcTemplate,insertSql), executorService);
+                futures.add(future);
                 currentBatch.clear();
             }
         }
@@ -119,21 +112,27 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
         // 处理剩余数据
         synchronized (currentBatch) {
             if (!currentBatch.isEmpty()) {
-                executorService.submit(new InsertTask(new ArrayList<>(currentBatch),jdbcTemplate,insertSql));
+                //executorService.submit(new InsertTask(new ArrayList<>(currentBatch),jdbcTemplate,insertSql));
+                CompletableFuture future = CompletableFuture.runAsync(new InsertTask(new ArrayList<>(currentBatch),jdbcTemplate,insertSql), executorService);
+                futures.add(future);
                 currentBatch.clear();
                 System.out.printf("插入结束：共%d行数据%n", tableInfo.getDataCount());
             }
         }
 
         // 关闭线程池并等待所有任务完成
-        executorService.shutdown();
-        try {
-            if (!executorService.awaitTermination(10, TimeUnit.MINUTES)) {
-                executorService.shutdownNow(); // 超时强制关闭
-            }
-        } catch (InterruptedException e) {
-            executorService.shutdownNow();
-        }
+//        executorService.shutdown();
+//        try {
+//            if (!executorService.awaitTermination(10, TimeUnit.MINUTES)) {
+//                executorService.shutdownNow(); // 超时强制关闭
+//            }
+//        } catch (InterruptedException e) {
+//            executorService.shutdownNow();
+//        }
+        // 等待所有任务完成
+        CompletableFuture<Void> allTask = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
+        // 阻塞直到全部完成（无需结果）
+        allTask.join();
 
         // 根据数据修改表结构
         if (tableInfo.hasData()) {

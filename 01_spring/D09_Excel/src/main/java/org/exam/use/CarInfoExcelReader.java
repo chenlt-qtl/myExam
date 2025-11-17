@@ -69,7 +69,7 @@ public class CarInfoExcelReader {
                     .registerReadListener(listener)
                     .doReadAll(); // 读取所有Sheet
 
-            System.out.println("最终SQL：" + listener.getFinalDdls());
+            System.out.println("最终SQL：" + listener.getResult());
             System.out.println("耗时:" + (System.currentTimeMillis() - start) / 1000 + "s");
         }
     }

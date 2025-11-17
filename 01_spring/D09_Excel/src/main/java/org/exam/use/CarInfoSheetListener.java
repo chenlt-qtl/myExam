@@ -42,7 +42,7 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
     // 多线程相关变量
     private final ExecutorService executorService; // 线程池
 
-    private final Map<String,String> finalDdls = new HashMap<>();//记录最终DDL
+    private final List<SheetDto> sheetDtoList = new ArrayList<>();//记录最终结果
 
 
     // 批量插入相关
@@ -133,6 +133,8 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
         CompletableFuture<Void> allTask = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
         // 阻塞直到全部完成（无需结果）
         allTask.join();
+        //清除临时线程内容
+        futures.clear();
 
         // 根据数据修改表结构
         if (tableInfo.hasData()) {
@@ -140,11 +142,15 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
         }
 
         String finalDdl = generateFinalDdl(tableInfo);
-        finalDdls.put(tableInfo.getTableName(), finalDdl);
+        SheetDto sheetDto = new SheetDto();
+        sheetDto.setTableName(tableInfo.getTableName());
+        sheetDto.setSheetName(tableInfo.getSheetName());
+        sheetDto.setDdl(finalDdl);
+        sheetDtoList.add(sheetDto);
     }
 
-    public Map<String, String> getFinalDdls() {
-        return finalDdls;
+    public List<SheetDto> getResult() {
+        return sheetDtoList;
     }
 
     // 处理表头去重（重名列加序号）
@@ -184,7 +190,7 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
         while (tableInfoMap.containsKey(tableName) || tableExists(tableName)) {
             tableName = baseName + "_" + suffix++;
         }
-        return new TableInfo(tableName, columns);
+        return new TableInfo(tableName, sheetName, columns);
     }
 
     // 检查表是否已在数据库中存在

@@ -3,8 +3,6 @@ package org.exam.use;
 import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.util.StringUtils;
-import org.exam.ExcelToH2Importer;
-import org.h2.jdbcx.JdbcDataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.sql.*;

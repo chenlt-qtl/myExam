@@ -44,7 +44,6 @@ public class CarInfoExcelReader {
 
         // 初始化H2数据源
         JdbcDataSource dataSource = new JdbcDataSource();
-        dataSource = new JdbcDataSource();
         dataSource.setURL(H2_URL);
         dataSource.setUser(H2_USER);
         dataSource.setPassword(H2_PASSWORD);

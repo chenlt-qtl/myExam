@@ -29,11 +29,12 @@ public class CarInfoExcelReader {
     private static final int THREAD_POOL_SIZE = Runtime.getRuntime().availableProcessors()/2; // 线程池大小
 
     private static final List<String> EXCEL_FILE_PATH = List.of(
-            "C:\\Users\\Administrator\\Desktop\\滴滴对账单202508.xlsx"
-            ,"C:\\Users\\Administrator\\Desktop\\车档信息-TEST.xlsx"
-            ,"C:\\Users\\Administrator\\Desktop\\IB-TEST.xlsx"
-            ,"C:\\Users\\Administrator\\Desktop\\晶硅切片指标数据.xlsx"
-            ,"C:\\Users\\Administrator\\Desktop\\销售数据测试-1.xlsx"
+//            "C:\\Users\\Administrator\\Desktop\\滴滴对账单202508.xlsx"
+            "C:\\Users\\Administrator\\Desktop\\车档信息-20M.xlsx"
+//            ,"C:\\Users\\Administrator\\Desktop\\IB-TEST.xlsx"
+//            ,"C:\\Users\\Administrator\\Desktop\\晶硅切片指标数据.xlsx"
+//            "C:\\Users\\Administrator\\Desktop\\销售数据测试-1.xlsx"
+//            "C:\\Users\\Administrator\\Desktop\\销售数量测试1.xlsx"
     );
 
     /**
@@ -41,7 +42,6 @@ public class CarInfoExcelReader {
      */
     public static void readCarInfoExcel() {
 
-        long start = System.currentTimeMillis();
         // 初始化H2数据源
         JdbcDataSource dataSource = new JdbcDataSource();
         dataSource = new JdbcDataSource();
@@ -70,7 +70,6 @@ public class CarInfoExcelReader {
                     .doReadAll(); // 读取所有Sheet
 
             System.out.println("最终SQL：" + listener.getResult());
-            System.out.println("耗时:" + (System.currentTimeMillis() - start) / 1000 + "s");
         }
     }
 

@@ -22,13 +22,11 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
     // 常量定义
     private static final int MAX_VARCHAR_LENGTH = 500;
     private static final Pattern YEAR_MONTH_PATTERN = Pattern.compile("^\\d{6}$");
-    private static final Pattern DATE_TIME_PATTERN = Pattern.compile("^(?:\\d{4}/([1-9]|1[0-2])/([1-9]|[12]\\d|3[01])" +
-            "|([1-9]|1[0-2])-([1-9]|[12]\\d|3[01])-\\d{4}" +
-            "|([1-9]|[12]\\d|3[01])/([1-9]|1[0-2])/\\d{4}" +
-            "|\\d{4}年([1-9]|1[0-2])月([1-9]|[12]\\d|3[01])日" +
-            "|\\d{4}-([1-9]|1[0-2])-([1-9]|[12]\\d|3[01])" +
-            "|\\d{4}([1-9]|1[0-2])([1-9]|[12]\\d|3[01])" +
-            ")(?:[ T]([0-9]|1\\d|2[0-3]):([0-5]\\d)(:[0-5]\\d(\\.\\d{1,3})?)?)?$");
+
+    private static final Pattern DATE_TIME_PATTERN = Pattern.compile(
+            "(?<!\\d)(?:(?:\\d{4}年(0?[1-9]|1[0-2])月(0?[1-9]|[12]\\d|3[01])日)|(?:\\d{4}-(0?[1-9]|1[0-2])-(0?[1-9]|[12]\\d|3[01]))|(?:\\d{4}/(0?[1-9]|1[0-2])/(0?[1-9]|[12]\\d|3[01]))|(?:(0?[1-9]|1[0-2])-(0?[1-9]|[12]\\d|3[01])-\\d{4})|(?:(0?[1-9]|[12]\\d|3[01])/(0?[1-9]|1[0-2])/\\d{4})|(?:\\d{4}(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])))?" +
+                    "(?:\\s+|T)?(?:(?:(2[0-3]|0?[0-9]|1[0-9]):(0?[0-5]?[0-9])(?::(0?[0-5]?[0-9]))?)(?:\\.\\d{1,3})?(?:\\s?[AP]M)?)?(?!\\d)");
+
 
     private static final int BATCH_SIZE = 10000; // 批量插入大小，可根据内存调整
 
@@ -49,6 +47,9 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
     private final List<List<String>> currentBatch = new ArrayList<>(BATCH_SIZE); // 当前批次数据
     private final JdbcTemplate jdbcTemplate;
     private String insertSql = "";
+    private Long start;
+
+
 
     private List<CompletableFuture> futures = new ArrayList<>();
 
@@ -56,6 +57,7 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
         this.jdbcTemplate  = jdbcTemplate;
         // 初始化线程池
         this.executorService = threadPoolExecutor;
+        start = System.currentTimeMillis();
     }
 
     // 处理表头（第一行）
@@ -97,8 +99,7 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
             // 达到批次大小则提交任务
             if (currentBatch.size() >= BATCH_SIZE) {
                 List<List<String>> batchToInsert = new ArrayList<>(currentBatch);
-                CompletableFuture future = CompletableFuture.runAsync(new InsertTask(batchToInsert,jdbcTemplate,insertSql), executorService);
-                futures.add(future);
+                futures.add(CompletableFuture.runAsync(new InsertTask(batchToInsert,jdbcTemplate,insertSql), executorService));
                 currentBatch.clear();
             }
         }
@@ -113,22 +114,12 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
         synchronized (currentBatch) {
             if (!currentBatch.isEmpty()) {
                 //executorService.submit(new InsertTask(new ArrayList<>(currentBatch),jdbcTemplate,insertSql));
-                CompletableFuture future = CompletableFuture.runAsync(new InsertTask(new ArrayList<>(currentBatch),jdbcTemplate,insertSql), executorService);
-                futures.add(future);
+                futures.add(CompletableFuture.runAsync(new InsertTask(new ArrayList<>(currentBatch),jdbcTemplate,insertSql), executorService));
                 currentBatch.clear();
                 System.out.printf("插入结束：共%d行数据%n", tableInfo.getDataCount());
             }
         }
 
-        // 关闭线程池并等待所有任务完成
-//        executorService.shutdown();
-//        try {
-//            if (!executorService.awaitTermination(10, TimeUnit.MINUTES)) {
-//                executorService.shutdownNow(); // 超时强制关闭
-//            }
-//        } catch (InterruptedException e) {
-//            executorService.shutdownNow();
-//        }
         // 等待所有任务完成
         CompletableFuture<Void> allTask = CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
         // 阻塞直到全部完成（无需结果）
@@ -147,6 +138,7 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
         sheetDto.setSheetName(tableInfo.getSheetName());
         sheetDto.setDdl(finalDdl);
         sheetDtoList.add(sheetDto);
+        System.out.println("耗时"+(System.currentTimeMillis()-start)/1000+"s");
     }
 
     public List<SheetDto> getResult() {
@@ -227,7 +219,13 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
 
     // 转义表名/列名（支持中文和特殊字符）
     private String escapeName(String name) {
-        return "\"" + name.replace("\"", "\"\"").replaceAll("\n","_") + "\"";
+        String newName =  "\"" + name.replace("\"", "\"\"").replaceAll("\n","_") + "\"";
+
+        // 限制长度
+        if (newName.length() > 40) {
+            newName = newName.substring(0, 39);
+        }
+        return newName;
     }
 
     // 初始化批量插入语句
@@ -293,21 +291,29 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
 
         // 尝试多种常见日期格式
         SimpleDateFormat[] parsers = {
+                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
+                new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"),
+                new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss"),
+
+                new SimpleDateFormat("yyyy年MM月dd日 HH:mm"),
+                new SimpleDateFormat("yyyy-MM-dd HH:mm"),
+                new SimpleDateFormat("yyyy/MM/dd HH:mm"),
+
                 new SimpleDateFormat("yyyy-MM-dd"),
                 new SimpleDateFormat("yyyy/MM/dd"),
                 new SimpleDateFormat("MM-dd-yyyy"),
                 new SimpleDateFormat("dd/MM/yyyy"),
+
                 new SimpleDateFormat("yyyy年MM月dd日"),
-                new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"),
-                new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"),
                 new SimpleDateFormat("HH:mm:ss")
         };
 
         for (SimpleDateFormat parser : parsers) {
+            parser.setLenient(false);
             try {
                 Date date = parser.parse(value);
                 // 输出格式：日期->yyyy-MM-dd，时间->HH:mm:ss，日期时间->yyyy-MM-dd HH:mm:ss
-                if (parser.toPattern().contains("HH:mm:ss")) {
+                if (parser.toPattern().contains(" ")) {
                     return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(date);
                 } else if (value.contains(":")) {
                     return new SimpleDateFormat("HH:mm:ss").format(date);

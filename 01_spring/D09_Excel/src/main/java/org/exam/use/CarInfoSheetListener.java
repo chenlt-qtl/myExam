@@ -185,14 +185,11 @@ public class CarInfoSheetListener extends AnalysisEventListener<Map<Integer, Str
 
     // 检查表是否已在数据库中存在
     private boolean tableExists(String tableName) {
-        try {
-            // 从JdbcTemplate获取连接元数据
-            return jdbcTemplate.getDataSource().getConnection().getMetaData()
-                    .getTables(null, null, tableName, new String[]{"TABLE"})
-                    .next();
-        } catch (SQLException e) {
-            return false;
-        }
+
+        // 查询H2数据库中是否已存在该表
+        String sql = "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, tableName);
+        return count > 0;
     }
 
     // 创建表（初始字段全为VARCHAR(500)）

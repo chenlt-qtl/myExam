@@ -1,11 +1,13 @@
 # Get version from user input
-Write-Host "Please enter the version number:"
-$VERSION = Read-Host
-if ([string]::IsNullOrWhiteSpace($VERSION)) {
-    Write-Host "[ERROR] Version cannot be empty" -ForegroundColor Red
-    Read-Host "Press Enter to exit"
-    exit 1
-}
+# Write-Host "Please enter the version number:"
+# $VERSION = Read-Host
+# if ([string]::IsNullOrWhiteSpace($VERSION)) {
+#     Write-Host "[ERROR] Version cannot be empty" -ForegroundColor Red
+#     Read-Host "Press Enter to exit"
+#     exit 1
+# }
+# Set version number
+$VERSION = "3.6"
 Write-Host "Building version: $VERSION"
 
 # Set working directories

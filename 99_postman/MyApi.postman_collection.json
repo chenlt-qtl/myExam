@@ -10,7 +10,7 @@
 			"name": "My-Exam",
 			"item": [
 				{
-					"name": "corn",
+					"name": "betta",
 					"item": [
 						{
 							"name": "sys-data",
@@ -447,13 +447,13 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "{{url}}/articles/10",
+													"raw": "{{url}}/articles/15",
 													"host": [
 														"{{url}}"
 													],
 													"path": [
 														"articles",
-														"10"
+														"15"
 													]
 												}
 											},
@@ -466,7 +466,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"title\":\"test11\",\r\n    \"comment\":\"comment11\"\r\n}",
+													"raw": "{\r\n    \"title\":\"test13\",\r\n    \"comment\":\"comment13\"\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -492,7 +492,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"id\":12,\r\n    \"title\":\"test12\",\r\n    \"comment\":\"comment12\"\r\n}",
+													"raw": "{\r\n    \"id\":19,\r\n    \"title\":\"test19\",\r\n    \"comment\":\"comment19\"\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -517,13 +517,13 @@
 												"method": "DELETE",
 												"header": [],
 												"url": {
-													"raw": "{{url}}/articles/12",
+													"raw": "{{url}}/articles/19",
 													"host": [
 														"{{url}}"
 													],
 													"path": [
 														"articles",
-														"12"
+														"19"
 													]
 												}
 											},
@@ -590,7 +590,7 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "http://127.0.0.1:9200/article",
+													"raw": "http://127.0.0.1:9200/damu",
 													"protocol": "http",
 													"host": [
 														"127",
@@ -600,7 +600,108 @@
 													],
 													"port": "9200",
 													"path": [
-														"article"
+														"damu"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "添加或修改文档",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"title\":\"title\",\r\n    \"comment\":\"comment good\"\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:9200/article/_doc/4",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "9200",
+													"path": [
+														"article",
+														"_doc",
+														"4"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "按ID查找文档",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "http://localhost:9200/damu/_doc/3",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "9200",
+													"path": [
+														"damu",
+														"_doc",
+														"3"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "查找文档",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "http://localhost:9200/admin/_search",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "9200",
+													"path": [
+														"admin",
+														"_search"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "修改单个属性",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n    \"doc\": {\r\n        \"title\": \"title 4 is good\"\r\n    }\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "http://localhost:9200/article/_update/4",
+													"protocol": "http",
+													"host": [
+														"localhost"
+													],
+													"port": "9200",
+													"path": [
+														"article",
+														"_update",
+														"4"
 													]
 												}
 											},
@@ -613,7 +714,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "{\r\n    \"title\":\"title\",\r\n    \"comment\":\"comment\"\r\n}",
+													"raw": "{\r\n    \"title\":\"title5\",\r\n    \"comment\":\"comment good5\"\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
@@ -621,7 +722,7 @@
 													}
 												},
 												"url": {
-													"raw": "http://localhost:9200/article/_doc/1",
+													"raw": "http://localhost:9200/article/_create/5",
 													"protocol": "http",
 													"host": [
 														"localhost"
@@ -629,29 +730,147 @@
 													"port": "9200",
 													"path": [
 														"article",
-														"_doc",
-														"1"
+														"_create",
+														"5"
 													]
 												}
 											},
 											"response": []
 										},
 										{
-											"name": "查找索引",
+											"name": "删除索引",
+											"request": {
+												"method": "DELETE",
+												"header": [],
+												"url": {
+													"raw": "http://127.0.0.1:9200/damu",
+													"protocol": "http",
+													"host": [
+														"127",
+														"0",
+														"0",
+														"1"
+													],
+													"port": "9200",
+													"path": [
+														"damu"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "Msg",
+									"item": [
+										{
+											"name": "获取验证码",
 											"request": {
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "http://localhost:9200/article/_doc/1",
-													"protocol": "http",
+													"raw": "{{url}}/sms/113788818713",
 													"host": [
-														"localhost"
+														"{{url}}"
 													],
-													"port": "9200",
 													"path": [
-														"article",
-														"_doc",
-														"1"
+														"sms",
+														"113788818713"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "检验验证码",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/sms?tel=113788818713&&code=108712",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"sms"
+													],
+													"query": [
+														{
+															"key": "tel",
+															"value": "113788818713"
+														},
+														{
+															"key": null,
+															"value": null
+														},
+														{
+															"key": "code",
+															"value": "108712"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "MQ",
+									"item": [
+										{
+											"name": "发送消息",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/orders/66",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"orders",
+														"66"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "处理消息",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/msgs",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"msgs"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "监控",
+									"item": [
+										{
+											"name": "actuator",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{url}}:82/actuator",
+													"host": [
+														"{{url}}"
+													],
+													"port": "82",
+													"path": [
+														"actuator"
 													]
 												}
 											},
@@ -660,6 +879,819 @@
 									]
 								}
 							]
+						},
+						{
+							"name": "heima_jave_web",
+							"item": [
+								{
+									"name": "login",
+									"item": [
+										{
+											"name": "设置cookie",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/cookie",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"cookie"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "获取cookie",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/cookie",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"cookie"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "设置session",
+											"request": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/session",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"session"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "获取session数据",
+											"request": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/session",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"session"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "生成JWT",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var token = pm.response.text();\r",
+															"console.log(token);\r",
+															"pm.environment.set(\"token\",token);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [],
+												"url": {
+													"raw": "{{url}}/login",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"login"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "测试jwt",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "token",
+														"value": "{{token}}",
+														"type": "text"
+													}
+												],
+												"url": {
+													"raw": "{{url}}/jwt",
+													"host": [
+														"{{url}}"
+													],
+													"path": [
+														"jwt"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Spring Security",
+							"item": [
+								{
+									"name": "hello",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "token",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{url}}/hello",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"hello"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "login",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var result = pm.response.json();\r",
+													"console.log(result.data);\r",
+													"pm.environment.set(\"token\", result.data);\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n    \"username\":\"test\",\r\n    \"password\":\"1234\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/login",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"login"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "heima_springcloud",
+							"item": [
+								{
+									"name": "getCart",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "authorization",
+												"value": "okk",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "http://localhost:8080/cart",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "8080",
+											"path": [
+												"cart"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "betta",
+					"item": [
+						{
+							"name": "eng_group",
+							"item": [
+								{
+									"name": "分组列表",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/eng/group/list?pageNum=1&pageSize=10",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"eng",
+												"group",
+												"list"
+											],
+											"query": [
+												{
+													"key": "pageNum",
+													"value": "1"
+												},
+												{
+													"key": "pageSize",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "系统管理",
+							"item": [
+								{
+									"name": "获取用户列表",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/system/user/list?pageNum=1&pageSize=10",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"system",
+												"user",
+												"list"
+											],
+											"query": [
+												{
+													"key": "pageNum",
+													"value": "1"
+												},
+												{
+													"key": "pageSize",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "getInfo",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/getInfo",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"getInfo"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "eng_article",
+							"item": [
+								{
+									"name": "列表",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/eng/article/list?pageNum=1&pageSize=10",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"eng",
+												"article",
+												"list"
+											],
+											"query": [
+												{
+													"key": "pageNum",
+													"value": "1"
+												},
+												{
+													"key": "pageSize",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "删除",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/eng/article/74",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"eng",
+												"article",
+												"74"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "爱词霸",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "http://dict-co.iciba.com/api/dictionary.php?w=meet&key=C772DB1F60B2839AD948507D91E7B04A",
+											"protocol": "http",
+											"host": [
+												"dict-co",
+												"iciba",
+												"com"
+											],
+											"path": [
+												"api",
+												"dictionary.php"
+											],
+											"query": [
+												{
+													"key": "w",
+													"value": "meet"
+												},
+												{
+													"key": "key",
+													"value": "C772DB1F60B2839AD948507D91E7B04A"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "eng_word",
+							"item": [
+								{
+									"name": "删除",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/eng/word/8",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"eng",
+												"word",
+												"8"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "查询单词",
+									"request": {
+										"method": "DELETE",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/eng/word/8",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"eng",
+												"word",
+												"8"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "es",
+							"item": [
+								{
+									"name": "createNoteIndex",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/es/note/index?userName=damu",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"es",
+												"note",
+												"index"
+											],
+											"query": [
+												{
+													"key": "userName",
+													"value": "damu"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "createDoc",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/es/note/1",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"es",
+												"note",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "分页添加doc",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/es/note?userName=damu&pageNum=2&pageSize=1000",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"es",
+												"note"
+											],
+											"query": [
+												{
+													"key": "userName",
+													"value": "damu"
+												},
+												{
+													"key": "pageNum",
+													"value": "2"
+												},
+												{
+													"key": "pageSize",
+													"value": "1000"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "search",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/es/note?key=mysql",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"es",
+												"note"
+											],
+											"query": [
+												{
+													"key": "key",
+													"value": "mysql"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "eng_score",
+							"item": [
+								{
+									"name": "获取文章测试单词",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/eng/score/list/article/26",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"eng",
+												"score",
+												"list",
+												"article",
+												"26"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "提交成绩",
+									"request": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "[\r\n    {\r\n        \"createBy\": null,\r\n        \"createTime\": null,\r\n        \"updateBy\": null,\r\n        \"updateTime\": null,\r\n        \"id\": null,\r\n        \"user\": \"damu\",\r\n        \"wordName\": \"transaction\",\r\n        \"familiarity\": 2,\r\n        \"status\": null,\r\n        \"relId\": 1306,\r\n        \"wordId\": 1101,\r\n        \"articleId\": 72,\r\n        \"sentence\": null,\r\n        \"sentenceAcceptation\": null,\r\n        \"phMp3\": \"/profile/word/t/transaction.mp3\",\r\n        \"phonetics\": \"trænˈsækʃən, -ˈzæk-\",\r\n        \"acceptation\": \"n.  交易，业务，事务；办理，处理；（一笔）交易，（一项）事务；（学会等的）会议记录，学报；|\",\r\n        \"exchange\": \"交易，处理\",\r\n        \"parts\": null\r\n    },\r\n    {\r\n        \"createBy\": null,\r\n        \"createTime\": null,\r\n        \"updateBy\": null,\r\n        \"updateTime\": null,\r\n        \"id\": null,\r\n        \"user\": \"damu\",\r\n        \"wordName\": \"tolerance\",\r\n        \"familiarity\": 4,\r\n        \"status\": null,\r\n        \"relId\": 1320,\r\n        \"wordId\": 1119,\r\n        \"articleId\": 72,\r\n        \"sentence\": null,\r\n        \"sentenceAcceptation\": null,\r\n        \"phMp3\": \"/profile/word/t/tolerance.mp3\",\r\n        \"phonetics\": \"ˈtɑlərəns\",\r\n        \"acceptation\": \"n.  宽容，容忍；限度；公差；耐药量，耐药性；|\",\r\n        \"exchange\": \"容忍\",\r\n        \"parts\": null\r\n    },\r\n    {\r\n        \"createBy\": null,\r\n        \"createTime\": null,\r\n        \"updateBy\": null,\r\n        \"updateTime\": null,\r\n        \"id\": null,\r\n        \"user\": \"damu\",\r\n        \"wordName\": \"delegate\",\r\n        \"familiarity\": 4,\r\n        \"status\": null,\r\n        \"relId\": 1322,\r\n        \"wordId\": 1121,\r\n        \"articleId\": 72,\r\n        \"sentence\": null,\r\n        \"sentenceAcceptation\": null,\r\n        \"phMp3\": \"/profile/word/d/delegate.mp3\",\r\n        \"phonetics\": \"ˈdelɪɡeɪt\",\r\n        \"acceptation\": \"n.  代表，代表团成员；|vt.  委派代表；授权给；[法律]债务转移；|\",\r\n        \"exchange\": \"委派\",\r\n        \"parts\": null\r\n    },\r\n    {\r\n        \"createBy\": null,\r\n        \"createTime\": null,\r\n        \"updateBy\": null,\r\n        \"updateTime\": null,\r\n        \"id\": null,\r\n        \"user\": \"damu\",\r\n        \"wordName\": \"convert\",\r\n        \"familiarity\": 2,\r\n        \"status\": null,\r\n        \"relId\": 1321,\r\n        \"wordId\": 1120,\r\n        \"articleId\": 72,\r\n        \"sentence\": null,\r\n        \"sentenceAcceptation\": null,\r\n        \"phMp3\": \"/profile/word/c/convert.mp3\",\r\n        \"phonetics\": \"kənˈvɜrt\",\r\n        \"acceptation\": \"vt.  （使）转变；使皈依；兑换，换算；侵占；|vi.  经过转变；被改变；[橄榄球] 触地得分后得附加分；|n.  皈依者；改变宗教信仰者；|\",\r\n        \"exchange\": \"转换\",\r\n        \"parts\": null\r\n    },\r\n    {\r\n        \"createBy\": null,\r\n        \"createTime\": null,\r\n        \"updateBy\": null,\r\n        \"updateTime\": null,\r\n        \"id\": null,\r\n        \"user\": \"damu\",\r\n        \"wordName\": \"canonical\",\r\n        \"familiarity\": 4,\r\n        \"status\": null,\r\n        \"relId\": 1326,\r\n        \"wordId\": 1126,\r\n        \"articleId\": 72,\r\n        \"sentence\": null,\r\n        \"sentenceAcceptation\": null,\r\n        \"phMp3\": \"/profile/word/c/canonical.mp3\",\r\n        \"phonetics\": \"kəˈnɑnɪkl\",\r\n        \"acceptation\": \"adj.  权威的；见于<圣经>正经篇目的；大教堂教士的；按照教规的；|n.  （教规所定）教士（或牧师）礼拜时穿的法衣；|\",\r\n        \"exchange\": \"权威的\",\r\n        \"parts\": null\r\n    }\r\n]",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{api-url}}/eng/score/batch",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"eng",
+												"score",
+												"batch"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "生词本",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/eng/score/list/user?pageNum=1&pageSize=10",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"eng",
+												"score",
+												"list",
+												"user"
+											],
+											"query": [
+												{
+													"key": "pageNum",
+													"value": "1"
+												},
+												{
+													"key": "pageSize",
+													"value": "10"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "文章句子",
+							"item": [
+								{
+									"name": "列表",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{api-url}}/eng/sentence/list",
+											"host": [
+												"{{api-url}}"
+											],
+											"path": [
+												"eng",
+												"sentence",
+												"list"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "tool",
+							"item": [
+								{
+									"name": "importArticle",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"url": {
+											"raw": "{{tool-url}}/imposrtArticle",
+											"host": [
+												"{{tool-url}}"
+											],
+											"path": [
+												"imposrtArticle"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "login",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"token = pm.response.json().token;\r",
+											"console.log(token);\r",
+											"pm.environment.set(\"token\",\"Bearer \"+token);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\": \"damu\",\r\n    \"password\": \"shmily@123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{api-url}}/login",
+									"host": [
+										"{{api-url}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				}
@@ -13457,6 +14489,2079 @@
 							"response": []
 						}
 					]
+				}
+			]
+		},
+		{
+			"name": "GenAI",
+			"item": [
+				{
+					"name": "srm",
+					"item": [
+						{
+							"name": "导入",
+							"item": [
+								{
+									"name": "2. 取名下审批任务（导入）",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "{{token}}",
+												"type": "text"
+											},
+											{
+												"warning": "This is a duplicate header and will be overridden by the Content-Type header generated by Postman.",
+												"key": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											},
+											{
+												"key": "apiKey",
+												"value": "VD3Wq6mw9XX5maCENtUHO4eCLJjOzmH3",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "grant_type",
+													"value": "openapi_2lo",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/pendingApprovables?realm=744740555-T&user=SLPRisk&passwordAdapter=ThirdPartyUser",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"pendingApprovables"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555-T"
+												},
+												{
+													"key": "user",
+													"value": "SLPRisk"
+												},
+												{
+													"key": "passwordAdapter",
+													"value": "ThirdPartyUser"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3. 获取TSK下问卷内容",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "apiKey",
+												"value": "VD3Wq6mw9XX5maCENtUHO4eCLJjOzmH3"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}"
+											}
+										],
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/Task/TSK180971389?realm=744740555-T",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"Task",
+												"TSK180971389"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555-T"
+												},
+												{
+													"key": "user",
+													"value": "Xusa01",
+													"disabled": true
+												},
+												{
+													"key": "passwordAdapter",
+													"value": "ThirdPartyUser",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "寻源",
+							"item": [
+								{
+									"name": "1.取名下审批任务（寻源）",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "apiKey",
+												"value": "VD3Wq6mw9XX5maCENtUHO4eCLJjOzmH3"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}"
+											}
+										],
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/pendingApprovables?realm=744740555-T&user=SourcingRisk&passwordAdapter=ThirdPartyUser",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"pendingApprovables"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555-T"
+												},
+												{
+													"key": "user",
+													"value": "SourcingRisk"
+												},
+												{
+													"key": "passwordAdapter",
+													"value": "ThirdPartyUser"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2.获取TSK下问卷内容",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "apiKey",
+												"value": "VD3Wq6mw9XX5maCENtUHO4eCLJjOzmH3"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}"
+											}
+										],
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/Task/TSK179849332?realm=744740555-T",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"Task",
+												"TSK179849332"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555-T"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3.取对应事件中的供应商信息(寻源)",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "APIKey",
+												"value": "VD3Wq6mw9XX5maCENtUHO4eCLJjOzmH3"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}"
+											}
+										],
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/Document/Doc179849329?realm=744740555-T&%24select=invitedSuppliers",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"Document",
+												"Doc179849329"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555-T"
+												},
+												{
+													"key": "%24select",
+													"value": "invitedSuppliers"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "合同",
+							"item": [
+								{
+									"name": "1. 取名下审批任务",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "apiKey",
+												"value": "VD3Wq6mw9XX5maCENtUHO4eCLJjOzmH3"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}"
+											}
+										],
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/pendingApprovables?realm=744740555-T&user=InterfaceAccount&passwordAdapter=ThirdPartyUser",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"pendingApprovables"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555-T"
+												},
+												{
+													"key": "user",
+													"value": "InterfaceAccount"
+												},
+												{
+													"key": "passwordAdapter",
+													"value": "ThirdPartyUser"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2.获取TSK下问卷内容",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "apiKey",
+												"value": "VD3Wq6mw9XX5maCENtUHO4eCLJjOzmH3"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}"
+											}
+										],
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/Task/TSK180989595?realm=744740555-T",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"Task",
+												"TSK180989595"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555-T"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3.取对应事件中的供应商信息",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "APIKey",
+												"value": "VD3Wq6mw9XX5maCENtUHO4eCLJjOzmH3"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}"
+											}
+										],
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/Document/CW11188?realm=744740555-T&$select=invitedSuppliers",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"Document",
+												"CW11188"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555-T"
+												},
+												{
+													"key": "$select",
+													"value": "invitedSuppliers"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "获取数据",
+							"item": [
+								{
+									"name": "文档",
+									"item": [
+										{
+											"name": "1. 获取token",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var result = pm.response.json();\r",
+															"var token = result[\"access_token\"];\r",
+															"console.log(token);\r",
+															"pm.environment.set(\"get_doc_token\",\"Bearer \"+token);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Basic ODhkYzQ0OGEtNjU4OS00NTViLTgzZjMtM2E4ZjVkYWZmNjM0Onk1N1BDa2N2U0xzYlMzeTg4eEppQWt6b1lpQ2h0cjZa"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "grant_type",
+															"value": "openapi_2lo",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "https://api.sapariba.cn/v2/oauth/token",
+													"protocol": "https",
+													"host": [
+														"api",
+														"sapariba",
+														"cn"
+													],
+													"path": [
+														"v2",
+														"oauth",
+														"token"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "2. 取所有文档",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "APIKey",
+														"value": "mpX8FoyrXfiErkVRgHCpxFR6gVVb9JKR"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{get_doc_token}}"
+													}
+												],
+												"url": {
+													"raw": "https://openapi.sapariba.cn/api/retrieve-project-document/v1/prod/projectDocuments/CW11184?realm=744740555-T&user=Xusa01&passwordAdapter=ThirdPartyUser",
+													"protocol": "https",
+													"host": [
+														"openapi",
+														"sapariba",
+														"cn"
+													],
+													"path": [
+														"api",
+														"retrieve-project-document",
+														"v1",
+														"prod",
+														"projectDocuments",
+														"CW11184"
+													],
+													"query": [
+														{
+															"key": "realm",
+															"value": "744740555-T"
+														},
+														{
+															"key": "user",
+															"value": "Xusa01"
+														},
+														{
+															"key": "passwordAdapter",
+															"value": "ThirdPartyUser"
+														}
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "3. 获取token",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var result = pm.response.json();\r",
+															"var token = result[\"access_token\"];\r",
+															"console.log(token);\r",
+															"pm.environment.set(\"get_doc_detail_token\",\"Bearer \"+token);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Basic YThiYzc2ODYtNWQ4Ny00OWRmLTgwMzItOWYyMTc5NTUwOTMyOmJVdDlZcmRzcVc3S3FvNVRLMG9jWm82cUd3Y25jeG14",
+														"type": "text"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded",
+														"type": "text"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "grant_type",
+															"value": "openapi_2lo",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "https://api.sapariba.cn/v2/oauth/token",
+													"protocol": "https",
+													"host": [
+														"api",
+														"sapariba",
+														"cn"
+													],
+													"path": [
+														"v2",
+														"oauth",
+														"token"
+													]
+												}
+											},
+											"response": []
+										},
+										{
+											"name": "4. 文档明细",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "APIKey",
+														"value": "VD3Wq6mw9XX5maCENtUHO4eCLJjOzmH3"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Authorization",
+														"value": "{{get_doc_detail_token}}"
+													}
+												],
+												"url": {
+													"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/Document/Doc181507787?realm=744740555-T&%24select=scenario",
+													"protocol": "https",
+													"host": [
+														"openapi",
+														"sapariba",
+														"cn"
+													],
+													"path": [
+														"api",
+														"sourcing-approval",
+														"v2",
+														"prod",
+														"Document",
+														"Doc181507787"
+													],
+													"query": [
+														{
+															"key": "realm",
+															"value": "744740555-T"
+														},
+														{
+															"key": "%24select",
+															"value": "scenario"
+														}
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "生产环境",
+									"item": [
+										{
+											"name": "文档",
+											"item": [
+												{
+													"name": "1. 获取token",
+													"event": [
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"var result = pm.response.json();\r",
+																	"var token = result[\"access_token\"];\r",
+																	"console.log(token);\r",
+																	"pm.environment.set(\"get_doc_token_prod\",\"Bearer \"+token);"
+																],
+																"type": "text/javascript",
+																"packages": {}
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Authorization",
+																"value": "Basic MDc3NTJiMmQtNWRlMS00ODQ1LTliY2EtMjBiZDQ1NDAyZTVmOkYzcWo4bmRBdVV0Rk4yMHlHVDM2eDJtSlJXZ016NUJn"
+															},
+															{
+																"key": "Content-Type",
+																"value": "application/x-www-form-urlencoded"
+															}
+														],
+														"body": {
+															"mode": "urlencoded",
+															"urlencoded": [
+																{
+																	"key": "grant_type",
+																	"value": "openapi_2lo",
+																	"type": "text"
+																}
+															]
+														},
+														"url": {
+															"raw": "https://api.sapariba.cn/v2/oauth/token",
+															"protocol": "https",
+															"host": [
+																"api",
+																"sapariba",
+																"cn"
+															],
+															"path": [
+																"v2",
+																"oauth",
+																"token"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "2. 取所有文档",
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "APIKey",
+																"value": "K8NxYuTqAEjS5FZpW5kF28Ty7QxQJfb4"
+															},
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "{{get_doc_token_prod}}"
+															}
+														],
+														"url": {
+															"raw": "https://openapi.sapariba.cn/api/retrieve-project-document/v1/prod/projectDocuments/CW11355?realm=744740555&user=InterfaceAccount&passwordAdapter=PasswordAdapter1",
+															"protocol": "https",
+															"host": [
+																"openapi",
+																"sapariba",
+																"cn"
+															],
+															"path": [
+																"api",
+																"retrieve-project-document",
+																"v1",
+																"prod",
+																"projectDocuments",
+																"CW11355"
+															],
+															"query": [
+																{
+																	"key": "realm",
+																	"value": "744740555"
+																},
+																{
+																	"key": "user",
+																	"value": "InterfaceAccount"
+																},
+																{
+																	"key": "passwordAdapter",
+																	"value": "PasswordAdapter1"
+																}
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "3. 获取token",
+													"event": [
+														{
+															"listen": "test",
+															"script": {
+																"exec": [
+																	"var result = pm.response.json();\r",
+																	"var token = result[\"access_token\"];\r",
+																	"console.log(token);\r",
+																	"pm.environment.set(\"get_doc_detail_token_prod\",\"Bearer \"+token);"
+																],
+																"type": "text/javascript",
+																"packages": {}
+															}
+														}
+													],
+													"request": {
+														"method": "POST",
+														"header": [
+															{
+																"key": "Authorization",
+																"value": "Basic MjgwYmQwZDctZWE2MC00YTcyLWJlNzAtYTg4OWY4OTU1MmY3OnpSUmdWeDJ1cFBtb21ES1lEVDFKYzhBVFprV2haaHNs",
+																"type": "text"
+															},
+															{
+																"key": "Content-Type",
+																"value": "application/x-www-form-urlencoded",
+																"type": "text"
+															}
+														],
+														"body": {
+															"mode": "urlencoded",
+															"urlencoded": [
+																{
+																	"key": "grant_type",
+																	"value": "openapi_2lo",
+																	"type": "text"
+																}
+															]
+														},
+														"url": {
+															"raw": "https://api.sapariba.cn/v2/oauth/token",
+															"protocol": "https",
+															"host": [
+																"api",
+																"sapariba",
+																"cn"
+															],
+															"path": [
+																"v2",
+																"oauth",
+																"token"
+															]
+														}
+													},
+													"response": []
+												},
+												{
+													"name": "4. 文档明细",
+													"request": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "APIKey",
+																"value": "h9q7GDEQDiTVQRjNhTcYF0Qq1Vgba1MS"
+															},
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Authorization",
+																"value": "{{get_doc_detail_token_prod}}"
+															}
+														],
+														"url": {
+															"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/Document/Doc174741488?realm=744740555&%24select=scenario",
+															"protocol": "https",
+															"host": [
+																"openapi",
+																"sapariba",
+																"cn"
+															],
+															"path": [
+																"api",
+																"sourcing-approval",
+																"v2",
+																"prod",
+																"Document",
+																"Doc174741488"
+															],
+															"query": [
+																{
+																	"key": "realm",
+																	"value": "744740555"
+																},
+																{
+																	"key": "%24select",
+																	"value": "scenario"
+																}
+															]
+														}
+													},
+													"response": []
+												}
+											]
+										},
+										{
+											"name": "1. 获取token",
+											"event": [
+												{
+													"listen": "test",
+													"script": {
+														"exec": [
+															"var result = pm.response.json();\r",
+															"var token = result[\"access_token\"];\r",
+															"console.log(token);\r",
+															"pm.environment.set(\"get_data_token_prod\",\"Bearer \"+token);"
+														],
+														"type": "text/javascript",
+														"packages": {}
+													}
+												}
+											],
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Authorization",
+														"value": "Basic MDc3NTJiMmQtNWRlMS00ODQ1LTliY2EtMjBiZDQ1NDAyZTVmOkYzcWo4bmRBdVV0Rk4yMHlHVDM2eDJtSlJXZ016NUJn"
+													},
+													{
+														"key": "Content-Type",
+														"value": "application/x-www-form-urlencoded"
+													}
+												],
+												"body": {
+													"mode": "urlencoded",
+													"urlencoded": [
+														{
+															"key": "grant_type",
+															"value": "openapi_2lo",
+															"type": "text"
+														}
+													]
+												},
+												"url": {
+													"raw": "https://api.sapariba.cn/v2/oauth/token",
+													"protocol": "https",
+													"host": [
+														"api",
+														"sapariba",
+														"cn"
+													],
+													"path": [
+														"v2",
+														"oauth",
+														"token"
+													]
+												}
+											},
+											"response": []
+										}
+									]
+								},
+								{
+									"name": "2. 合同抬头明细",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "apiKey",
+												"value": "CDiVn5g4ckk4FkMjfEQ0zyKIjG52B9GO"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{get_data_token}}"
+											}
+										],
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/retrieve-contract-workspaces/v1/prod/contractWorkspaces/CW11184?realm=744740555-T&user=Xusa01&passwordAdapter=ThirdPartyUser",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"retrieve-contract-workspaces",
+												"v1",
+												"prod",
+												"contractWorkspaces",
+												"CW11184"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555-T"
+												},
+												{
+													"key": "user",
+													"value": "Xusa01"
+												},
+												{
+													"key": "passwordAdapter",
+													"value": "ThirdPartyUser"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2. 合同抬头明细 生产",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "apiKey",
+												"value": "CDiVn5g4ckk4FkMjfEQ0zyKIjG52B9GO"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{get_data_token}}"
+											}
+										],
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/retrieve-contract-workspaces/v1/prod/contractWorkspaces/CW11184?realm=744740555-T&user=Xusa01&passwordAdapter=ThirdPartyUser",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"retrieve-contract-workspaces",
+												"v1",
+												"prod",
+												"contractWorkspaces",
+												"CW11184"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555-T"
+												},
+												{
+													"key": "user",
+													"value": "Xusa01"
+												},
+												{
+													"key": "passwordAdapter",
+													"value": "ThirdPartyUser"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "1. 获取token",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var result = pm.response.json();\r",
+													"var token = result[\"access_token\"];\r",
+													"console.log(token);\r",
+													"pm.environment.set(\"get_data_token\",\"Bearer \"+token);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Basic Zjk5OThkYWQtOWQzMS00MTgxLWIzODYtZjhhOTU4OWI1Y2RkOjVZeTBtSmRnZDNhNDZmNlQ0dHBMaTZQN1A5ZG1nclh6"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "grant_type",
+													"value": "openapi_2lo",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://api.sapariba.cn/v2/oauth/token",
+											"protocol": "https",
+											"host": [
+												"api",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"v2",
+												"oauth",
+												"token"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "生产环境",
+							"item": [
+								{
+									"name": "1. 获取token（返回）",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"var result = pm.response.json();\r",
+													"var token = result[\"access_token\"];\r",
+													"console.log(token);\r",
+													"pm.environment.set(\"back_token\",\"Bearer \"+token);"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Basic MjgwYmQwZDctZWE2MC00YTcyLWJlNzAtYTg4OWY4OTU1MmY3OnpSUmdWeDJ1cFBtb21ES1lEVDFKYzhBVFprV2haaHNs",
+												"type": "text"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/x-www-form-urlencoded",
+												"type": "text"
+											},
+											{
+												"key": "appKey",
+												"value": "686fbb3a04b3b05c27338b1a",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "grant_type",
+													"value": "openapi_2lo",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "https://hc-esb.hithium.com:20443/api-sapariba/v2/oauth/token",
+											"protocol": "https",
+											"host": [
+												"hc-esb",
+												"hithium",
+												"com"
+											],
+											"port": "20443",
+											"path": [
+												"api-sapariba",
+												"v2",
+												"oauth",
+												"token"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "2.审批通过（寻源）",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "apiKey",
+												"value": "h9q7GDEQDiTVQRjNhTcYF0Qq1Vgba1MS"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}"
+											},
+											{
+												"key": "appKey",
+												"value": "686fbb3a04b3b05c27338b1a",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"actionableType\": \"Task\",\r\n  \"uniqueName\": \"Doc182754868\",\r\n  \"actionName\": \"Approve\",\r\n  \"options\": {\r\n    \"comment\": \"该供应商没有查到相关数据，无法风险筛查\"\r\n  }\r\n}"
+										},
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/action?realm=744740555&user=SourcingRisk&passwordAdapter=PasswordAdapter1",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"action"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555"
+												},
+												{
+													"key": "user",
+													"value": "SourcingRisk"
+												},
+												{
+													"key": "passwordAdapter",
+													"value": "PasswordAdapter1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "3.审批通过（合同）",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "apiKey",
+												"value": "h9q7GDEQDiTVQRjNhTcYF0Qq1Vgba1MS"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}"
+											},
+											{
+												"key": "appKey",
+												"value": "686fbb3a04b3b05c27338b1a",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"actionableType\": \"Task\",\r\n  \"uniqueName\": \"Doc182754868\",\r\n  \"actionName\": \"Approve\",\r\n  \"options\": {\r\n    \"comment\": \"该供应商没有查到相关数据，无法风险筛查\"\r\n  }\r\n}"
+										},
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/action?realm=744740555&user=SourcingRisk&passwordAdapter=PasswordAdapter1",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"action"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555"
+												},
+												{
+													"key": "user",
+													"value": "SourcingRisk"
+												},
+												{
+													"key": "passwordAdapter",
+													"value": "PasswordAdapter1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "4.审批通过（导入）",
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "apiKey",
+												"value": "h9q7GDEQDiTVQRjNhTcYF0Qq1Vgba1MS"
+											},
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{token}}"
+											},
+											{
+												"key": "appKey",
+												"value": "686fbb3a04b3b05c27338b1a",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"actionableType\": \"Task\",\r\n  \"uniqueName\": \"Doc182754868\",\r\n  \"actionName\": \"Approve\",\r\n  \"options\": {\r\n    \"comment\": \"该供应商没有查到相关数据，无法风险筛查\"\r\n  }\r\n}"
+										},
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/action?realm=744740555&user=SourcingRisk&passwordAdapter=PasswordAdapter1",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"action"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555"
+												},
+												{
+													"key": "user",
+													"value": "SourcingRisk"
+												},
+												{
+													"key": "passwordAdapter",
+													"value": "PasswordAdapter1"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "5.查看卡住单据",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "apiKey",
+												"value": "h9q7GDEQDiTVQRjNhTcYF0Qq1Vgba1MS"
+											},
+											{
+												"key": "Authorization",
+												"value": "{{back_token}}"
+											}
+										],
+										"url": {
+											"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/pendingApprovables?realm=744740555",
+											"protocol": "https",
+											"host": [
+												"openapi",
+												"sapariba",
+												"cn"
+											],
+											"path": [
+												"api",
+												"sourcing-approval",
+												"v2",
+												"prod",
+												"pendingApprovables"
+											],
+											"query": [
+												{
+													"key": "realm",
+													"value": "744740555"
+												}
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "1. 获取token",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var result = pm.response.json();\r",
+											"var token = result[\"access_token\"];\r",
+											"console.log(token);\r",
+											"pm.environment.set(\"token\",\"Bearer \"+token);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic YThiYzc2ODYtNWQ4Ny00OWRmLTgwMzItOWYyMTc5NTUwOTMyOmJVdDlZcmRzcVc3S3FvNVRLMG9jWm82cUd3Y25jeG14",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "openapi_2lo",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://api.sapariba.cn/v2/oauth/token",
+									"protocol": "https",
+									"host": [
+										"api",
+										"sapariba",
+										"cn"
+									],
+									"path": [
+										"v2",
+										"oauth",
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4. 获取token（返回）",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var result = pm.response.json();\r",
+											"var token = result[\"access_token\"];\r",
+											"console.log(token);\r",
+											"pm.environment.set(\"back_token\",\"Bearer \"+token);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Basic OGMwMTU1ZGItMDIyNi00Yzk1LWI3OTktYWEyNWIwYjIzZGE5OlJZcXFTbWFvTWxiRTlLbDZtd1dMbzRwNUtDZVI2cHJi",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "grant_type",
+											"value": "openapi_2lo",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "https://api.sapariba.cn/v2/oauth/token",
+									"protocol": "https",
+									"host": [
+										"api",
+										"sapariba",
+										"cn"
+									],
+									"path": [
+										"v2",
+										"oauth",
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "5. 更新答案",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var result = pm.response.json();\r",
+											"var token = result[\"access_token\"];\r",
+											"console.log(token);\r",
+											"pm.environment.set(\"token\",\"Bearer \"+token);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "apiKey",
+										"value": "sEI3rGK5mF6hcSHD5fZCYGPXeYIa3WCE"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{back_token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\t\"answers\":[\n\t\t{\n\t\t\t\"alternative\":\"0\",\n\t\t\t\"externalSystemCorrelationId\":\"KI_14560382\",\n\t\t\t\"answer\":\"中风险\"\n\t\t},\n\t\t{\n\t\t\t\"alternative\":\"0\",\n\t\t\t\"externalSystemCorrelationId\":\"KI_14568527\",\n\t\t\t\"answer\":\"诉讼风险,失信被执行\"\n\t\t},\n\t\t{\n\t\t\t\"alternative\":\"0\",\n\t\t\t\"externalSystemCorrelationId\":\"KI_14568530\",\n\t\t\t\"answer\":\"http://172.17.2.164:81/supplier/sup-info/100005\"\n\t\t}],\n\t\t\"triggerApprove\": false\n\t}"
+								},
+								"url": {
+									"raw": "https://openapi.sapariba.cn/api/supplierdatapagination/v4/prod/vendors/S10529239/workspaces/questionnaires/Doc176501095/answers?realm=744740555-T",
+									"protocol": "https",
+									"host": [
+										"openapi",
+										"sapariba",
+										"cn"
+									],
+									"path": [
+										"api",
+										"supplierdatapagination",
+										"v4",
+										"prod",
+										"vendors",
+										"S10529239",
+										"workspaces",
+										"questionnaires",
+										"Doc176501095",
+										"answers"
+									],
+									"query": [
+										{
+											"key": "realm",
+											"value": "744740555-T"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "4.审批通过",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "APIKey",
+										"value": "VD3Wq6mw9XX5maCENtUHO4eCLJjOzmH3"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "{{token}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"actionableType\": \"Task\",\r\n  \"uniqueName\": \"TSK179457503\",\r\n  \"actionName\": \"Approve\",\r\n  \"options\": {\r\n    \"comment\": \"\"\r\n  }\r\n}"
+								},
+								"url": {
+									"raw": "https://openapi.sapariba.cn/api/sourcing-approval/v2/prod/action?realm=744740555-T&user=eSign&passwordAdapter=ThirdPartyUser",
+									"protocol": "https",
+									"host": [
+										"openapi",
+										"sapariba",
+										"cn"
+									],
+									"path": [
+										"api",
+										"sourcing-approval",
+										"v2",
+										"prod",
+										"action"
+									],
+									"query": [
+										{
+											"key": "realm",
+											"value": "744740555-T"
+										},
+										{
+											"key": "user",
+											"value": "eSign"
+										},
+										{
+											"key": "passwordAdapter",
+											"value": "ThirdPartyUser"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "工作流",
+					"item": [
+						{
+							"name": "获取Session",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://172.24.64.111:12345/dolphinscheduler/login?userName=zhangym&userPassword=Xmhc@2025",
+									"protocol": "http",
+									"host": [
+										"172",
+										"24",
+										"64",
+										"111"
+									],
+									"port": "12345",
+									"path": [
+										"dolphinscheduler",
+										"login"
+									],
+									"query": [
+										{
+											"key": "userName",
+											"value": "zhangym"
+										},
+										{
+											"key": "userPassword",
+											"value": "Xmhc@2025"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "启动工作流",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json, text/plain, */*"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "zh-CN,zh;q=0.9"
+									},
+									{
+										"key": "Connection",
+										"value": "keep-alive"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/x-www-form-urlencoded"
+									},
+									{
+										"key": "Origin",
+										"value": "http://172.24.64.111:12345"
+									},
+									{
+										"key": "Referer",
+										"value": "http://172.24.64.111:12345/dolphinscheduler/ui/projects/17580112694112/workflow-definition"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36"
+									},
+									{
+										"key": "sessionId",
+										"value": "cd4a97fe-2e18-4bdb-b28e-d1aad0661f18"
+									}
+								],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "processDefinitionCode",
+											"value": "17655210952033",
+											"type": "text"
+										},
+										{
+											"key": "failureStrategy",
+											"value": "CONTINUE",
+											"type": "text"
+										},
+										{
+											"key": "warningType",
+											"value": "NONE",
+											"type": "text"
+										},
+										{
+											"key": "warningGroupId",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "execType",
+											"value": "START_PROCESS",
+											"type": "text"
+										},
+										{
+											"key": "startNodeList",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "taskDependType",
+											"value": "TASK_POST",
+											"type": "text"
+										},
+										{
+											"key": "complementDependentMode",
+											"value": "OFF_MODE",
+											"type": "text"
+										},
+										{
+											"key": "runMode",
+											"value": "RUN_MODE_SERIAL",
+											"type": "text"
+										},
+										{
+											"key": "processInstancePriority",
+											"value": "MEDIUM",
+											"type": "text"
+										},
+										{
+											"key": "workerGroup",
+											"value": "default",
+											"type": "text"
+										},
+										{
+											"key": "environmentCode",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "startParams",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "expectedParallelismNumber",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "dryRun",
+											"value": "0",
+											"type": "text"
+										},
+										{
+											"key": "scheduleTime",
+											"value": "{\"complementStartDate\":\"2025-06-12 00:00:00\",\"complementEndDate\":\"2025-06-12 00:00:00\"}",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://172.24.64.111:12345/dolphinscheduler/projects/17580112694112/executors/start-process-instance",
+									"protocol": "http",
+									"host": [
+										"172",
+										"24",
+										"64",
+										"111"
+									],
+									"port": "12345",
+									"path": [
+										"dolphinscheduler",
+										"projects",
+										"17580112694112",
+										"executors",
+										"start-process-instance"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "ESB",
+					"item": [
+						{
+							"name": "组织",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "appkey",
+										"value": "6826b393e8144d7d1f95fc48"
+									}
+								],
+								"url": {
+									"raw": "https://hc-pesb.hithium.com:20443/restcloud/api-iam/GetDeptInfo",
+									"protocol": "https",
+									"host": [
+										"hc-pesb",
+										"hithium",
+										"com"
+									],
+									"port": "20443",
+									"path": [
+										"restcloud",
+										"api-iam",
+										"GetDeptInfo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "人员",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "appkey",
+										"value": "6826b393e8144d7d1f95fc48"
+									}
+								],
+								"url": {
+									"raw": "https://hc-pesb.hithium.com:20443/restcloud/api-iam/GetUserInfo",
+									"protocol": "https",
+									"host": [
+										"hc-pesb",
+										"hithium",
+										"com"
+									],
+									"port": "20443",
+									"path": [
+										"restcloud",
+										"api-iam",
+										"GetUserInfo"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "API",
+					"item": [
+						{
+							"name": "1. 获取评分数据",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json, text/plain, */*"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2"
+									},
+									{
+										"key": "Accept-Encoding",
+										"value": "gzip, deflate, br, zstd"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer 63838a5697d841abbe98a94c1b01adef"
+									},
+									{
+										"key": "lang",
+										"value": "zh-CN"
+									},
+									{
+										"key": "Connection",
+										"value": "keep-alive"
+									},
+									{
+										"key": "Referer",
+										"value": "http://localhost:5186/supplier/sup-info/91442000749190600H"
+									},
+									{
+										"key": "Cookie",
+										"value": "JSESSIONID=138a9a89-0850-407b-9e7d-046f85f24d91"
+									},
+									{
+										"key": "Sec-Fetch-Dest",
+										"value": "empty"
+									},
+									{
+										"key": "Sec-Fetch-Mode",
+										"value": "cors"
+									},
+									{
+										"key": "Sec-Fetch-Site",
+										"value": "same-origin"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:5186/api/supplier/supRiskEvalInfo/result/1466?_t=1751952167228",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5186",
+									"path": [
+										"api",
+										"supplier",
+										"supRiskEvalInfo",
+										"result",
+										"1466"
+									],
+									"query": [
+										{
+											"key": "_t",
+											"value": "1751952167228"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "2. 测试",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "oauth2",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json, text/plain, */*"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2"
+									},
+									{
+										"key": "Accept-Encoding",
+										"value": "gzip, deflate, br, zstd"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer c8f037c20e6c4947bd429f7a70096498"
+									},
+									{
+										"key": "lang",
+										"value": "zh-CN"
+									},
+									{
+										"key": "Connection",
+										"value": "keep-alive"
+									},
+									{
+										"key": "Referer",
+										"value": "http://localhost:5186/supplier/sup-info/91442000749190600H"
+									},
+									{
+										"key": "Cookie",
+										"value": "JSESSIONID=c4d1df64-486d-452d-af6f-8179ea46c958"
+									},
+									{
+										"key": "Sec-Fetch-Dest",
+										"value": "empty"
+									},
+									{
+										"key": "Sec-Fetch-Mode",
+										"value": "cors"
+									},
+									{
+										"key": "Sec-Fetch-Site",
+										"value": "same-origin"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:5186/api/oauth2?code=HC200029",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "5186",
+									"path": [
+										"api",
+										"oauth2"
+									],
+									"query": [
+										{
+											"key": "code",
+											"value": "HC200029"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "OA接口测试",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "appKey",
+								"value": "666",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"supName\": \"安琪顾问有限责任公司\", //供应商名称\r\n    \"supCode\": \"DBS-00001\" //供应商编码\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5186/api/screen/paymentRiskScreen",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5186",
+							"path": [
+								"api",
+								"screen",
+								"paymentRiskScreen"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}

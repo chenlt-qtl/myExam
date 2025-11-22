@@ -28,6 +28,43 @@ if (!(Test-Path $ZIP_PATH)) {
     exit 1
 }
 
+# Step 1: Clean up temporary files
+Write-Host "[Step 15] Cleaning up temporary files..."
+Set-Location $OUTPUT_DIR
+
+# Remove backend package file
+$backendTarFile = "launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz"
+if (Test-Path $backendTarFile) {
+    Write-Host "Command: Remove-Item `"$backendTarFile`""
+    Remove-Item $backendTarFile -Force
+    Write-Host "[SUCCESS] Removed $backendTarFile" -ForegroundColor Green
+} else {
+    Write-Host "[WARNING] $backendTarFile not found" -ForegroundColor Yellow
+}
+
+# Remove frontend package file
+$frontendTarFile = "supersonic-webapp.tar.gz"
+if (Test-Path $frontendTarFile) {
+    Write-Host "Command: Remove-Item `"$frontendTarFile`""
+    Remove-Item $frontendTarFile -Force
+    Write-Host "[SUCCESS] Removed $frontendTarFile" -ForegroundColor Green
+} else {
+    Write-Host "[WARNING] $frontendTarFile not found" -ForegroundColor Yellow
+}
+
+# Remove extracted directory
+$extractedDir = "launchers-standalone-1.0.0-SNAPSHOT"
+if (Test-Path $extractedDir) {
+    Write-Host "Command: Remove-Item `"$extractedDir`" -Recurse -Force"
+    Remove-Item $extractedDir -Recurse -Force
+    Write-Host "[SUCCESS] Removed $extractedDir directory" -ForegroundColor Green
+} else {
+    Write-Host "[WARNING] $extractedDir directory not found" -ForegroundColor Yellow
+}
+
+Write-Host "[SUCCESS] Cleanup completed" -ForegroundColor Green
+Write-Host ""
+
 # Step 1: Pull latest code
 Write-Host "[Step 1] Pulling latest code..."
 Set-Location $PROJECT_DIR
@@ -332,42 +369,6 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host "[SUCCESS] Image pushed to registry" -ForegroundColor Green
 Write-Host ""
 
-# Step 15: Clean up temporary files
-Write-Host "[Step 15] Cleaning up temporary files..."
-Set-Location $OUTPUT_DIR
-
-# Remove backend package file
-$backendTarFile = "launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz"
-if (Test-Path $backendTarFile) {
-    Write-Host "Command: Remove-Item `"$backendTarFile`""
-    Remove-Item $backendTarFile -Force
-    Write-Host "[SUCCESS] Removed $backendTarFile" -ForegroundColor Green
-} else {
-    Write-Host "[WARNING] $backendTarFile not found" -ForegroundColor Yellow
-}
-
-# Remove frontend package file
-$frontendTarFile = "supersonic-webapp.tar.gz"
-if (Test-Path $frontendTarFile) {
-    Write-Host "Command: Remove-Item `"$frontendTarFile`""
-    Remove-Item $frontendTarFile -Force
-    Write-Host "[SUCCESS] Removed $frontendTarFile" -ForegroundColor Green
-} else {
-    Write-Host "[WARNING] $frontendTarFile not found" -ForegroundColor Yellow
-}
-
-# Remove extracted directory
-$extractedDir = "launchers-standalone-1.0.0-SNAPSHOT"
-if (Test-Path $extractedDir) {
-    Write-Host "Command: Remove-Item `"$extractedDir`" -Recurse -Force"
-    Remove-Item $extractedDir -Recurse -Force
-    Write-Host "[SUCCESS] Removed $extractedDir directory" -ForegroundColor Green
-} else {
-    Write-Host "[WARNING] $extractedDir directory not found" -ForegroundColor Yellow
-}
-
-Write-Host "[SUCCESS] Cleanup completed" -ForegroundColor Green
-Write-Host ""
 
 Write-Host ""
 Write-Host "========================================"

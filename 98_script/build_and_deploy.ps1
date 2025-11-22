@@ -283,21 +283,14 @@ try {
     $securePassword = ConvertTo-SecureString -String $password -AsPlainText -Force
     $credential = New-Object System.Management.Automation.PSCredential($username, $securePassword)
 
-    # Use docker login with password directly
-    $loginCommand = "echo `"$password`" | docker login --username `"$username`" `"$registryUrl`""
-    Write-Host "Executing login command..."
-    cmd /c $loginCommand
-
+    Write-Host "Trying alternative login method..."
+    docker login --username $username --password $password $registryUrl
     if ($LASTEXITCODE -ne 0) {
-        Write-Host "[ERROR] Failed to login to Aliyun registry" -ForegroundColor Red
-        Write-Host "Trying alternative login method..."
-        docker login --username $username --password $password $registryUrl
-        if ($LASTEXITCODE -ne 0) {
-            Write-Host "[ERROR] Alternative login method also failed" -ForegroundColor Red
-            Read-Host "Press Enter to exit"
-            exit 1
-        }
+        Write-Host "[ERROR] Alternative login method also failed" -ForegroundColor Red
+        Read-Host "Press Enter to exit"
+        exit 1
     }
+
     Write-Host "[SUCCESS] Logged into Aliyun registry" -ForegroundColor Green
 } catch {
     Write-Host "[ERROR] Exception during login: $_" -ForegroundColor Red
@@ -314,6 +307,8 @@ try {
 # Step 13: Tag image for registry
 Write-Host "[Step 13] Tagging image for registry..."
 $targetImage = "$registryUrl/deepsense/chatbi:$VERSION"
+Write-Host "Command: docker tag $IMAGE_ID $targetImage"
+
 docker tag $IMAGE_ID $targetImage
 if ($LASTEXITCODE -ne 0) {
     Write-Host "[ERROR] Failed to tag image" -ForegroundColor Red
@@ -325,6 +320,7 @@ Write-Host ""
 
 # Step 14: Push image to registry
 Write-Host "[Step 14] Pushing image to Aliyun registry..."
+Write-Host "Command: docker push $targetImage"
 docker push $targetImage
 if ($LASTEXITCODE -ne 0) {
     Write-Host "[ERROR] Failed to push image to registry" -ForegroundColor Red

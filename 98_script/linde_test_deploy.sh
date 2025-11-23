@@ -76,8 +76,17 @@ stop_service_on_port() {
 main() {
     log_info "开始执行部署脚本..."
     
-    # 1. 在当前目录下code/bi文件夹中执行git pull
-    log_info "步骤1: 拉取最新代码..."
+    # 1. 清理旧文件，删除文件夹launchers-standalone-1.0.0-SNAPSHOT
+    log_info "步骤1: 清理旧文件..."
+    if [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
+        rm -rf launchers-standalone-1.0.0-SNAPSHOT
+        log_info "旧版本删除成功"
+    else
+        log_info "没有找到旧版本文件，跳过删除"
+    fi
+    
+    # 2. 在当前目录下code/bi文件夹中执行git pull,拉取最新代码
+    log_info "步骤2: 拉取最新代码..."
     
     # 检查code/bi目录是否存在
     if [ ! -d "code/bi" ]; then
@@ -91,12 +100,10 @@ main() {
     if git pull; then
         log_info "代码拉取成功"
         
-        # 2. 如果拉取成功，执行后续步骤
+        # 3. 复制当前目录下的launchers-standalone-1.0.0-SNAPSHOT到backup目录下，重命名为backup-[yyyyMMdd-hh:mm]，如果文件夹已存在，则在后面加上序号。
         cd ../../  # 回到当前目录
-        
-        # 复制当前目录下的launchers-standalone-1.0.0-SNAPSHOT到backup目录下
         if [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
-            log_info "步骤2: 备份现有文件..."
+            log_info "步骤3: 备份现有文件..."
             create_backup_dir
             backup_name=$(generate_backup_name)
             log_info "备份到 backup/${backup_name}"
@@ -105,11 +112,11 @@ main() {
             log_warn "launchers-standalone-1.0.0-SNAPSHOT目录不存在，跳过备份"
         fi
         
-        # cd code，来到code目录
-        log_info "步骤3: 进入code目录并打包..."
+        # 4. cd code，来到code目录
+        log_info "步骤4: 进入code目录并打包..."
         cd code
         
-        # 在bi文件夹中执行mvn -DskipTests package,打包jar包
+        # 5. 在code/bi文件夹中执行mvn -DskipTests package,打包jar包
         log_info "执行Maven打包..."
         cd bi
         if ! mvn -DskipTests package; then
@@ -118,18 +125,8 @@ main() {
         fi
         log_info "Maven打包成功"
         
-        # 把bi/launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz移动到code目录
-        log_info "步骤4: 移动jar包..."
-        if [ -f "launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz" ]; then
-            mv launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz ../
-            log_info "jar包移动成功"
-        else
-            log_error "找不到jar包文件: launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz"
-            exit 1
-        fi
-        
-        # 在bi/webapp目录下执行start-fe-prod.sh
-        log_info "步骤5: 构建前端..."
+        # 6. 在code/bi/webapp目录下执行start-fe-prod.sh
+        log_info "步骤6: 构建前端..."
         cd webapp
         if [ -f "start-fe-prod.sh" ]; then
             chmod +x start-fe-prod.sh
@@ -140,7 +137,7 @@ main() {
             exit 1
         fi
         
-        # 把bi/webapp目录下的supersonic-webapp.tar.gz移动到code目录
+        # 8. 把bi/webapp目录下的supersonic-webapp.tar.gz移动到code目录
         if [ -f "supersonic-webapp.tar.gz" ]; then
             mv supersonic-webapp.tar.gz ../
             log_info "前端包移动成功"
@@ -149,10 +146,23 @@ main() {
             exit 1
         fi
         
+        cd ..  # 回到bi目录
+        
+        # 7. 把bi/launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz移动到code目录
+        log_info "步骤7: 移动jar包..."
+        if [ -f "launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz" ]; then
+            mv launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz ../
+            log_info "jar包移动成功"
+        else
+            log_error "找不到jar包文件: launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz"
+            exit 1
+        fi
+        
         cd ..  # 回到code目录
         
-        # 在code目录，解压supersonic-webapp.tar.gz，解压后重命名文件夹为webapp
-        log_info "步骤6: 解压前端包..."
+        # 9. 解压先用gzip -d,再用tar -xf。
+        # 10. 在code目录，解压supersonic-webapp.tar.gz，解压后重命名文件夹为webapp
+        log_info "步骤9-10: 解压前端包..."
         if [ -f "supersonic-webapp.tar.gz" ]; then
             log_info "正在解压 supersonic-webapp.tar.gz..."
             
@@ -184,8 +194,8 @@ main() {
             exit 1
         fi
         
-        # 在code目录，解压launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz，解压完成后把webapp移动到launchers-standalone-1.0.0-SNAPSHOT目录下
-        log_info "步骤7: 解压后端包..."
+        # 11. 在code目录，解压launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz，解压完成后把webapp移动到launchers-standalone-1.0.0-SNAPSHOT目录下
+        log_info "步骤11: 解压后端包..."
         if [ -f "launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz" ]; then
             log_info "正在解压 launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz..."
             
@@ -221,8 +231,8 @@ main() {
             exit 1
         fi
         
-        # 在launchers-standalone-1.0.0-SNAPSHOT/bin目录下执行命令"sed -i 's/\r$//' supersonic-start.sh"
-        log_info "步骤8: 修复脚本格式..."
+        # 12. 在launchers-standalone-1.0.0-SNAPSHOT/bin目录下执行命令"sed -i 's/\r$//' supersonic-start.sh"
+        log_info "步骤12: 修复脚本格式..."
         if [ -f "launchers-standalone-1.0.0-SNAPSHOT/bin/supersonic-start.sh" ]; then
             cd launchers-standalone-1.0.0-SNAPSHOT/bin
             sed -i 's/\r$//' supersonic-start.sh
@@ -234,21 +244,15 @@ main() {
             exit 1
         fi
         
-        # 停止端口为9080的服务
-        log_info "步骤9: 停止现有服务..."
+        # 13. 停止端口为9080的服务
+        log_info "步骤13: 停止现有服务..."
         stop_service_on_port 9080
         
-        # cd ..
+        # 14. cd ..
         cd ..
         
-        # 删除文件夹launchers-standalone-1.0.0-SNAPSHOT
-        log_info "步骤10: 更新部署文件..."
-        if [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
-            rm -rf launchers-standalone-1.0.0-SNAPSHOT
-            log_info "旧版本删除成功"
-        fi
-        
-        # 移动code/launchers-standalone-1.0.0-SNAPSHOT到当前文件夹中
+        # 16. 移动code/launchers-standalone-1.0.0-SNAPSHOT到当前文件夹中
+        log_info "步骤16: 更新部署文件..."
         if [ -d "code/launchers-standalone-1.0.0-SNAPSHOT" ]; then
             mv code/launchers-standalone-1.0.0-SNAPSHOT ./
             log_info "新版本移动成功"
@@ -257,8 +261,9 @@ main() {
             exit 1
         fi
         
-        # cd launchers-standalone-1.0.0-SNAPSHOT/bin
-        log_info "步骤11: 启动新服务..."
+        # 17. cd launchers-standalone-1.0.0-SNAPSHOT/bin
+        # 18. 启动程序"./supersonic-start.sh"
+        log_info "步骤17-18: 启动新服务..."
         cd launchers-standalone-1.0.0-SNAPSHOT/bin
         ./supersonic-start.sh
         

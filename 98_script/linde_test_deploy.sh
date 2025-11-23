@@ -76,7 +76,7 @@ stop_service_on_port() {
 main() {
     log_info "开始执行部署脚本..."
     
-    # 1. 清理旧文件，删除文件夹code/launchers-standalone-1.0.0-SNAPSHOT，删除code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz,删除code/supersonic-webapp.tar.gz
+    # 1. 清理旧文件，删除文件夹code/launchers-standalone-1.0.0-SNAPSHOT，code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz,code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar,code/supersonic-webapp.tar.gz,code/supersonic-webapp.tar
     log_info "步骤1: 清理旧文件..."
     
     # 删除文件夹
@@ -95,12 +95,28 @@ main() {
         log_info "没有找到旧版本后端包，跳过删除"
     fi
     
+    # 删除后端tar文件
+    if [ -f "code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar" ]; then
+        rm -f code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar
+        log_info "旧版本后端tar文件删除成功"
+    else
+        log_info "没有找到旧版本后端tar文件，跳过删除"
+    fi
+    
     # 删除前端tar.gz文件
     if [ -f "code/supersonic-webapp.tar.gz" ]; then
         rm -f code/supersonic-webapp.tar.gz
         log_info "旧版本前端包删除成功"
     else
         log_info "没有找到旧版本前端包，跳过删除"
+    fi
+    
+    # 删除前端tar文件
+    if [ -f "code/supersonic-webapp.tar" ]; then
+        rm -f code/supersonic-webapp.tar
+        log_info "旧版本前端tar文件删除成功"
+    else
+        log_info "没有找到旧版本前端tar文件，跳过删除"
     fi
     
     # 2. 在当前目录下code/bi文件夹中执行git pull,拉取最新代码

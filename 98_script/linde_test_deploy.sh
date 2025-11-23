@@ -155,9 +155,9 @@ main() {
             exit 1
         fi
         
-        # 8. 把code/bi/webapp目录下的supersonic-webapp.tar.gz移动到code目录
+        # 8. 把code/bi/webapp目录下的supersonic-webapp.tar.gz复制到code目录
         if [ -f "supersonic-webapp.tar.gz" ]; then
-            mv supersonic-webapp.tar.gz ../../
+            cp supersonic-webapp.tar.gz ../../
             log_info "前端包移动成功"
         else
             log_error "找不到supersonic-webapp.tar.gz文件"
@@ -166,10 +166,10 @@ main() {
         
         cd ..  # 回到bi目录
         
-        # 7. 把code/bi/launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz移动到code目录
+        # 7. 把code/bi/launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz复制到code目录
         log_info "步骤7: 移动jar包..."
         if [ -f "launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz" ]; then
-            mv launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz ../
+            cp launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz ../
             log_info "jar包移动成功"
         else
             log_error "找不到jar包文件: launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz"
@@ -192,13 +192,9 @@ main() {
                 if tar -xf supersonic-webapp.tar; then
                     log_info "tar解包成功"
                     
-                    # 查找解压后的目录并重命名为webapp
-                    extracted_dir=$(tar -tf supersonic-webapp.tar 2>/dev/null | head -1 | cut -f1 -d"/")
-                    if [ "$extracted_dir" != "webapp" ] && [ -n "$extracted_dir" ]; then
-                        mv "$extracted_dir" webapp
-                        log_info "重命名目录: $extracted_dir -> webapp"
-                    fi
-                    log_info "前端包解压成功"
+                    # 重命名为webapp
+                    mv supersonic-webapp webapp
+                    log_info "重命名成功"
                 else
                     log_error "tar解包失败"
                     exit 1

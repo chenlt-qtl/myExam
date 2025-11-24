@@ -135,8 +135,8 @@ main() {
     git config --global credential.helper store
     echo "https://da.mu:Aifa@Xmhc011@github.com" > ~/.git-credentials
     
-    # 执行git pull
-    if sudo git pull; then
+    # 执行git pull，强制覆盖本地代码
+    if sudo git fetch --all && sudo git reset --hard origin/$(sudo git branch --show-current) && sudo git pull; then
         log_info "代码拉取成功"
         
         # 3. 备份旧文件：sudo复制当前目录下的launchers-standalone-1.0.0-SNAPSHOT到backup目录下，重命名为backup-[yyyyMMdd-hh:mm]，如果文件夹已存在，则在后面加上序号。
@@ -178,7 +178,7 @@ main() {
         
         # 7. 把code/bi/webapp目录下的supersonic-webapp.tar.gz复制到code目录
         if [ -f "supersonic-webapp.tar.gz" ]; then
-            cp supersonic-webapp.tar.gz ../../
+            sudo cp supersonic-webapp.tar.gz ../../
             log_info "前端包复制成功"
         else
             log_error "找不到supersonic-webapp.tar.gz文件"
@@ -190,7 +190,7 @@ main() {
         # 8. 把code/bi/launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz复制到code目录
         log_info "步骤8: 复制jar包..."
         if [ -f "launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz" ]; then
-            cp launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz ../
+            sudo cp launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz ../
             log_info "jar包复制成功"
         else
             log_error "找不到jar包文件: launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz"

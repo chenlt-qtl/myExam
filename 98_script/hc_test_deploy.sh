@@ -27,9 +27,9 @@ log_error() {
 
 # 检查并创建backup目录
 create_backup_dir() {
-    if [ ! -d "backup" ]; then
-        mkdir -p backup
-        log_info "创建backup目录"
+    if [ ! -d "/hcdata/backup" ]; then
+        mkdir -p /hcdata/backup
+        log_info "创建backup目录: /hcdata/backup"
     fi
 }
 
@@ -39,7 +39,7 @@ generate_backup_name() {
     local counter=1
     local backup_name="${base_name}"
     
-    while [ -d "backup/${backup_name}" ]; do
+    while [ -d "/hcdata/backup/${backup_name}" ]; do
         backup_name="${base_name}-${counter}"
         ((counter++))
     done
@@ -134,24 +134,24 @@ main() {
     if git pull; then
         log_info "代码拉取成功"
         
-        # 3. 备份旧文件：复制当前目录下的launchers-standalone-1.0.0-SNAPSHOT到backup目录下，重命名为backup-[yyyyMMdd-hh:mm]，如果文件夹已存在，则在后面加上序号。
+        # 3. 备份旧文件：复制当前目录下的launchers-standalone-1.0.0-SNAPSHOT到/hcdata/backup目录下，重命名为backup-[yyyyMMdd-hh:mm]，如果文件夹已存在，则在后面加上序号。
         cd ../../  # 回到当前目录
         if [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
             log_info "步骤3: 备份旧文件..."
             create_backup_dir
             backup_name=$(generate_backup_name)
-            log_info "备份到 backup/${backup_name}"
-            cp -r launchers-standalone-1.0.0-SNAPSHOT "backup/${backup_name}"
+            log_info "备份到 /hcdata/backup/${backup_name}"
+            cp -r launchers-standalone-1.0.0-SNAPSHOT "/hcdata/backup/${backup_name}"
         else
             log_warn "launchers-standalone-1.0.0-SNAPSHOT目录不存在，跳过备份"
         fi
         
         # 4. cd code，来到code目录
-        log_info "步骤4: 进入code目录并打包..."
+        log_info "步骤4: 进入code目录..."
         cd code
         
         # 5. 在code/bi文件夹中执行mvn -DskipTests package,打包jar包
-        log_info "执行Maven打包..."
+        log_info "步骤5: 执行Maven打包..."
         cd bi
         if ! mvn -DskipTests package; then
             log_error "Maven打包失败"
@@ -171,10 +171,10 @@ main() {
             exit 1
         fi
         
-        # 8. 把code/bi/webapp目录下的supersonic-webapp.tar.gz复制到code目录
+        # 7. 把code/bi/webapp目录下的supersonic-webapp.tar.gz复制到code目录
         if [ -f "supersonic-webapp.tar.gz" ]; then
             cp supersonic-webapp.tar.gz ../../
-            log_info "前端包移动成功"
+            log_info "前端包复制成功"
         else
             log_error "找不到supersonic-webapp.tar.gz文件"
             exit 1
@@ -182,11 +182,11 @@ main() {
         
         cd ..  # 回到bi目录
         
-        # 7. 把code/bi/launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz复制到code目录
-        log_info "步骤7: 移动jar包..."
+        # 8. 把code/bi/launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz复制到code目录
+        log_info "步骤8: 复制jar包..."
         if [ -f "launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz" ]; then
             cp launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz ../
-            log_info "jar包移动成功"
+            log_info "jar包复制成功"
         else
             log_error "找不到jar包文件: launchers/standalone/target/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz"
             exit 1
@@ -262,8 +262,8 @@ main() {
             exit 1
         fi
         
-        # 13. 在code/launchers-standalone-1.0.0-SNAPSHOT/bin目录下执行命令"sed -i 's/\r$//' supersonic-start.sh"
-        log_info "步骤13: 修复脚本格式..."
+        # 12. 在code/launchers-standalone-1.0.0-SNAPSHOT/bin目录下执行命令"sed -i 's/\r$//' supersonic-start.sh"
+        log_info "步骤12: 修复脚本格式..."
         if [ -f "launchers-standalone-1.0.0-SNAPSHOT/bin/supersonic-start.sh" ]; then
             cd launchers-standalone-1.0.0-SNAPSHOT/bin
             sed -i 's/\r$//' supersonic-start.sh
@@ -275,12 +275,12 @@ main() {
             exit 1
         fi
         
-        # 14. 停止端口为9080的服务
-        log_info "步骤14: 停止现有服务..."
+        # 13. 停止端口为9080的服务
+        log_info "步骤13: 停止现有服务..."
         stop_service_on_port 9080
         
-        # 15. 删除launchers-standalone-1.0.0-SNAPSHOT文件夹
-        log_info "步骤15: 清理当前目录的旧版本..."
+        # 14. 删除launchers-standalone-1.0.0-SNAPSHOT文件夹
+        log_info "步骤14: 清理当前目录的旧版本..."
         if [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
             rm -rf launchers-standalone-1.0.0-SNAPSHOT
             log_info "当前目录旧版本删除成功"
@@ -298,9 +298,18 @@ main() {
             exit 1
         fi
         
-        # 17. cd launchers-standalone-1.0.0-SNAPSHOT/bin
-        # 18. 启动程序"./supersonic-start.sh"
-        log_info "步骤17-18: 启动新服务..."
+        # 17. 复制model文件夹到launchers-standalone-1.0.0-SNAPSHOT文件夹中
+        log_info "步骤17: 复制model文件夹..."
+        if [ -d "model" ]; then
+            cp -r model launchers-standalone-1.0.0-SNAPSHOT/
+            log_info "model文件夹复制成功"
+        else
+            log_warn "model文件夹不存在，跳过复制"
+        fi
+        
+        # 18. cd launchers-standalone-1.0.0-SNAPSHOT/bin
+        # 19. 启动程序"./supersonic-start.sh"
+        log_info "步骤18-19: 启动新服务..."
         cd launchers-standalone-1.0.0-SNAPSHOT/bin
         ./supersonic-start.sh
         

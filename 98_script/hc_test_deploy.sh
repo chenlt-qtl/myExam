@@ -76,12 +76,12 @@ stop_service_on_port() {
 main() {
     log_info "开始执行部署脚本..."
     
-    # 1. 清理旧文件，删除文件夹code/launchers-standalone-1.0.0-SNAPSHOT，code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz,code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar,code/supersonic-webapp.tar.gz,code/supersonic-webapp.tar
+    # 1. 清理旧文件，sudo删除文件夹code/launchers-standalone-1.0.0-SNAPSHOT，code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz,code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar,code/supersonic-webapp.tar.gz,code/supersonic-webapp.tar
     log_info "步骤1: 清理旧文件..."
     
     # 删除文件夹
     if [ -d "code/launchers-standalone-1.0.0-SNAPSHOT" ]; then
-        rm -rf code/launchers-standalone-1.0.0-SNAPSHOT
+        sudo rm -rf code/launchers-standalone-1.0.0-SNAPSHOT
         log_info "旧版本文件夹删除成功"
     else
         log_info "没有找到旧版本文件夹，跳过删除"
@@ -89,7 +89,7 @@ main() {
     
     # 删除后端tar.gz文件
     if [ -f "code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz" ]; then
-        rm -f code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz
+        sudo rm -f code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz
         log_info "旧版本后端包删除成功"
     else
         log_info "没有找到旧版本后端包，跳过删除"
@@ -97,7 +97,7 @@ main() {
     
     # 删除后端tar文件
     if [ -f "code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar" ]; then
-        rm -f code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar
+        sudo rm -f code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar
         log_info "旧版本后端tar文件删除成功"
     else
         log_info "没有找到旧版本后端tar文件，跳过删除"
@@ -105,7 +105,7 @@ main() {
     
     # 删除前端tar.gz文件
     if [ -f "code/supersonic-webapp.tar.gz" ]; then
-        rm -f code/supersonic-webapp.tar.gz
+        sudo rm -f code/supersonic-webapp.tar.gz
         log_info "旧版本前端包删除成功"
     else
         log_info "没有找到旧版本前端包，跳过删除"
@@ -113,13 +113,13 @@ main() {
     
     # 删除前端tar文件
     if [ -f "code/supersonic-webapp.tar" ]; then
-        rm -f code/supersonic-webapp.tar
+        sudo rm -f code/supersonic-webapp.tar
         log_info "旧版本前端tar文件删除成功"
     else
         log_info "没有找到旧版本前端tar文件，跳过删除"
     fi
     
-    # 2. 在当前目录下code/bi文件夹中执行git pull,拉取最新代码
+    # 2. 在code/bi文件夹中执行sudo git pull,拉取最新代码,使用的是https协议，Username是"da.mu",Password是"Aifa@Xmhc011"
     log_info "步骤2: 拉取最新代码..."
     
     # 检查code/bi目录是否存在
@@ -130,18 +130,23 @@ main() {
     
     cd code/bi
     
+    # 配置git凭据
+    log_info "配置Git凭据..."
+    git config --global credential.helper store
+    echo "https://da.mu:Aifa@Xmhc011@github.com" > ~/.git-credentials
+    
     # 执行git pull
-    if git pull; then
+    if sudo git pull; then
         log_info "代码拉取成功"
         
-        # 3. 备份旧文件：复制当前目录下的launchers-standalone-1.0.0-SNAPSHOT到/hcdata/backup目录下，重命名为backup-[yyyyMMdd-hh:mm]，如果文件夹已存在，则在后面加上序号。
+        # 3. 备份旧文件：sudo复制当前目录下的launchers-standalone-1.0.0-SNAPSHOT到backup目录下，重命名为backup-[yyyyMMdd-hh:mm]，如果文件夹已存在，则在后面加上序号。
         cd ../../  # 回到当前目录
         if [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
             log_info "步骤3: 备份旧文件..."
             create_backup_dir
             backup_name=$(generate_backup_name)
             log_info "备份到 /hcdata/backup/${backup_name}"
-            cp -r launchers-standalone-1.0.0-SNAPSHOT "/hcdata/backup/${backup_name}"
+            sudo cp -r launchers-standalone-1.0.0-SNAPSHOT "/hcdata/backup/${backup_name}"
         else
             log_warn "launchers-standalone-1.0.0-SNAPSHOT目录不存在，跳过备份"
         fi
@@ -150,21 +155,21 @@ main() {
         log_info "步骤4: 进入code目录..."
         cd code
         
-        # 5. 在code/bi文件夹中执行mvn -DskipTests package,打包jar包
+        # 5. 在code/bi文件夹中执行sudo mvn -DskipTests package,打包jar包
         log_info "步骤5: 执行Maven打包..."
         cd bi
-        if ! mvn -DskipTests package; then
+        if ! sudo mvn -DskipTests package; then
             log_error "Maven打包失败"
             exit 1
         fi
         log_info "Maven打包成功"
         
-        # 6. 在code/bi/webapp目录下执行start-fe-prod.sh，打包前端包
+        # 6. 在code/bi/webapp目录下执行sudo start-fe-prod.sh，打包前端包
         log_info "步骤6: 打包前端包..."
         cd webapp
         if [ -f "start-fe-prod.sh" ]; then
-            chmod +x start-fe-prod.sh
-            ./start-fe-prod.sh
+            sudo chmod +x start-fe-prod.sh
+            sudo ./start-fe-prod.sh
             log_info "前端打包成功"
         else
             log_error "找不到start-fe-prod.sh脚本"
@@ -266,8 +271,8 @@ main() {
         log_info "步骤12: 修复脚本格式..."
         if [ -f "launchers-standalone-1.0.0-SNAPSHOT/bin/supersonic-start.sh" ]; then
             cd launchers-standalone-1.0.0-SNAPSHOT/bin
-            sed -i 's/\r$//' supersonic-start.sh
-            chmod +x supersonic-start.sh
+            sudo sed -i 's/\r$//' supersonic-start.sh
+            sudo chmod +x supersonic-start.sh
             cd ../../..
             log_info "脚本格式修复成功"
         else
@@ -282,7 +287,7 @@ main() {
         # 14. 删除launchers-standalone-1.0.0-SNAPSHOT文件夹
         log_info "步骤14: 清理当前目录的旧版本..."
         if [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
-            rm -rf launchers-standalone-1.0.0-SNAPSHOT
+            sudo rm -rf launchers-standalone-1.0.0-SNAPSHOT
             log_info "当前目录旧版本删除成功"
         else
             log_info "当前目录没有找到旧版本文件，跳过删除"
@@ -291,7 +296,7 @@ main() {
         # 16. 移动code/launchers-standalone-1.0.0-SNAPSHOT到当前文件夹中
         log_info "步骤16: 更新部署文件..."
         if [ -d "code/launchers-standalone-1.0.0-SNAPSHOT" ]; then
-            mv code/launchers-standalone-1.0.0-SNAPSHOT ./
+            sudo mv code/launchers-standalone-1.0.0-SNAPSHOT ./
             log_info "新版本移动成功"
         else
             log_error "找不到新的launchers-standalone-1.0.0-SNAPSHOT目录"
@@ -301,17 +306,17 @@ main() {
         # 17. 复制model文件夹到launchers-standalone-1.0.0-SNAPSHOT文件夹中
         log_info "步骤17: 复制model文件夹..."
         if [ -d "model" ]; then
-            cp -r model launchers-standalone-1.0.0-SNAPSHOT/
+            sudo cp -r model launchers-standalone-1.0.0-SNAPSHOT/
             log_info "model文件夹复制成功"
         else
             log_warn "model文件夹不存在，跳过复制"
         fi
         
-        # 18. cd launchers-standalone-1.0.0-SNAPSHOT/bin
-        # 19. 启动程序"./supersonic-start.sh"
-        log_info "步骤18-19: 启动新服务..."
+        # 17. cd launchers-standalone-1.0.0-SNAPSHOT/bin
+        # 18. 启动程序"./supersonic-start.sh"
+        log_info "步骤17-18: 启动新服务..."
         cd launchers-standalone-1.0.0-SNAPSHOT/bin
-        ./supersonic-start.sh
+        sudo ./supersonic-start.sh
         
         if [ $? -eq 0 ]; then
             log_info "服务启动成功！"

@@ -130,8 +130,8 @@ main() {
     
     cd code/bi
     
-    # 执行git pull
-    if git pull; then
+    # 执行git pull，强制覆盖本地代码
+    if git fetch --all && git reset --hard origin/$(git branch --show-current) && git pull; then
         log_info "代码拉取成功"
         
         # 3. 备份旧文件：复制当前目录下的launchers-standalone-1.0.0-SNAPSHOT到backup目录下，重命名为backup-[yyyyMMdd-hh:mm]，如果文件夹已存在，则在后面加上序号。

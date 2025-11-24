@@ -206,15 +206,15 @@ main() {
             log_info "正在解压 supersonic-webapp.tar.gz..."
             
             # 先用gzip -d解压，再用tar -xf解包
-            if gzip -d supersonic-webapp.tar.gz; then
+            if sudo gzip -d supersonic-webapp.tar.gz; then
                 log_info "gzip解压成功"
                 
                 # 解压tar文件
-                if tar -xf supersonic-webapp.tar; then
+                if sudo tar -xf supersonic-webapp.tar; then
                     log_info "tar解包成功"
                     
                     # 重命名为webapp
-                    mv supersonic-webapp webapp
+                    sudo mv supersonic-webapp webapp
                     log_info "重命名成功"
                 else
                     log_error "tar解包失败"
@@ -235,11 +235,11 @@ main() {
             log_info "正在解压 launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz..."
             
             # 先用gzip -d解压，再用tar -xf解包
-            if gzip -d launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz; then
+            if sudo gzip -d launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz; then
                 log_info "gzip解压成功"
                 
                 # 解压tar文件
-                if tar -xf launchers-standalone-1.0.0-SNAPSHOT-bin.tar; then
+                if sudo tar -xf launchers-standalone-1.0.0-SNAPSHOT-bin.tar; then
                     log_info "tar解包成功"
                     log_info "后端包解压成功"
                 else
@@ -258,7 +258,7 @@ main() {
         # 12. 把code/webapp移动到code/launchers-standalone-1.0.0-SNAPSHOT目录下
         log_info "步骤12: 移动webapp到后端目录..."
         if [ -d "webapp" ] && [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
-            mv webapp launchers-standalone-1.0.0-SNAPSHOT/
+            sudo mv webapp launchers-standalone-1.0.0-SNAPSHOT/
             log_info "webapp移动成功"
         else
             log_error "webapp或launchers-standalone-1.0.0-SNAPSHOT目录不存在"

@@ -53,7 +53,7 @@ stop_service_on_port() {
     log_info "停止端口${port}上的服务..."
     
     # 查找占用端口的进程
-    local pid=$(lsof -ti:${port} 2>/dev/null || netstat -tlnp 2>/dev/null | grep ":${port}" | awk '{print $7}' | cut -d'/' -f1)
+    local pid=$(lsof -ti:${port} 2>/dev/null || netstat -tlnp 2>/dev/null | grep ":${port} " | awk '{print $7}' | cut -d'/' -f1)
     
     if [ -n "$pid" ]; then
         log_info "找到进程PID: ${pid}，正在停止..."

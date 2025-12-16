@@ -75,6 +75,9 @@ stop_service_on_port() {
 # 主函数
 main() {
     log_info "开始执行部署脚本..."
+
+    cd /hcdata/chatbi
+    pwd
     
     # 1. 清理旧文件，sudo删除文件夹code/launchers-standalone-1.0.0-SNAPSHOT，code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz,code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar,code/supersonic-webapp.tar.gz,code/supersonic-webapp.tar
     log_info "步骤1: 清理旧文件..."
@@ -301,15 +304,6 @@ main() {
         else
             log_error "找不到新的launchers-standalone-1.0.0-SNAPSHOT目录"
             exit 1
-        fi
-        
-        # 17. 复制model文件夹到launchers-standalone-1.0.0-SNAPSHOT文件夹中
-        log_info "步骤17: 复制model文件夹..."
-        if [ -d "model" ]; then
-            sudo cp -r model launchers-standalone-1.0.0-SNAPSHOT/
-            log_info "model文件夹复制成功"
-        else
-            log_warn "model文件夹不存在，跳过复制"
         fi
         
         # 17. cd launchers-standalone-1.0.0-SNAPSHOT/bin

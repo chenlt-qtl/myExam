@@ -54,14 +54,17 @@ stop_service_on_port() {
 main() {
         log_info "开始执行部署脚本..."
 
+        cd /hcdata/chatbi
+        pwd
+
         # 13. 停止端口为9080的服务
         log_info "步骤13: 停止现有服务..."
         stop_service_on_port 9080
         
         # 14. 删除launchers-standalone-1.0.0-SNAPSHOT文件夹
         log_info "步骤14: 清理当前目录的旧版本..."
-        if [ -d "/tmp/home/hcadmin/chatbi/launchers-standalone-1.0.0-SNAPSHOT" ]; then
-            sudo rm -rf /tmp/home/hcadmin/chatbi/launchers-standalone-1.0.0-SNAPSHOT
+        if [ -d "/hcdata/chatbi/launchers-standalone-1.0.0-SNAPSHOT" ]; then
+            sudo rm -rf /hcdata/chatbi/launchers-standalone-1.0.0-SNAPSHOT
             log_info "当前目录旧版本删除成功"
         else
             log_info "当前目录没有找到旧版本文件，跳过删除"
@@ -69,27 +72,18 @@ main() {
         
         # 16. 移动tmp/launchers-standalone-1.0.0-SNAPSHOT到当前文件夹中
         log_info "步骤16: 更新部署文件..."
-        if [ -d "/tmp/home/hcadmin/chatbi/tmp/launchers-standalone-1.0.0-SNAPSHOT" ]; then
-            sudo cp -r /tmp/home/hcadmin/chatbi/tmp/launchers-standalone-1.0.0-SNAPSHOT /tmp/home/hcadmin/chatbi/
+        if [ -d "/hcdata/chatbi/tmp/launchers-standalone-1.0.0-SNAPSHOT" ]; then
+            sudo cp -r /hcdata/chatbi/tmp/launchers-standalone-1.0.0-SNAPSHOT /hcdata/chatbi/
             log_info "新版本移动成功"
         else
             log_error "找不到新的launchers-standalone-1.0.0-SNAPSHOT目录"
             exit 1
         fi
         
-        # 17. 复制model文件夹到launchers-standalone-1.0.0-SNAPSHOT文件夹中
-        log_info "步骤17: 复制model文件夹..."
-        if [ -d "/tmp/home/hcadmin/model" ]; then
-            sudo cp -r /tmp/home/hcadmin/model /tmp/home/hcadmin/chatbi/launchers-standalone-1.0.0-SNAPSHOT/
-            log_info "model文件夹复制成功"
-        else
-            log_warn "model文件夹不存在，跳过复制"
-        fi
-        
         # 17. cd launchers-standalone-1.0.0-SNAPSHOT/bin
         # 18. 启动程序"./supersonic-start.sh"
         log_info "步骤17-18: 启动新服务..."
-        cd /tmp/home/hcadmin/chatbi/launchers-standalone-1.0.0-SNAPSHOT/bin
+        cd /hcdata/chatbi/launchers-standalone-1.0.0-SNAPSHOT/bin
         sudo ./supersonic-start.sh
         
         if [ $? -eq 0 ]; then

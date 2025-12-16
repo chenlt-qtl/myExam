@@ -44,21 +44,24 @@ generate_backup_name() {
 main() {
       log_info "开始执行部署脚本..."
 
+      cd /hcdata/chatbi
+      pwd
+
       # 3. 备份旧文件：sudo复制launchers-standalone-1.0.0-SNAPSHOT到backup目录下，重命名为backup-[yyyyMMdd-hh:mm]，如果文件夹已存在，则在后面加上序号。
-      if [ -d "/tmp/home/hcadmin/chatbi/launchers-standalone-1.0.0-SNAPSHOT" ]; then
+      if [ -d "/hcdata/chatbi/launchers-standalone-1.0.0-SNAPSHOT" ]; then
           log_info "步骤3: 备份旧文件..."
           backup_name=$(generate_backup_name)
           log_info "备份到 /tmp/home/hcadmin/backup/${backup_name}"
-          sudo cp -r /tmp/home/hcadmin/chatbi/launchers-standalone-1.0.0-SNAPSHOT "/tmp/home/hcadmin/backup/${backup_name}"
+          sudo cp -r /hcdata/chatbi/launchers-standalone-1.0.0-SNAPSHOT "/tmp/home/hcadmin/backup/${backup_name}"
       else
           log_warn "launchers-standalone-1.0.0-SNAPSHOT目录不存在，跳过备份"
       fi
 
-      cd /tmp/home/hcadmin/chatbi/tmp  # 回到code目录
+      cd /hcdata/chatbi/tmp  # 回到code目录
 
       # 删除文件夹
 
-      sudo rm -rf /tmp/home/hcadmin/chatbi/tmp/*
+      sudo rm -rf /hcdata/chatbi/tmp/*
       log_info "旧版本文件夹删除成功"
 
       log_info "复制文件..."

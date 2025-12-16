@@ -303,15 +303,6 @@ main() {
             exit 1
         fi
         
-        # 17. 复制model文件夹到launchers-standalone-1.0.0-SNAPSHOT文件夹中
-        log_info "步骤17: 复制model文件夹..."
-        if [ -d "model" ]; then
-            sudo cp -r model launchers-standalone-1.0.0-SNAPSHOT/
-            log_info "model文件夹复制成功"
-        else
-            log_warn "model文件夹不存在，跳过复制"
-        fi
-        
         # 17. cd launchers-standalone-1.0.0-SNAPSHOT/bin
         # 18. 启动程序"./supersonic-start.sh"
         log_info "步骤17-18: 启动新服务..."

@@ -42,22 +42,10 @@ generate_backup_name() {
 
 # 主函数
 main() {
-      log_info "开始执行部署脚本..."
+      log_info "开始执行文件准备脚本..."
 
-      cd /hcdata/chatbi
+      cd /hcdata/chatbi/tmp
       pwd
-
-      # 3. 备份旧文件：sudo复制launchers-standalone-1.0.0-SNAPSHOT到backup目录下，重命名为backup-[yyyyMMdd-hh:mm]，如果文件夹已存在，则在后面加上序号。
-      if [ -d "/hcdata/chatbi/launchers-standalone-1.0.0-SNAPSHOT" ]; then
-          log_info "步骤3: 备份旧文件..."
-          backup_name=$(generate_backup_name)
-          log_info "备份到 /tmp/home/hcadmin/backup/${backup_name}"
-          sudo cp -r /hcdata/chatbi/launchers-standalone-1.0.0-SNAPSHOT "/tmp/home/hcadmin/backup/${backup_name}"
-      else
-          log_warn "launchers-standalone-1.0.0-SNAPSHOT目录不存在，跳过备份"
-      fi
-
-      cd /hcdata/chatbi/tmp  # 回到code目录
 
       # 删除文件夹
 
@@ -151,43 +139,18 @@ main() {
           exit 1
       fi
 
-#        # 13. 停止端口为9080的服务
-#        log_info "步骤13: 停止现有服务..."
-#        stop_service_on_port 9080
-#
-#        # 14. 删除launchers-standalone-1.0.0-SNAPSHOT文件夹
-#        log_info "步骤14: 清理当前目录的旧版本..."
-#        if [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
-#            sudo rm -rf launchers-standalone-1.0.0-SNAPSHOT
-#            log_info "当前目录旧版本删除成功"
-#        else
-#            log_info "当前目录没有找到旧版本文件，跳过删除"
-#        fi
-#
-#        # 16. 移动code/launchers-standalone-1.0.0-SNAPSHOT到当前文件夹中
-#        log_info "步骤16: 更新部署文件..."
-#        if [ -d "code/launchers-standalone-1.0.0-SNAPSHOT" ]; then
-#            sudo mv code/launchers-standalone-1.0.0-SNAPSHOT ./
-#            log_info "新版本移动成功"
-#        else
-#            log_error "找不到新的launchers-standalone-1.0.0-SNAPSHOT目录"
-#            exit 1
-#        fi
-#
-#        # 17. 复制model文件夹到launchers-standalone-1.0.0-SNAPSHOT文件夹中
-#        log_info "步骤17: 复制model文件夹..."
-#        if [ -d "model" ]; then
-#            sudo cp -r model launchers-standalone-1.0.0-SNAPSHOT/
-#            log_info "model文件夹复制成功"
-#        else
-#            log_warn "model文件夹不存在，跳过复制"
-#        fi
-#
-#        # 17. cd launchers-standalone-1.0.0-SNAPSHOT/bin
-#        # 18. 启动程序"./supersonic-start.sh"
-#        log_info "步骤17-18: 启动新服务..."
-#        cd launchers-standalone-1.0.0-SNAPSHOT/bin
-#        sudo ./supersonic-start.sh
+
+      log_info "步骤3: 备份旧文件..."
+      cd ..
+      pwd
+      # 3. 备份旧文件：sudo复制launchers-standalone-1.0.0-SNAPSHOT到backup目录下，重命名为backup-[yyyyMMdd-hh:mm]，如果文件夹已存在，则在后面加上序号。
+      if [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
+          backup_name=$(generate_backup_name)
+          log_info "备份到 backup/${backup_name}"
+          sudo cp -r launchers-standalone-1.0.0-SNAPSHOT "backup/${backup_name}"
+      else
+          log_warn "launchers-standalone-1.0.0-SNAPSHOT目录不存在，跳过备份"
+      fi
 
       if [ $? -eq 0 ]; then
           log_info "文件准备成功！"

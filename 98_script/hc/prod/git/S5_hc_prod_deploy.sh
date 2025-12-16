@@ -3,9 +3,6 @@ hc_prod_full.sh#!/bin/bash
 # 设置脚本在遇到错误时立即退出
 set -e
 
-# 获取当前日期和时间
-CURRENT_DATE_TIME=$(date +%Y%m%d-%H%M)
-
 # 颜色定义
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -88,7 +85,6 @@ main() {
         
         if [ $? -eq 0 ]; then
             log_info "服务启动成功！"
-            log_info "部署完成！"
         else
             log_error "服务启动失败"
             exit 1

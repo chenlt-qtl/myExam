@@ -1,0 +1,2 @@
+- 视频地址 : https://www.bilibili.com/video/BV1Np4y1z7BU/?t=5.4&p=73&vd_source=59581e821f204cfa5b64811a0c1b876b 
+- 视频名称 : 黑马程序员Java设计模式详解， 23种Java设计模式（图解+框架源码分析+实战）

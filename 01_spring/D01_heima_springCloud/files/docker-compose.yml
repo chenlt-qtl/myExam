@@ -1,0 +1,58 @@
+version: "3.8"
+services:
+#  mysql:
+#    image: mysql
+#    container_name: mysql
+#    ports:
+#      - "3306:3306"
+#    environment:
+#      TZ: Asia/Shanghai
+#      MYSQL_ROOT_PASSWORD: 123
+#    volumes:
+#      - "./mysql/conf:/etc/mysql/conf.d"
+#      - "./mysql/data:/var/lib/mysql"
+#      - "./mysql/init:/docker-entrypoint-initdb.d"
+#    networks:
+#      - "my-net"
+#  nacos:
+#    image: nacos/nacos-server:v2.0.4
+#    container_name: nacos
+#    ports:
+#      - "8848:8848"
+#      - "9848:9848"
+#      - "9849:9849"
+#    restart: always
+#    env_file:
+#      - ./nacos/custom.env
+#    depends_on:
+#      - mysql
+#    networks:
+#      - "my-net"
+  cart:
+    build:
+      context: ./jar/cart
+      dockerfile: Dockerfile
+    container_name: cart
+    ports:
+      - "8082:8082"
+    networks:
+      - myNet
+    depends_on:
+      - item
+  item:
+    build:
+      context: ./jar/item
+      dockerfile: Dockerfile
+    container_name: item
+    ports:
+      - "8081:8081"
+    networks:
+      - myNet
+# 新建网络
+#networks:
+#  my-net:
+#    name: netlala
+# 使用原来的网络
+networks:
+  myNet:
+    external: true

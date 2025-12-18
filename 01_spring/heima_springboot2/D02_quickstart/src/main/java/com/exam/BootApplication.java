@@ -16,5 +16,6 @@ public class BootApplication {
         ConfigurableApplicationContext ctx = SpringApplication.run(BootApplication.class, args);
         BookController bean = ctx.getBean(BookController.class);
         System.out.println("bean===>"+bean);
+        System.out.println("启动完成");
     }
 }

@@ -1,0 +1,19 @@
+server:
+  port: 8080
+# 使用动态路由后这些都不需要了
+#spring:
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: cart
+#          uri: lb://cart-service #lb负载均衡 nacos中的服务名
+#          predicates: #路由规则
+#            - Path=/cart/**
+#          filters: #局部过滤器 在header中增加数据
+#            - AddRequestHeader=saySomeThing, ha ha ha
+#        - id: item
+#          uri: lb://item-service
+#          predicates:
+#            - Path=/items/**
+#      default-filters: #全局过滤器 在header中增加数据
+#        - AddRequestHeader=whatTheHell, no no no

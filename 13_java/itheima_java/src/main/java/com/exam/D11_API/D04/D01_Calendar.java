@@ -2,6 +2,9 @@ package com.exam.D11_API.D04;
 
 import java.util.Calendar;
 
+/**
+ * 旧的时间API
+ */
 public class D01_Calendar {
     public static void main(String[] args) {
         Calendar calendar = Calendar.getInstance();

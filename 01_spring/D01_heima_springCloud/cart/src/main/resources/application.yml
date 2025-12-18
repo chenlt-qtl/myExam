@@ -1,0 +1,12 @@
+server:
+  port: 8082
+
+spring:
+  cloud:
+    sentinel:
+      transport:
+        dashboard: 192.168.10.100:8090   #sentinel控制台的请求地址
+      http-method-specify: true   #开启请求方法前缀
+feign:
+  sentinel:
+    enabled: true

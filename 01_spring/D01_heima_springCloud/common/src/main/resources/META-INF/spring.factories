@@ -1,0 +1,3 @@
+# Initializers
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.betta.common.config.MvcConfig

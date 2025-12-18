@@ -34,6 +34,5 @@ public class D02 {
 
         System.out.println(Arrays.toString(names));
 
-        //构造器引用
     }
 }

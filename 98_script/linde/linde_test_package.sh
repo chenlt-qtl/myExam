@@ -47,31 +47,6 @@ generate_backup_name() {
     echo "${backup_name}"
 }
 
-# 停止指定端口的服务
-stop_service_on_port() {
-    local port=$1
-    log_info "停止端口${port}上的服务..."
-    
-    # 查找占用端口的进程
-    local pid=$(lsof -ti:${port} 2>/dev/null || netstat -tlnp 2>/dev/null | grep ":${port} " | awk '{print $7}' | cut -d'/' -f1)
-    
-    if [ -n "$pid" ]; then
-        log_info "找到进程PID: ${pid}，正在停止..."
-        kill -15 $pid 2>/dev/null || true
-        sleep 3
-        
-        # 检查进程是否还在运行
-        if kill -0 $pid 2>/dev/null; then
-            log_warn "进程未响应SIGTERM，强制终止..."
-            kill -9 $pid 2>/dev/null || true
-        fi
-        
-        log_info "端口${port}上的服务已停止"
-    else
-        log_warn "端口${port}上没有运行的服务"
-    fi
-}
-
 # 主函数
 main() {
     log_info "开始执行部署脚本..."

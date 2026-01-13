@@ -1,5 +1,8 @@
 package com.exam.D11_API.D03_Arrays.D03;
 
+/**
+ * 构造器引用
+ */
 public class App {
     public static void main(String[] args) {
 

@@ -63,8 +63,8 @@ main() {
         
         # 14. 删除launchers-standalone-1.0.0-SNAPSHOT文件夹
         log_info "步骤14: 清理当前目录的旧版本..."
-        if [ -d "/hcdata/chatbi/launchers-standalone-1.0.0-SNAPSHOT" ]; then
-            sudo rm -rf /hcdata/chatbi/launchers-standalone-1.0.0-SNAPSHOT
+        if [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
+            sudo rm -rf launchers-standalone-1.0.0-SNAPSHOT
             log_info "当前目录旧版本删除成功"
         else
             log_info "当前目录没有找到旧版本文件，跳过删除"
@@ -72,8 +72,8 @@ main() {
         
         # 16. 移动tmp/launchers-standalone-1.0.0-SNAPSHOT到当前文件夹中
         log_info "步骤16: 更新部署文件..."
-        if [ -d "/hcdata/chatbi/tmp/launchers-standalone-1.0.0-SNAPSHOT" ]; then
-            sudo cp -r /hcdata/chatbi/tmp/launchers-standalone-1.0.0-SNAPSHOT /hcdata/chatbi/
+        if [ -d "tmp/launchers-standalone-1.0.0-SNAPSHOT" ]; then
+            sudo cp -r tmp/launchers-standalone-1.0.0-SNAPSHOT .
             log_info "新版本移动成功"
         else
             log_error "找不到新的launchers-standalone-1.0.0-SNAPSHOT目录"
@@ -83,7 +83,7 @@ main() {
         # 17. cd launchers-standalone-1.0.0-SNAPSHOT/bin
         # 18. 启动程序"./supersonic-start.sh"
         log_info "步骤17-18: 启动新服务..."
-        cd /hcdata/chatbi/launchers-standalone-1.0.0-SNAPSHOT/bin
+        cd launchers-standalone-1.0.0-SNAPSHOT/bin
         sudo ./supersonic-start.sh
         
         if [ $? -eq 0 ]; then

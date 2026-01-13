@@ -5,6 +5,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * 新格式化器 代替simpleDateFormatter
+ */
+
 public class D03_Format {
     public static void main(String[] args) {
         //1.创建格式化器

@@ -2,6 +2,10 @@ package com.exam.D11_API.D04;
 
 import java.time.*;
 
+/**
+ * JDK8新增日期对象
+ */
+
 public class D02_Local_Date_Zone_Instant {
     public static void main(String[] args) {
 //        localDate();
@@ -9,6 +13,9 @@ public class D02_Local_Date_Zone_Instant {
         instant();
     }
 
+    /**
+     * 替换Calendar
+     */
     public static void localDate() {
         LocalDate ld = LocalDate.now();
         System.out.println(ld.getYear());
@@ -77,6 +84,9 @@ public class D02_Local_Date_Zone_Instant {
         //计算等跟LocalDateTime一样
     }
 
+    /**
+     * 代替Date
+     */
     public static void instant() {
         //当前时间
         Instant now = Instant.now();

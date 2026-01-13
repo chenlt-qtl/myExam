@@ -2,11 +2,14 @@ package com.exam.D12_Algorithm;
 
 import java.util.Arrays;
 
+/**
+ * 二分查找 binarySearch
+ */
 public class D02_Search {
     public static void main(String[] args) {
         //二分查找
         System.out.println("-------二分查找--------");
-        int[] arr = {7, 23, 79, 81, 103, 127, 131, 147};
+        int[] arr = {7, 23, 79, 81, 103, 127, 131, 147};//已排好序
         int i = binarySearch(arr, 79);
         if (i != -1) {
             System.out.println("找到了，位置在第 " + i);

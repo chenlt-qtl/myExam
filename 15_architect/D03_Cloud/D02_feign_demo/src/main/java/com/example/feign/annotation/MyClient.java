@@ -7,7 +7,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 @Documented
-@Import({MyClientsRegistrar.class})
 public @interface MyClient {
 
     String name();

@@ -55,8 +55,8 @@ main() {
 
     # 配置git凭据
     log_info "配置Git凭据..."
-    git config --global credential.helper store
-    echo "https://da.mu:Aifa@Xmhc011@github.com" > ~/.git-credentials
+    sudo git config --global credential.helper store
+    sudo echo "https://da.mu:Aifa@Xmhc011@github.com" > ~/.git-credentials
 
     # 执行git pull，强制覆盖本地代码
     if sudo git fetch --all && sudo git reset --hard origin/$(sudo git branch --show-current) && sudo git pull; then
@@ -70,7 +70,7 @@ main() {
     # 2. 在code/dbs/hc-srms目录下执行mvn clean -DskipTests package打包
     log_step "步骤2: Maven打包..."
     log_info "执行mvn clean -DskipTests package..."
-    if mvn clean -DskipTests package; then
+    if sudo mvn clean -DskipTests package; then
         log_info "Maven打包成功"
     else
         log_error "Maven打包失败"

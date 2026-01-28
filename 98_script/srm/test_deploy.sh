@@ -37,26 +37,27 @@ log_step() {
     echo -e "${BLUE}[STEP]${NC} $1"
 }
 
-# 主函数
+# SRM部署函数
 main() {
+    log_info "========================================"
     log_info "开始执行SRM后端部署流程..."
     log_info "开始时间: $(date)"
     echo "========================================"
 
-    # 1. 在code/dbs/hc-srms目录拉取最新的git代码
+    # 1. 在code/hc-srms目录拉取最新的git代码
     log_step "步骤1: 拉取最新代码..."
     cd ${WORK_DIR}
-    if [ ! -d "code/dbs/hc-srms" ]; then
-        log_error "code/dbs/hc-srms目录不存在，请检查路径"
+    if [ ! -d "code/hc-srms" ]; then
+        log_error "code/hc-srms目录不存在，请检查路径"
         exit 1
     fi
-    cd code/dbs/hc-srms
+    cd code/hc-srms
     log_info "当前目录: $(pwd)"
 
     # 配置git凭据
     log_info "配置Git凭据..."
     sudo git config --global credential.helper store
-    sudo echo "https://da.mu:Aifa@Xmhc011@github.com" > ~/.git-credentials
+    sudo echo "https://da.mu:Git@hc01@github.com" > ~/.git-credentials
 
     # 执行git pull，强制覆盖本地代码
     if sudo git fetch --all && sudo git reset --hard origin/$(sudo git branch --show-current) && sudo git pull; then
@@ -95,6 +96,76 @@ main() {
     fi
     echo "----------------------------------------"
 
+    log_info "========================================"
+    log_info "开始执行SRM前端部署流程..."
+    log_info "开始时间: $(date)"
+    echo "========================================"
+
+    # 1. 在code/hc-srms目录拉取最新的git代码
+    log_step "步骤1: 拉取最新代码..."
+    cd ${WORK_DIR}
+    if [ ! -d "code/hc-srms-view" ]; then
+        log_error "code/hc-srms-view目录不存在，请检查路径"
+        exit 1
+    fi
+    cd code/hc-srms-view
+    log_info "当前目录: $(pwd)"
+
+    # 配置git凭据
+    log_info "配置Git凭据..."
+    sudo git config --global credential.helper store
+    sudo echo "https://da.mu:Git@hc01@github.com" > ~/.git-credentials
+
+    # 执行git pull，强制覆盖本地代码
+    if sudo git fetch --all && sudo git reset --hard origin/$(sudo git branch --show-current) && sudo git pull; then
+        log_info "代码拉取成功"
+    else
+        log_error "代码拉取失败"
+        exit 1
+    fi
+    echo "----------------------------------------"
+
+    # 2. 在code/hc-srms-view目录下执行pnpm build:prod打包
+    log_step "步骤2: 打包..."
+    log_info "执行pnpm build:test..."
+    if sudo pnpm build:test; then
+        log_info "打包成功"
+    else
+        log_error "打包失败"
+        exit 1
+    fi
+    echo "----------------------------------------"
+
+    # 3. 备份旧文件
+    log_step "步骤3: 备份旧文件..."
+    cd ${WORK_DIR}
+    if [ ! -d "backup" ]; then
+        mkdir -p backup
+        log_info "创建backup目录: ${WORK_DIR}/backup"
+    fi
+
+    if [ -d "/hcdata/view" ]; then
+        log_info "备份 view 到 backup/view_${CURRENT_DATE_TIME}"
+        sudo cp -rf /hcdata/view backup/view_${CURRENT_DATE_TIME}
+        log_info "备份成功"
+    else
+        log_warn "/hcdata/view 不存在，跳过备份"
+    fi
+    echo "----------------------------------------"
+
+    # 4. 替换文件
+    log_step "步骤4: 替换文件..."
+    cd /hcdata
+    if [ ! -d "view" ]; then
+        log_error "view 不存在"
+        exit 1
+    fi
+    log_info "替换 view..."
+    sudo rm -rf /hcdata/view
+    sudo cp -rf ${WORK_DIR}/code/hc-srms-view/hc-srms-view /hcdata/view
+    log_info "文件替换成功"
+    echo "----------------------------------------"
+
     # 4. 停掉服务 ps -ef|grep hc-start-boot.jar ，kill对应的进程ID
     log_step "步骤4: 停止服务..."
     log_info "查找 hc-start-boot.jar 进程..."
@@ -122,7 +193,7 @@ main() {
         exit 1
     fi
     log_info "替换 hc-start-boot.jar..."
-    sudo mv code/dbs/hc-srms/hc-start/hc-start-boot/target/hc-start-boot.jar .
+    sudo cp code/hc-srms/hc-start/hc-start-boot/target/hc-start-boot.jar .
     log_info "文件替换成功"
     echo "----------------------------------------"
 
@@ -151,6 +222,24 @@ main() {
     echo "========================================"
     log_info "SRM后端部署完成！"
     log_info "结束时间: $(date)"
+
+
+    # 5. 重启nginx服务
+    log_step "步骤5: 重启服务..."
+    cd ${WORK_DIR}
+    sudo docker restart nginx
+    log_info "Nginx服务重启完成"
+    echo "----------------------------------------"
+
+    echo "========================================"
+    log_info "SRM前端部署完成！"
+    log_info "结束时间: $(date)"
+
+    echo ""
+    echo "========================================"
+    log_info "SRM全栈部署完成！(后端+前端)"
+    log_info "总结束时间: $(date)"
+    echo "========================================"
 }
 
 # 执行主函数

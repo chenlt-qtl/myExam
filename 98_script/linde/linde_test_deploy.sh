@@ -129,6 +129,11 @@ main() {
     fi
     
     cd code/bi
+
+    # 配置git凭据
+    log_info "配置Git凭据..."
+    sudo git config --global credential.helper store
+    echo "https://da.mu:Git@hc01@github.com" > ~/.git-credentials
     
     # 执行git pull，强制覆盖本地代码
     if git fetch --all && git reset --hard origin/$(git branch --show-current) && git pull; then
@@ -153,7 +158,12 @@ main() {
         # 5. 在code/bi文件夹中执行mvn -DskipTests package,打包jar包
         log_info "执行Maven打包..."
         cd bi
-        if ! mvn -DskipTests package; then
+        if ! sudo mvn clean -DskipTests package; then
+          mvn -Dmaven.compiler.source=17 -Dmaven.compiler.target=17 clean install -e
+
+
+
+
             log_error "Maven打包失败"
             exit 1
         fi

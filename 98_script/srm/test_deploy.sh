@@ -201,7 +201,7 @@ main() {
     log_step "步骤6: 启动服务..."
     cd ${WORK_DIR}
     log_info "启动 hc-start-boot.jar..."
-    sudo nohup java -jar hc-start-boot.jar >/dev/null 2>&1 &
+    sudo nohup java -jar -Dfastjson.parser.safeMode=true hc-start-boot.jar >/dev/null 2>&1 &
     log_info "服务启动命令已执行"
     echo "----------------------------------------"
 

@@ -6,6 +6,10 @@ set -e
 # 获取当前日期和时间
 CURRENT_DATE_TIME=$(date +%Y%m%d-%H%M)
 
+# 部署目录和代码目录
+DEPLOY_DIR="/data/linde-chatbi"
+CODE_DIR="${DEPLOY_DIR}/code/bi"
+
 # 颜色定义
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -27,8 +31,8 @@ log_error() {
 
 # 检查并创建backup目录
 create_backup_dir() {
-    if [ ! -d "backup" ]; then
-        mkdir -p backup
+    if [ ! -d "${DEPLOY_DIR}/backup" ]; then
+        mkdir -p "${DEPLOY_DIR}/backup"
         log_info "创建backup目录"
     fi
 }
@@ -39,7 +43,7 @@ generate_backup_name() {
     local counter=1
     local backup_name="${base_name}"
     
-    while [ -d "backup/${backup_name}" ]; do
+    while [ -d "${DEPLOY_DIR}/backup/${backup_name}" ]; do
         backup_name="${base_name}-${counter}"
         ((counter++))
     done
@@ -75,6 +79,11 @@ stop_service_on_port() {
 # 主函数
 main() {
     log_info "开始执行部署脚本..."
+    log_info "部署目录: ${DEPLOY_DIR}"
+    log_info "代码目录: ${CODE_DIR}"
+
+    mkdir -p "${DEPLOY_DIR}"
+    cd "${DEPLOY_DIR}"
     
     # 1. 清理旧文件，删除文件夹code/launchers-standalone-1.0.0-SNAPSHOT，code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar.gz,code/launchers-standalone-1.0.0-SNAPSHOT-bin.tar,code/supersonic-webapp.tar.gz,code/supersonic-webapp.tar
     log_info "步骤1: 清理旧文件..."
@@ -119,16 +128,16 @@ main() {
         log_info "没有找到旧版本前端tar文件，跳过删除"
     fi
     
-    # 2. 在当前目录下code/bi文件夹中执行git pull,拉取最新代码
+    # 2. 在代码目录中执行git pull,拉取最新代码
     log_info "步骤2: 拉取最新代码..."
     
-    # 检查code/bi目录是否存在
-    if [ ! -d "code/bi" ]; then
-        log_error "code/bi目录不存在，请检查路径"
+    # 检查代码目录是否存在
+    if [ ! -d "${CODE_DIR}" ]; then
+        log_error "${CODE_DIR}目录不存在，请检查路径"
         exit 1
     fi
     
-    cd code/bi
+    cd "${CODE_DIR}"
 
     # 配置git凭据
     log_info "配置Git凭据..."
@@ -140,7 +149,7 @@ main() {
         log_info "代码拉取成功"
         
         # 3. 备份旧文件：复制当前目录下的launchers-standalone-1.0.0-SNAPSHOT到backup目录下，重命名为backup-[yyyyMMdd-hh:mm]，如果文件夹已存在，则在后面加上序号。
-        cd ../../  # 回到当前目录
+        cd "${DEPLOY_DIR}"
         if [ -d "launchers-standalone-1.0.0-SNAPSHOT" ]; then
             log_info "步骤3: 备份旧文件..."
             create_backup_dir
@@ -153,7 +162,7 @@ main() {
         
         # 4. cd code，来到code目录
         log_info "步骤4: 进入code目录并打包..."
-        cd code
+        cd "${DEPLOY_DIR}/code"
         
         # 5. 在code/bi文件夹中执行mvn -DskipTests package,打包jar包
         log_info "执行Maven打包..."
